@@ -84,15 +84,10 @@ function renderPosts() {
           <span>${p.user}</span>
         </div>
 
-        <!-- DOUBLE TAP AREA -->
+        <!-- DOUBLE TAP AREA (ONLY ONE BOX) -->
         <div class="post-img-box">
           <img class="post-img" data-post="${p.id}" src="${p.img}">
-          <img class="like-heart" id="heart${p.id}" src="https://cdn-icons-png.flaticon.com/512/833/833472.png">
-        </div>
-        
-        <div class="post-img-box">
-          <img class="post-img" data-post="${p.id}" src="${p.img}">
-  
+          
           <!-- HEART POP -->
           <img class="like-heart" id="heart${p.id}" src="https://cdn-icons-png.flaticon.com/512/833/833472.png">
 
@@ -100,6 +95,13 @@ function renderPosts() {
           <div class="ripple-wave"></div>
           <div class="ripple-wave second"></div>
         </div>
+
+        <div class="post-actions">
+          <span class="like-btn" data-post="${p.id}">❤️</span>
+          <span onclick="animateCommentIcon(this); openComments(${p.id})">💬</span>
+          <span onclick="animateShare(this); sharePost(${p.id})">📤</span>
+        </div>
+
       </div>
     `
     )
