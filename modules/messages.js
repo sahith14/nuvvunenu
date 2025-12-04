@@ -1,51 +1,32 @@
-// messages.js — Instagram-style DMs with themes, search & Firestore chatrooms
+// ---------------------------------------------------------
+// IMPORTS
+// ---------------------------------------------------------
 import {
-  getFirestore, collection, query, where, getDocs,
-  addDoc, orderBy, onSnapshot, doc, getDoc, updateDoc
+  doc,
+  getDoc,
+  setDoc,
+  addDoc,
+  collection,
+  query,
+  where,
+  onSnapshot,
+  getDocs
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { auth, db } from "./firebase.js";
 
-import { db, auth } from "../firebase.js";
+// ---------------------------------------------------------
+// GLOBALS
+// ---------------------------------------------------------
+let currentChat = null;
+let currentPartner = null;
+let typingTimeout;
 
-export function render() {
-  loadDMList();
-
-  return `
-    <div class="messages-container">
-
-      <!-- SEARCH BAR -->
-      <input id="dmSearchInput" class="dm-search" 
-             placeholder="Search in messages..."
-             oninput="filterDMs()">
-
-      <!-- DM LIST -->
-      <div id="dmList" class="dm-list"></div>
-
-      <!-- CHAT WINDOW -->
-      <div id="chatWindow" class="chat-window hidden">
-        <div id="chatHeader" class="chat-header glass"></div>
-
-        <div id="chatMessages" class="chat-messages"></div>
-
-        <div class="chat-input-box">
-          <input id="msgInput" placeholder="Message..." onkeydown="sendMessageOnEnter(event)">
-          <button onclick="sendMessage()">➤</button>
-        </div>
-      </div>
-
-    </div>
-  `;
-}
-
-// --------------------------------------------------------
+// ---------------------------------------------------------
 // LOAD DM LIST
-// --------------------------------------------------------
-
-
+// ---------------------------------------------------------
 async function loadDMList() {
   let uid = auth.currentUser.uid;
-
   const q = query(collection(db, "chats"), where("members", "array-contains", uid));
   const snap = await getDocs(q);
 
@@ -54,62 +35,150 @@ async function loadDMList() {
 
   let html = "";
 
-  // FIX: Use for...of instead of forEach to allow await
   for (let chatDoc of snap.docs) {
     let chat = chatDoc.data();
+    let otherId = chat.members.find(m => m !== uid);
 
-    // Find the other user in the chat
-    let otherUser = chat.members.find(m => m !== uid);
+    let otherSnap = await getDoc(doc(db, "users", otherId));
+    let other = otherSnap.data();
 
-    // FIX: Correct Firestore doc() usage
-    const userRef = doc(db, "users", otherUser);
-    const otherSnap = await getDoc(userRef);
-    const other = otherSnap.data();
+    html += `
+      <div class="dm-item glass" onclick="openChat('${chatDoc.id}', '${otherId}')">
+        <img class="dm-avatar" src="${other.avatar}">
+        <div>
+          <p class="dm-user">${other.name} (@${other.username})</p>
+          <p class="dm-last">${chat.lastMessage || ""}</p>
+        </div>
+      </div>
     `;
   }
 
-  dmListBox.innerHTML = html || `<p class='empty'>No messages yet</p>`;
+  dmListBox.innerHTML = html || `<p class="empty">No messages yet</p>`;
 }
 
-// --------------------------------------------------------
+window.loadDMList = loadDMList;
+
+// ---------------------------------------------------------
 // OPEN CHAT WINDOW
-// --------------------------------------------------------
+// ---------------------------------------------------------
+async function openChat(chatId, partnerId) {
+  currentChat = chatId;
+  currentPartner = partnerId;
 
-window.openChat = async function(chatId, otherUID) {
-  document.getElementById("chatWindow").classList.remove("hidden");
+  document.getElementById("dmList").style.display = "none";
+  document.getElementById("chatBox").style.display = "block";
 
-  const otherRef = doc(db, "users", otherUID);
-  const otherSnap = await getDoc(otherRef);
-  const other = otherSnap.data();
+  // Load partner info
+  let snap = await getDoc(doc(db, "users", partnerId));
+  let user = snap.data();
 
-  // HEADER
-  document.getElementById("chatHeader").innerHTML = `
-    <img class="dm-avatar" src="${other.avatar || 'https://i.pravatar.cc/100?u='+otherUID}">
-    <p>@${other.username}</p>
-  `;
+  document.getElementById("chatHeaderName").innerText =
+    `${user.name} (@${user.username})`;
 
-  // ONLINE DOT UPDATE
+  document.getElementById("chatHeaderImg").src = user.avatar;
+
+  // ONLINE/OFFLINE DOT
   let dot = document.getElementById("onlineDot");
-  if (other.online) {
-    dot.style.background = "#00ff00";   // green
-  } else {
-    dot.style.background = "#777";      // grey  
-  }
+  dot.style.background = user.online ? "#0f0" : "#777";
 
-  // MARK CHAT AS SEEN
-  await setDoc(doc(db, "chats", currentChat), {
+  // Mark as seen
+  await setDoc(doc(db, "chats", chatId), {
     seenBy: auth.currentUser.uid
   }, { merge: true });
 
   loadMessages(chatId);
-  window.currentChat = chatId;
-  window.currentOther = otherUID;
-};
+}
 
+window.openChat = openChat;
 
-/*=========handletyping========*/
+// ---------------------------------------------------------
+// REAL-TIME MESSAGES
+// ---------------------------------------------------------
+function loadMessages(chatId) {
+  const msgsRef = collection(db, "chats", chatId, "messages");
 
-function handleTyping() {
+  onSnapshot(msgsRef, (snap) => {
+    let html = "";
+
+    snap.forEach((m) => {
+      let data = m.data();
+      let mine = data.from === auth.currentUser.uid;
+
+      // IMAGE
+      if (data.type === "image") {
+        html += `
+          <div class="msg ${mine ? "me" : "them"}">
+            <img src="${data.imageURL}" class="chat-img">
+          </div>
+        `;
+        return;
+      }
+
+      // AUDIO
+      if (data.type === "audio") {
+        html += `
+          <div class="msg ${mine ? "me" : "them"}">
+            <audio controls src="${data.audioURL}" class="chat-audio"></audio>
+          </div>
+        `;
+        return;
+      }
+
+      // TEXT
+      html += `
+        <div class="msg ${mine ? "me" : "them"}">
+          ${data.text}
+        </div>
+      `;
+    });
+
+    document.getElementById("messages").innerHTML = html;
+  });
+
+  // TYPING INDICATOR LISTENER
+  onSnapshot(doc(db, "chats", chatId), (cSnap) => {
+    let c = cSnap.data();
+    if (c.typing && c.typing !== auth.currentUser.uid) {
+      document.getElementById("typingIndicator").style.display = "block";
+    } else {
+      document.getElementById("typingIndicator").style.display = "none";
+    }
+  });
+}
+
+window.loadMessages = loadMessages;
+
+// ---------------------------------------------------------
+// SEND MESSAGE
+// ---------------------------------------------------------
+async function sendMessage() {
+  let input = document.getElementById("dmInput");
+  let text = input.value.trim();
+  if (!text) return;
+
+  // Add message
+  await addDoc(collection(db, "chats", currentChat, "messages"), {
+    text,
+    from: auth.currentUser.uid,
+    to: currentPartner,
+    time: Date.now(),
+    type: "text"
+  });
+
+  // Update last message
+  await setDoc(doc(db, "chats", currentChat), {
+    lastMessage: text
+  }, { merge: true });
+
+  input.value = "";
+}
+
+window.sendMessage = sendMessage;
+
+// ---------------------------------------------------------
+// TYPING INDICATOR INPUT HANDLER
+// ---------------------------------------------------------
+document.getElementById("dmInput").addEventListener("input", () => {
   setDoc(doc(db, "chats", currentChat), {
     typing: auth.currentUser.uid
   }, { merge: true });
@@ -118,96 +187,23 @@ function handleTyping() {
   typingTimeout = setTimeout(() => {
     setDoc(doc(db, "chats", currentChat), { typing: "" }, { merge: true });
   }, 1200);
-}
+});
 
-document.getElementById("dmInput").addEventListener("input", handleTyping);
-
-
-// --------------------------------------------------------
-// LOAD MESSAGES REALTIME
-// --------------------------------------------------------
-
-function loadMessages(chatId) {
-  const q = query(collection(db, "chats", chatId, "messages"), orderBy("time"));
-
-  onSnapshot(q, (snap) => {
-    let box = document.getElementById("chatMessages");
-    let html = "";
-
-    snap.forEach(doc => {
-      let msg = doc.data();
-
-      let seen = chat.seenBy === currentPartner;
-      html += `
-        <div class="msg me">
-          ${data.text}
-          <span class="tick">${seen ? "✓✓" : "✓"}</span>
-        </div>
-      `;
-    });
-
-    // TYPING INDICATOR LISTENER
-    const chatRef = doc(db, "chats", chatId);
-    onSnapshot(chatRef, (cSnap) => {
-      let c = cSnap.data();
-      if (c.typing && c.typing !== auth.currentUser.uid) {
-        document.getElementById("typingIndicator").style.display = "block";
-      } else {
-        document.getElementById("typingIndicator").style.display = "none";
-      }
-    });
-
-    box.innerHTML = html;
-
-    // scroll bottom
-    setTimeout(() => {
-      box.scrollTop = box.scrollHeight;
-    }, 50);
-  });
-}
-
-// --------------------------------------------------------
-// SEND MESSAGE
-// --------------------------------------------------------
-
-window.sendMessageOnEnter = (e) => {
-  if (e.key === "Enter") sendMessage();
-};
-
-window.sendMessage = async function() {
-  let input = document.getElementById("msgInput");
-
-  if (!input.value.trim()) return;
-
-  let chatId = window.currentChat;
-
-  await addDoc(collection(db, "chats", chatId, "messages"), {
-    text: input.value,
-    sender: auth.currentUser.uid,
-    time: Date.now()
-  });
-
-  // update last message
-  const chatRef = doc(db, "chats", chatId);
-
-  await updateDoc(chatRef, {
-    lastMessage: input.value
-  });
-
-  input.value = "";
-};
-
-document.getElementById("chatBox").classList.add("bg2");
-
+// ---------------------------------------------------------
+// IMAGE SENDING
+// ---------------------------------------------------------
 function openImagePicker() {
   document.getElementById("imgPicker").click();
 }
+
+window.openImagePicker = openImagePicker;
 
 async function sendImage(e) {
   let file = e.target.files[0];
   if (!file) return;
 
-  let url = await uploadImage(file);
+  // Fake upload URL
+  let url = URL.createObjectURL(file);
 
   await addDoc(collection(db, "chats", currentChat, "messages"), {
     from: auth.currentUser.uid,
@@ -217,6 +213,11 @@ async function sendImage(e) {
   });
 }
 
+window.sendImage = sendImage;
+
+// ---------------------------------------------------------
+// VOICE RECORDING
+// ---------------------------------------------------------
 let mediaRecorder;
 let audioChunks = [];
 
@@ -227,12 +228,11 @@ async function startRecording() {
   audioChunks = [];
   mediaRecorder.start();
 
-  mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+  mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
 
   mediaRecorder.onstop = async () => {
     let blob = new Blob(audioChunks, { type: "audio/mp3" });
-
-    let url = await uploadVoice(blob);
+    let url = URL.createObjectURL(blob);
 
     await addDoc(collection(db, "chats", currentChat, "messages"), {
       from: auth.currentUser.uid,
@@ -242,5 +242,8 @@ async function startRecording() {
     });
   };
 
-  setTimeout(() => mediaRecorder.stop(), 5000); // 5 sec max
+  setTimeout(() => mediaRecorder.stop(), 4000);
 }
+
+window.startRecording = startRecording;
+
