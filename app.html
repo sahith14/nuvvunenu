@@ -53,6 +53,45 @@
     </div>
   </div>
 
+  <!-- DM LIST -->
+  <div id="dmList"></div>
+  
+  <!-- CHAT WINDOW -->
+  <div id="chatBox" style="display:none;">
+
+    <!-- Header -->
+    <div class="chat-header">
+      <img id="chatHeaderImg" src="">
+      <div>
+        <p id="chatHeaderName"></p>
+        <span id="onlineDot"></span>
+      </div>
+    </div>
+
+    <!-- Typing Indicator -->
+    <p id="typingIndicator" style="display:none;">typing...</p>
+
+    <!-- Messages -->
+    <div id="messages"></div>
+
+    <!-- Input -->
+    <div class="chat-input">
+      <input id="dmInput" placeholder="Message..." />
+      <button onclick="sendMessage()">➤</button>
+      <button onclick="openImagePicker()">📷</button>
+      <button onclick="startRecording()">🎤</button>
+
+      <!-- Hidden Image Picker -->
+      <input id="imgPicker"
+             type="file"
+             accept="image/*"
+             capture="camera"
+             onchange="sendImage(event)"
+             hidden>
+    </div>
+  
+  </div>
+  
   <script type="module" src="firebase.js"></script>
   <script type="module" src="auth.js"></script>
   <script type="module" src="app.js"></script>
