@@ -182,3 +182,26 @@ export function renderExternalProfile(u, uid) {
 window.openChatFromProfile = function(uid) {
   alert("DM system will open here ❤️");
 };
+
+window.updateUsername = async function() {
+  let newUsername = document.getElementById("edit-username").value.trim().toLowerCase();
+
+  if (!/^[a-z0-9._]+$/.test(newUsername)) {
+    alert("Only letters, numbers, . and _ allowed");
+    return;
+  }
+
+  const exists = await usernameExists(newUsername);
+  if (exists) {
+    alert("Username already taken!");
+    return;
+  }
+
+  await updateDoc(doc(db, "users", auth.currentUser.uid), {
+    username: newUsername,
+    searchKeywords: generateKeywords(newUsername)
+  });
+
+  alert("Updated!");
+  loadProfile(auth.currentUser.uid);
+};
