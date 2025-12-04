@@ -66,15 +66,33 @@ async function loadDMList() {
     const otherSnap = await getDoc(userRef);
     const other = otherSnap.data();
 
-    html += `
-      <div class="dm-item glass" onclick="openChat('${chatDoc.id}', '${otherUser}')">
-        <img class="dm-avatar" src="${other.avatar}">
-        <div>
-          <p class="dm-user">${other.name} (@${other.username})</p>
-          <p class="dm-last">${chat.lastMessage || ""}</p>
+    // IMAGE MESSAGE
+    if (data.type === "image") {
+      html += `
+        <div class="msg ${mine ? "me" : "them"}">
+          <img src="${data.imageURL}" class="chat-img">
         </div>
+      `;
+      return;
+    }
+
+    // AUDIO MESSAGE
+    if (data.type === "audio") {
+      html += `
+        <div class="msg ${mine ? "me" : "them"}">
+          <audio controls src="${data.audioURL}" class="chat-audio"></audio>
+          </div>
+      `;
+      return;
+    }
+
+    // NORMAL TEXT MESSAGE
+    html += `
+      <div class="msg ${mine ? "me" : "them"}">
+        ${data.text}
       </div>
     `;
+
   }
 
   dmListBox.innerHTML = html || `<p class='empty'>No messages yet</p>`;
