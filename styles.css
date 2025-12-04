@@ -2023,3 +2023,9 @@ html {
     opacity: 0;
   }
 }
+
+.stories-strip {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
