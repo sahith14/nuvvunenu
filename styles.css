@@ -259,12 +259,6 @@ button {
   transition: 0.28s cubic-bezier(.18,.89,.32,1.28);
 }
 
-/* Card Hover (VisionOS Effect) */
-.post-card:hover {
-  transform: translateY(-6px) scale(1.015);
-  box-shadow: 0 12px 38px rgba(0,0,0,0.18);
-}
-
 /* HEADER */
 .post-header {
   display: flex;
@@ -1244,14 +1238,6 @@ button:active,
 .room-header {
   transition: transform 0.4s cubic-bezier(.18,.89,.32,1.28), 
               box-shadow 0.4s;
-}
-
-.glass:hover,
-.post-card:hover,
-.dm-item:hover,
-.room-header:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
 }
 
 .vision-nav button {
