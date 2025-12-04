@@ -65,34 +65,7 @@ async function loadDMList() {
     const userRef = doc(db, "users", otherUser);
     const otherSnap = await getDoc(userRef);
     const other = otherSnap.data();
-
-    // IMAGE MESSAGE
-    if (data.type === "image") {
-      html += `
-        <div class="msg ${mine ? "me" : "them"}">
-          <img src="${data.imageURL}" class="chat-img">
-        </div>
-      `;
-      return;
-    }
-
-    // AUDIO MESSAGE
-    if (data.type === "audio") {
-      html += `
-        <div class="msg ${mine ? "me" : "them"}">
-          <audio controls src="${data.audioURL}" class="chat-audio"></audio>
-          </div>
-      `;
-      return;
-    }
-
-    // NORMAL TEXT MESSAGE
-    html += `
-      <div class="msg ${mine ? "me" : "them"}">
-        ${data.text}
-      </div>
     `;
-
   }
 
   dmListBox.innerHTML = html || `<p class='empty'>No messages yet</p>`;
@@ -117,7 +90,7 @@ window.openChat = async function(chatId, otherUID) {
 
   // ONLINE DOT UPDATE
   let dot = document.getElementById("onlineDot");
-  if (u.online) {
+  if (other.online) {
     dot.style.background = "#00ff00";   // green
   } else {
     dot.style.background = "#777";      // grey  
