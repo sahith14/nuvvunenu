@@ -1,5 +1,4 @@
 // messages.js — Instagram-style DMs with themes, search & Firestore chatrooms
-
 import {
   getFirestore, collection, query, where, getDocs,
   addDoc, orderBy, onSnapshot, doc, getDoc, updateDoc
