@@ -1,5 +1,4 @@
 // partner.js — Couples matching system + request + accept + love animation
-
 import {
   getFirestore, collection, doc, getDoc, updateDoc,
   query, where, getDocs, arrayUnion
