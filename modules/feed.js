@@ -95,7 +95,6 @@ function renderPosts() {
           <span onclick="openComments(${p.id})">💬</span>
           <span onclick="sharePost(${p.id})">📤</span>
         </div>
-
       </div>
     `
     )
