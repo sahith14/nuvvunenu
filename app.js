@@ -138,46 +138,39 @@ window.signUp = async function () {
 // PAGE LOADER — FIXED CLEAN VERSION
 // ================================
 window.loadPage = (p) => {
-  const page = document.getElementById("page");
+  const page = document.getElementById("content"); // FIXED
 
   // remove animation classes
   page.classList.remove("page-enter", "page-enter-active");
   void page.offsetWidth;
 
-  // render page
+  // render module page
   page.innerHTML = pages[p].render();
 
-  // re-enable feed events
+  // initialize the page if needed
+  if (pages[p].init) pages[p].init();
+
+  // re-enable double tap for feed
   if (p === "feed" && window.enableDoubleTap) {
     setTimeout(() => window.enableDoubleTap(), 50);
   }
 
-  // Animate page
+  // animate transition
   page.classList.add("page-enter");
   requestAnimationFrame(() => {
     page.classList.add("page-enter-active");
   });
 
-  // Highlight nav
-  // RESET all navigation active states (desktop + bottom)
-  document.querySelectorAll(
-    ".bottom-nav button, .desktop-nav button, .vision-nav button"
-  ).forEach(btn => btn.classList.remove("active"));
+  // reset nav active state
+  document
+    .querySelectorAll(".bottom-nav button, .desktop-nav button, .vision-nav button")
+    .forEach(btn => btn.classList.remove("active"));
 
-  // ACTIVATE correct nav button
+  // activate correct nav buttons
   document.getElementById(`nav-${p}`)?.classList.add("active");
   document.getElementById(`nav-${p}-desktop`)?.classList.add("active");
   document.getElementById(`nav-${p}-mobile`)?.classList.add("active");
-
-  // APPLY active to the selected button
-  document.getElementById(`nav-${p}`)?.classList.add("active");
-  document.getElementById(`nav-${p}-desktop`)?.classList.add("active");
-  document.getElementById(`nav-${p}-mobile`)?.classList.add("active");
-
-  document.getElementById(`nav-${p}`)?.classList.add("active");
-  document.getElementById(`nav-${p}-desktop`)?.classList.add("active");
 };
-
 
 // ================================
 // THEME SWITCHER
