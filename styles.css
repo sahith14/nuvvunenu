@@ -223,17 +223,11 @@ button {
   transition: 0.25s ease-in-out;
 }
 
-/* Hover pop effect */
-.story img:hover {
-  transform: scale(1.09);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
-}
-
 .story p {
   font-size: 0.74rem;
   margin-top: 6px;
   color: #222;
-  opacity: 0.85;
+  opacity: 1.0;
 }
 
 /* POSTS */
