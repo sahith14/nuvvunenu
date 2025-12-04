@@ -9,7 +9,7 @@
 
 <body id="app">
   
-  <div id="page"></div>
+  <div id="content"></div>
 
   <nav class="desktop-nav">
       <button onclick="loadPage('feed')" id="nav-feed-desktop"><i class="fas fa-home"></i> <span>Feed</span></button>
@@ -29,72 +29,7 @@
     <button id="nav-profile" onclick="loadPage('profile')"><i class="fas fa-user"></i></button>
   </nav>
 
-  <div id="dmList"></div>
-
-  <div id="chatBox" style="display:none">
-    <div class="chat-header">
-      <img id="chatHeaderImg">
-      <div>
-        <p id="chatHeaderName"></p>
-        <span id="onlineDot"></span>
-      </div>
-    </div>
-
-    <div id="typingIndicator" class="typing-dots" style="display:none;">
-      <span></span><span></span><span></span>
-    </div>
-
-
-    <div id="messages"></div>
-
-    <div class="chat-input">
-      <input id="dmInput" placeholder="Message...">
-      <button onclick="sendMessage()">Send</button>
-      <button onclick="openImagePicker()">📷</button>
-      <button onclick="startRecording()">🎤</button>
-      <input type="file" id="imgPicker" accept="image/*" capture="camera" onchange="sendImage(event)" hidden>
-    </div>
-  </div>
-
-  <!-- DM LIST -->
-  <div id="dmList"></div>
-  
-  <!-- CHAT WINDOW -->
-  <div id="chatBox" style="display:none;">
-
-    <!-- Header -->
-    <div class="chat-header">
-      <img id="chatHeaderImg" src="">
-      <div>
-        <p id="chatHeaderName"></p>
-        <span id="onlineDot"></span>
-      </div>
-    </div>
-
-    <!-- Typing Indicator -->
-    <p id="typingIndicator" style="display:none;">typing...</p>
-
-    <!-- Messages -->
-    <div id="messages"></div>
-
-    <!-- Input -->
-    <div class="chat-input">
-      <input id="dmInput" placeholder="Message..." />
-      <button onclick="sendMessage()">➤</button>
-      <button onclick="openImagePicker()">📷</button>
-      <button onclick="startRecording()">🎤</button>
-
-      <!-- Hidden Image Picker -->
-      <input id="imgPicker"
-             type="file"
-             accept="image/*"
-             capture="camera"
-             onchange="sendImage(event)"
-             hidden>
-    </div>
-  
-  </div>
-
+  <!-- REACTION MENU (USED BY messages.js) -->
   <div id="reactionMenu" class="reaction-menu" style="display:none;">
     <span onclick="sendReaction('❤️')">❤️</span>
     <span onclick="sendReaction('😂')">😂</span>
