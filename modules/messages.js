@@ -104,6 +104,25 @@ function loadMessages(chatId) {
       let data = m.data();
       let mine = data.from === auth.currentUser.uid;
 
+      // SEEN / READ INDICATOR (iMessage style)
+      (async () => {
+        let chatSnap = await getDoc(doc(db, "chats", currentChat));
+        let chatData = chatSnap.data();
+
+        if (!chatData || chatData.seenBy !== currentPartner) return;
+
+        // Only show read receipt if last message belongs to me
+        let lastMsg = snap.docs[snap.docs.length - 1];
+        if (!lastMsg || lastMsg.data().from !== auth.currentUser.uid) return;
+
+        let time = new Date(chatData.lastSeenTime || Date.now());
+        let formatted = time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+        document.getElementById("messages").innerHTML += `
+          <p class="read-receipt">Read ${formatted}</p>
+        `;
+      })();
+
       // IMAGE
       if (data.type === "image") {
         html += `
@@ -166,8 +185,9 @@ async function sendMessage() {
   });
 
   // Update last message
-  await setDoc(doc(db, "chats", currentChat), {
-    lastMessage: text
+  await setDoc(doc(db, "chats", chatId), {
+    seenBy: auth.currentUser.uid,
+    lastSeenTime: Date.now()
   }, { merge: true });
 
   input.value = "";
