@@ -2,7 +2,6 @@
 
 export function render() {
   setTimeout(() => enableDoubleTap(), 50);
-
   return `
     <div class="feed-container">
 
