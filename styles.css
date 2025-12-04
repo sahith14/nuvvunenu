@@ -191,11 +191,9 @@ button {
 
 /* STORIES STRIP - NEW DESIGN */
 .stories-strip {
-  display: flex;
-  gap: 18px;
-  overflow-x: auto;
-  padding: 15px 10px;
-  scrollbar-width: none;      /* hide scrollbar (Firefox) */
+  background: none !important;
+  box-shadow: none !important;
+  padding-top: 10px;
 }
 
 .stories-strip::-webkit-scrollbar {
