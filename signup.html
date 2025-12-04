@@ -4,7 +4,8 @@
   <title>Sign Up — Nuvvu Nenu</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
   <link rel="stylesheet" href="styles.css">
-  <!-- Only firebase.js needed here -->
+
+  <!-- Firebase -->
   <script type="module" src="firebase.js"></script>
 </head>
 
@@ -26,18 +27,31 @@
 
   <!-- SIGNUP LOGIC -->
   <script type="module">
-    import { signupEmail } from "./firebase.js";
+    import { signupEmail, auth, db } from "./firebase.js";
+    import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    // This function is callable from HTML
     window.doSignup = async function () {
       const email = document.getElementById("signup-email").value;
       const pass = document.getElementById("signup-password").value;
 
       try {
-        await signupEmail(email, pass);
+        // Create account
+        const cred = await signupEmail(email, pass);
+        const user = cred.user;
 
-        // redirect after successful signup
-        window.location.href = "app.html";
+        // Create user record in Firestore
+        await setDoc(doc(db, "users", user.uid), {
+          uid: user.uid,
+          email: user.email,
+          createdAt: Date.now(),
+          username: null,  // will set in setup page
+          name: null,
+          followers: [],
+          following: []
+        }, { merge: true });
+
+        // Redirect to username setup page
+        window.location.href = "setup.html";
 
       } catch (e) {
         alert(e.message);
