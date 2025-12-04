@@ -1,5 +1,4 @@
 // space.js — Couple Space Rooms + Join + Activities
-
 import {
   getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot,
   collection, addDoc, query, orderBy
