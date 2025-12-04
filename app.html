@@ -28,11 +28,34 @@
     <button id="nav-space" onclick="loadPage('space')"><i class="fas fa-star"></i></button>
     <button id="nav-profile" onclick="loadPage('profile')"><i class="fas fa-user"></i></button>
   </nav>
-  
+
+  <div id="dmList"></div>
+
+  <div id="chatBox" style="display:none">
+    <div class="chat-header">
+      <img id="chatHeaderImg">
+      <div>
+        <p id="chatHeaderName"></p>
+        <span id="onlineDot"></span>
+      </div>
+    </div>
+
+    <p id="typingIndicator" style="display:none">typing...</p>
+
+    <div id="messages"></div>
+
+    <div class="chat-input">
+      <input id="dmInput" placeholder="Message...">
+      <button onclick="sendMessage()">Send</button>
+      <button onclick="openImagePicker()">📷</button>
+      <button onclick="startRecording()">🎤</button>
+      <input type="file" id="imgPicker" accept="image/*" capture="camera" onchange="sendImage(event)" hidden>
+    </div>
+  </div>
+
   <script type="module" src="firebase.js"></script>
   <script type="module" src="auth.js"></script>
   <script type="module" src="app.js"></script>
-
 
 </body>
 </html>
