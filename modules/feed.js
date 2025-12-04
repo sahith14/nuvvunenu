@@ -81,7 +81,7 @@ function renderPosts() {
 
         <div class="post-header">
           <img class="post-avatar" src="${p.avatar}">
-          <span>${p.username}</span>
+          <span>${p.user}</span>
         </div>
 
         <!-- DOUBLE TAP AREA (ONLY ONE BOX) -->
