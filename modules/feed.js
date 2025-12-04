@@ -110,33 +110,28 @@ function renderPosts() {
 // ----------------------------------------------
 // DOUBLE TAP LIKE — FIXED
 // ----------------------------------------------
-function enableDoubleTap() {
-  document.querySelectorAll(".post-img").forEach((img) => {
+window.enableDoubleTap = function () {
+  const images = document.querySelectorAll(".post-img");
+
+  images.forEach(img => {
     let lastTap = 0;
 
-    img.addEventListener("click", () => {
-      const now = Date.now();
+    img.addEventListener("touchend", function (e) {
+      const currentTime = new Date().getTime();
+      const tapGap = currentTime - lastTap;
 
-      if (now - lastTap < 300) {
-        const id = img.dataset.post;
-        likePost(id);
-
-        const heart = document.getElementById("heart" + id);
-        heart.classList.add("show-heart");
-        setTimeout(() => heart.classList.remove("show-heart"), 700);
+      // DOUBLE TAP DETECTED
+      if (tapGap < 250) {
+        triggerHeart(img);
       }
 
-      lastTap = now;
+      lastTap = currentTime;
     });
   });
+};
 
-  // SINGLE TAP LIKE BUTTON
-  document.querySelectorAll(".like-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      likePost(btn.dataset.post);
-    });
-  });
-}
+// RUN after feed loads
+enableDoubleTap();
 
 // ----------------------------------------------
 // LIKE
@@ -184,3 +179,4 @@ window.postComment = () => {
 window.sharePost = (id) => {
   alert("Share feature will be added later 🎉");
 };
+
