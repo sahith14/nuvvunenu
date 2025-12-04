@@ -32,9 +32,20 @@
       }
       return arr;
     }
+    import { collection, query, where, getDocs } 
+    from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+    async function usernameExists(username) {
+      const q = query(
+        collection(db, "users"),
+        where("username", "==", username.toLowerCase())
+      );
+      const snap = await getDocs(q);
+      return snap.size > 0;
+    }
+    
     window.saveUserInfo = async function () {
-      const username = document.getElementById("setup-username").value.trim();
+      const username = document.getElementById("setup-username").value.trim().toLowerCase();
       const name = document.getElementById("setup-name").value.trim();
 
       if (!username || !name) {
@@ -42,23 +53,28 @@
         return;
       }
 
-      const uid = auth.currentUser.uid;
-      const ref = doc(db, "users", uid);
+      // BLOCK SPECIAL SYMBOLS
+      if (!/^[a-z0-9._]+$/.test(username)) {
+        alert("Username can contain only letters, numbers, . and _");
+        return;
+      }
 
-      await setDoc(ref, {
-        uid,
+      // CHECK IF USERNAME IS TAKEN
+      if (await usernameExists(username)) {
+        alert("This username is already taken. Try another.");
+        return;
+      }
+
+      const uid = auth.currentUser.uid;
+
+      await setDoc(doc(db, "users", uid), {
         username,
         name,
         searchKeywords: generateKeywords(username),
-        createdAt: Date.now(),
-        following: [],
-        followers: [],
-        avatar: `https://i.pravatar.cc/150?u=${uid}`
       }, { merge: true });
 
       window.location.href = "app.html";
     };
   </script>
-
 </body>
 </html>
