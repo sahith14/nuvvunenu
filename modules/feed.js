@@ -180,3 +180,27 @@ window.enableDoubleTap = function () {
     });
   });
 };
+
+function triggerHeart(img) {
+  const id = img.getAttribute("data-post");
+  const heart = document.getElementById(`heart${id}`);
+
+  // Show heart burst
+  heart.style.opacity = 1;
+  heart.classList.add("heart-pop");
+
+  setTimeout(() => {
+    heart.classList.remove("heart-pop");
+    heart.style.opacity = 0;
+  }, 600);
+
+  // RIPPLE WAVES
+  const waves = img.parentElement.querySelectorAll(".ripple-wave");
+
+  waves.forEach(w => {
+    w.classList.remove("ripple-animate");
+    void w.offsetWidth; // force restart animation
+    w.classList.add("ripple-animate");
+  });
+}
+
