@@ -60,26 +60,23 @@ const pages = {
 // AUTH STATE LISTENER
 // ================================
 onAuthStateChanged(auth, async (user) => {
-  console.log("Auth changed:", user);
-
-  if (user) {
-    const ref = doc(db, "users", user.uid);
-    const snap = await getDoc(ref);
-
-    if (!snap.exists()) {
-      await setDoc(ref, {
-        uid: user.uid,
-        email: user.email,
-        username: user.displayName || user.email.split("@")[0],
-        photoURL: user.photoURL || "",
-        createdAt: Date.now()
-      });
-    }
-
-    loadPage("feed");
-  } else {
-    loadPage("auth");
+  if (!user) {
+    window.location.href = "login.html";
+    return;
   }
+
+  const ref = doc(db, "users", user.uid);
+  const snap = await getDoc(ref);
+
+  // If user has no username → force setup
+  if (!snap.exists() || !snap.data().username) {
+    window.location.href = "setup.html";
+    return;
+  }
+
+  // Otherwise load app normally
+  document.getElementById("app").style.display = "block";
+  loadPage("feed");
 });
 
 
