@@ -8,7 +8,6 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-
 // MAIN ENTRY POINT
 export function render() {
   // Load logged-in user's profile
