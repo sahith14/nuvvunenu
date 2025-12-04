@@ -2,110 +2,33 @@
 <html>
 <head>
   <title>Nuvvu Nenu</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Firebase -->
+  <script type="module" src="firebase.js"></script>
+
+  <!-- Main App Loader -->
+  <script type="module" src="app.js"></script>
 </head>
 
-<body id="app">
-  
-  <div id="page"></div>
+<body>
 
-  <nav class="desktop-nav">
-      <button onclick="loadPage('feed')" id="nav-feed-desktop"><i class="fas fa-home"></i> <span>Feed</span></button>
-      <button onclick="loadPage('search')" id="nav-search-desktop"><i class="fas fa-search"></i> <span>Search</span></button>
-      <button onclick="loadPage('messages')" id="nav-messages-desktop"><i class="fas fa-envelope"></i> <span>DMs</span></button>
-      <button onclick="loadPage('partner')" id="nav-partner-desktop"><i class="fas fa-heart"></i> <span>Partner</span></button>
-      <button onclick="loadPage('space')" id="nav-space-desktop"><i class="fas fa-star"></i> <span>Space</span></button>
-      <button onclick="loadPage('profile')" id="nav-profile-desktop"><i class="fas fa-user"></i> <span>Profile</span></button>
-  </nav>
+  <!-- MAIN APP WRAPPER -->
+  <div id="app" style="display:none">
 
-  <nav class="bottom-nav">
-    <button id="nav-feed" onclick="loadPage('feed')"><i class="fas fa-home"></i></button>
-    <button id="nav-search" onclick="loadPage('search')"><i class="fas fa-search"></i></button>
-    <button id="nav-messages" onclick="loadPage('messages')"><i class="fas fa-envelope"></i></button>
-    <button id="nav-partner" onclick="loadPage('partner')"><i class="fas fa-heart"></i></button>
-    <button id="nav-space" onclick="loadPage('space')"><i class="fas fa-star"></i></button>
-    <button id="nav-profile" onclick="loadPage('profile')"><i class="fas fa-user"></i></button>
-  </nav>
+    <!-- MAIN CONTENT (MODULES RENDER HERE) -->
+    <div id="content"></div>
 
-  <div id="dmList"></div>
-
-  <div id="chatBox" style="display:none">
-    <div class="chat-header">
-      <img id="chatHeaderImg">
-      <div>
-        <p id="chatHeaderName"></p>
-        <span id="onlineDot"></span>
-      </div>
+    <!-- BOTTOM NAVIGATION -->
+    <div class="bottom-nav glass">
+      <button onclick="loadPage('feed')">🏠</button>
+      <button onclick="loadPage('search')">🔍</button>
+      <button onclick="loadPage('messages')">💬</button>
+      <button onclick="loadPage('profile')">👤</button>
     </div>
 
-    <div id="typingIndicator" class="typing-dots" style="display:none;">
-      <span></span><span></span><span></span>
-    </div>
-
-
-    <div id="messages"></div>
-
-    <div class="chat-input">
-      <input id="dmInput" placeholder="Message...">
-      <button onclick="sendMessage()">Send</button>
-      <button onclick="openImagePicker()">📷</button>
-      <button onclick="startRecording()">🎤</button>
-      <input type="file" id="imgPicker" accept="image/*" capture="camera" onchange="sendImage(event)" hidden>
-    </div>
   </div>
 
-  <!-- DM LIST -->
-  <div id="dmList"></div>
-  
-  <!-- CHAT WINDOW -->
-  <div id="chatBox" style="display:none;">
-
-    <!-- Header -->
-    <div class="chat-header">
-      <img id="chatHeaderImg" src="">
-      <div>
-        <p id="chatHeaderName"></p>
-        <span id="onlineDot"></span>
-      </div>
-    </div>
-
-    <!-- Typing Indicator -->
-    <p id="typingIndicator" style="display:none;">typing...</p>
-
-    <!-- Messages -->
-    <div id="messages"></div>
-
-    <!-- Input -->
-    <div class="chat-input">
-      <input id="dmInput" placeholder="Message..." />
-      <button onclick="sendMessage()">➤</button>
-      <button onclick="openImagePicker()">📷</button>
-      <button onclick="startRecording()">🎤</button>
-
-      <!-- Hidden Image Picker -->
-      <input id="imgPicker"
-             type="file"
-             accept="image/*"
-             capture="camera"
-             onchange="sendImage(event)"
-             hidden>
-    </div>
-  
-  </div>
-
-  <div id="reactionMenu" class="reaction-menu" style="display:none;">
-    <span onclick="sendReaction('❤️')">❤️</span>
-    <span onclick="sendReaction('😂')">😂</span>
-    <span onclick="sendReaction('👍')">👍</span>
-    <span onclick="sendReaction('😮')">😮</span>
-    <span onclick="sendReaction('😢')">😢</span>
-    <span onclick="sendReaction('😡')">😡</span>
-  </div>
-
-  <script type="module" src="firebase.js"></script>
-  <script type="module" src="auth.js"></script>
-  <script type="module" src="app.js"></script>
 </body>
 </html>
