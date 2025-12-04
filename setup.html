@@ -48,30 +48,25 @@
       const username = document.getElementById("setup-username").value.trim().toLowerCase();
       const name = document.getElementById("setup-name").value.trim();
 
+      // 1️⃣ CHECK IF FIELDS ARE EMPTY
       if (!username || !name) {
         alert("Please fill all fields");
         return;
       }
 
-      // BLOCK SPECIAL SYMBOLS
+      // 2️⃣ BLOCK SPECIAL SYMBOLS  (THIS IS WHERE YOUR CODE GOES)
       if (!/^[a-z0-9._]+$/.test(username)) {
         alert("Username can contain only letters, numbers, . and _");
         return;
       }
 
-      // CHECK IF USERNAME IS TAKEN
+      // 3️⃣ CHECK IF USERNAME IS TAKEN
       if (await usernameExists(username)) {
         alert("This username is already taken. Try another.");
         return;
       }
 
-      const s1 = username + "_" + Math.floor(Math.random() * 90 + 10);
-      const s2 = username + Math.floor(Math.random() * 900 + 100);
-      const s3 = username + "_official";
-
-      alert("Try one of these:\n" + s1 + "\n" + s2 + "\n" + s3);
-      return;
-      
+      // 4️⃣ SAVE USER INFO
       const uid = auth.currentUser.uid;
 
       await setDoc(doc(db, "users", uid), {
