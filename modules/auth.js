@@ -40,7 +40,7 @@ class AuthManager {
         window.dispatchEvent(new CustomEvent("auth:login", { detail: user }));
 
         // ⭐ FIX — REDIRECT TO HOME PAGE
-        import("./app.js").then(() => {
+        import("../app.js").then(() => {
           if (window.loadPage) {
             loadPage("feed");  // Go to Home page automatically
           }
