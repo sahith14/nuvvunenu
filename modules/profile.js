@@ -40,7 +40,7 @@ export async function loadProfile(uid) {
   document.getElementById("profilePage").innerHTML = `
     <div class="profile-header glass">
       <img src="${u.avatar || "https://i.pravatar.cc/150?u="+uid}" class="profile-avatar">
-      <h2>${u.username}</h2>
+      <h2>@${u.username}</h2>
       <p class="profile-name">${u.name || ""}</p>
 
       <div class="stats-row">
