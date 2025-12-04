@@ -107,9 +107,6 @@ function renderPosts() {
     .join("");
 }
 
-// RUN after feed loads
-enableDoubleTap();
-
 // ----------------------------------------------
 // LIKE
 // ----------------------------------------------
@@ -167,16 +164,15 @@ window.enableDoubleTap = function () {
   images.forEach(img => {
     let lastTap = 0;
 
-    img.addEventListener("touchend", function (e) {
-      const currentTime = new Date().getTime();
-      const tapGap = currentTime - lastTap;
+    img.addEventListener("touchend", function () {
+      const now = Date.now();
+      const gap = now - lastTap;
 
-      // DOUBLE TAP DETECTED
-      if (tapGap < 250) {
+      if (gap < 250) {
         triggerHeart(img);
       }
 
-      lastTap = currentTime;
+      lastTap = now;
     });
   });
 };
@@ -185,7 +181,6 @@ function triggerHeart(img) {
   const id = img.getAttribute("data-post");
   const heart = document.getElementById(`heart${id}`);
 
-  // Show heart burst
   heart.style.opacity = 1;
   heart.classList.add("heart-pop");
 
@@ -194,13 +189,10 @@ function triggerHeart(img) {
     heart.style.opacity = 0;
   }, 600);
 
-  // RIPPLE WAVES
   const waves = img.parentElement.querySelectorAll(".ripple-wave");
-
   waves.forEach(w => {
     w.classList.remove("ripple-animate");
-    void w.offsetWidth; // force restart animation
+    void w.offsetWidth;
     w.classList.add("ripple-animate");
   });
 }
-
