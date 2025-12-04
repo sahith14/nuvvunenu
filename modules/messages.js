@@ -98,7 +98,7 @@ window.openChat = async function(chatId, otherUID) {
   // HEADER
   document.getElementById("chatHeader").innerHTML = `
     <img class="dm-avatar" src="${other.avatar || 'https://i.pravatar.cc/100?u='+otherUID}">
-    <p>${other.username}</p>
+    <p>@${other.username}</p>
   `;
 
   loadMessages(chatId);
