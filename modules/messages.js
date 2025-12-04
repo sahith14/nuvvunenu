@@ -317,3 +317,21 @@ function swipeToReply(text) {
   input.value = `↩️ ${text}\n`;
   input.focus();
 }
+
+async function getOrCreateChat(uid1, uid2) {
+  const chatId = [uid1, uid2].sort().join("_");
+  const chatRef = doc(db, "chats", chatId);
+  const snap = await getDoc(chatRef);
+
+  if (!snap.exists()) {
+    await setDoc(chatRef, {
+      members: [uid1, uid2],
+      lastMessage: "",
+      createdAt: Date.now()
+    });
+  }
+
+  return chatId;
+}
+
+window.getOrCreateChat = getOrCreateChat;
