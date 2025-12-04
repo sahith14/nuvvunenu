@@ -223,4 +223,18 @@ function addLiquidPhysics(selector) {
   });
 }
 
+function animateCommentIcon(btn) {
+  btn.classList.remove("comment-animate");
+  void btn.offsetWidth;
+  btn.classList.add("comment-animate");
+}
+
+
+function animateShare(btn) {
+  btn.classList.remove("share-animate");
+  void btn.offsetWidth;
+  btn.classList.add("share-animate");
+}
+
+
 setTimeout(addLiquidPhysicsOnce, 1500);
