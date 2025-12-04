@@ -168,8 +168,6 @@ window.loadPage = (p) => {
 
   // activate correct nav buttons
   document.getElementById(`nav-${p}`)?.classList.add("active");
-  document.getElementById(`nav-${p}-desktop`)?.classList.add("active");
-  document.getElementById(`nav-${p}-mobile`)?.classList.add("active");
 };
 
 // ================================
