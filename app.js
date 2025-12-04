@@ -22,8 +22,6 @@ import * as space from "./modules/space.js";
 import * as profile from "./modules/profile.js";
 import * as profileView from "./modules/profileView.js";
 
-pages.profileView = profileView;
-
 // TEMP AUTH PAGE
 const authPage = {
   render() {
@@ -227,3 +225,5 @@ function animateShare(btn) {
 
 
 setTimeout(addLiquidPhysicsOnce, 1500);
+
+pages.profileView = profileView;
