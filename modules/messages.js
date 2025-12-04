@@ -57,12 +57,15 @@ async function loadDMList() {
   snap.forEach(doc => {
     let chat = doc.data();
     let otherUser = chat.members.filter(m => m !== uid)[0];
+    const otherSnap = await getDoc(doc(db, "users", otherUser));
+    const other = otherSnap.data();
+
 
     html += `
       <div class="dm-item glass" onclick="openChat('${doc.id}', '${otherUser}')">
-        <img class="dm-avatar" src="https://i.pravatar.cc/100?u=${otherUser}">
+        <img class="dm-avatar" src="${other.avatar}">
         <div>
-          <p class="dm-user">${chat.usernames[otherUser]}</p>
+          <p class="dm-user">${other.name} (@${other.username})</p>
           <p class="dm-last">${chat.lastMessage || ""}</p>
         </div>
       </div>
