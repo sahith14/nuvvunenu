@@ -20,7 +20,9 @@ import * as messages from "./modules/messages.js";
 import * as partner from "./modules/partner.js";
 import * as space from "./modules/space.js";
 import * as profile from "./modules/profile.js";
+import * as profileView from "./modules/profileView.js";
 
+pages.profileView = profileView;
 
 // TEMP AUTH PAGE
 const authPage = {
