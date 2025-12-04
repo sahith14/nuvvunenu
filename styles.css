@@ -203,9 +203,10 @@ button {
 }
 
 .story {
-  text-align: center;
-  width: 75px;
-  flex-shrink: 0;
+  background: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
 }
 
 .story img {
