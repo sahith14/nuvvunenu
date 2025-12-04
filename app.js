@@ -52,9 +52,15 @@ const authPage = {
 
 // ONLY ONE PAGES OBJECT
 const pages = { 
-  feed, search, messages, partner, space, profile, auth: authPage 
+  feed,
+  search,
+  messages,
+  partner,
+  space,
+  profile,
+  profileView,   // ← ADD THIS HERE
+  auth: authPage
 };
-
 
 // ================================
 // AUTH STATE LISTENER
@@ -225,5 +231,3 @@ function animateShare(btn) {
 
 
 setTimeout(addLiquidPhysicsOnce, 1500);
-
-pages.profileView = profileView;
