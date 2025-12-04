@@ -1667,3 +1667,19 @@ html {
   0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
   40% { transform: scale(1); opacity: 1; }
 }
+
+.reaction-menu {
+  position: absolute;
+  background: white;
+  padding: 8px 10px;
+  border-radius: 20px;
+  display: flex;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 9999;
+}
+
+.msg:hover {
+  transform: scale(1.02);
+  transition: 0.15s;
+}
