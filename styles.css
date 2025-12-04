@@ -189,45 +189,53 @@ button {
   padding-bottom: 80px;
 }
 
-/* STORIES STRIP - NEW DESIGN */
+/* STORIES STRIP — TRUE INSTAGRAM STYLE */
 .stories-strip {
-  background: none !important;
-  box-shadow: none !important;
-  padding-top: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+  padding: 12px 14px;
+
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
 }
 
 .stories-strip::-webkit-scrollbar {
-  display: none;               /* hide scrollbar (Safari/Chrome) */
+  display: none;
 }
 
 .story {
-  background: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  border-radius: 0 !important;
+  flex-shrink: 0;
+  width: 70px;
+  text-align: center;
+  scroll-snap-align: start;
 }
 
 .story img {
   width: 68px;
   height: 68px;
   border-radius: 50%;
-
-  /* Premium ring effect */
+  
   padding: 3px;
   background: linear-gradient(45deg, #ff66a6, #8a4fff);
-  
-  box-shadow: 
-      0 4px 10px rgba(0,0,0,0.15),
-      inset 0 0 6px rgba(255,255,255,0.4);
 
-  transition: 0.25s ease-in-out;
+  box-shadow: 
+    0 4px 12px rgba(0,0,0,0.18),
+    inset 0 0 6px rgba(255,255,255,0.35);
+
+  transition: transform 0.25s cubic-bezier(.18,.89,.32,1.28);
+}
+
+.story img:hover {
+  transform: scale(1.09);
 }
 
 .story p {
-  font-size: 0.74rem;
   margin-top: 6px;
-  color: #222;
-  opacity: 1.0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  opacity: 0.85;
 }
 
 /* POSTS */
