@@ -1631,3 +1631,11 @@ html {
 .chat-audio {
   width: 70%;
 }
+
+.read-receipt {
+  text-align: center;
+  font-size: 0.75rem;
+  opacity: 0.55;
+  margin-top: -5px;
+  margin-bottom: 10px;
+}
