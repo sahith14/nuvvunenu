@@ -42,11 +42,11 @@ export function render() {
 // LOAD DM LIST
 // --------------------------------------------------------
 
+
 async function loadDMList() {
   let uid = auth.currentUser.uid;
 
   const q = query(collection(db, "chats"), where("members", "array-contains", uid));
-
   const snap = await getDocs(q);
 
   let dmListBox = document.getElementById("dmList");
@@ -54,15 +54,20 @@ async function loadDMList() {
 
   let html = "";
 
-  snap.forEach(doc => {
-    let chat = doc.data();
-    let otherUser = chat.members.filter(m => m !== uid)[0];
-    const otherSnap = await getDoc(doc(db, "users", otherUser));
+  // FIX: Use for...of instead of forEach to allow await
+  for (let chatDoc of snap.docs) {
+    let chat = chatDoc.data();
+
+    // Find the other user in the chat
+    let otherUser = chat.members.find(m => m !== uid);
+
+    // FIX: Correct Firestore doc() usage
+    const userRef = doc(db, "users", otherUser);
+    const otherSnap = await getDoc(userRef);
     const other = otherSnap.data();
 
-
     html += `
-      <div class="dm-item glass" onclick="openChat('${doc.id}', '${otherUser}')">
+      <div class="dm-item glass" onclick="openChat('${chatDoc.id}', '${otherUser}')">
         <img class="dm-avatar" src="${other.avatar}">
         <div>
           <p class="dm-user">${other.name} (@${other.username})</p>
@@ -70,22 +75,10 @@ async function loadDMList() {
         </div>
       </div>
     `;
-  });
+  }
 
   dmListBox.innerHTML = html || `<p class='empty'>No messages yet</p>`;
 }
-
-window.filterDMs = function() {
-  let text = document.getElementById("dmSearchInput").value.toLowerCase();
-
-  let items = document.querySelectorAll(".dm-item");
-
-  items.forEach(i => {
-    let name = i.querySelector(".dm-user").textContent.toLowerCase();
-
-    i.style.display = name.includes(text) ? "flex" : "none";
-  });
-};
 
 // --------------------------------------------------------
 // OPEN CHAT WINDOW
