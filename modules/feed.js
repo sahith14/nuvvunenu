@@ -107,29 +107,6 @@ function renderPosts() {
     .join("");
 }
 
-// ----------------------------------------------
-// DOUBLE TAP LIKE — FIXED
-// ----------------------------------------------
-window.enableDoubleTap = function () {
-  const images = document.querySelectorAll(".post-img");
-
-  images.forEach(img => {
-    let lastTap = 0;
-
-    img.addEventListener("touchend", function (e) {
-      const currentTime = new Date().getTime();
-      const tapGap = currentTime - lastTap;
-
-      // DOUBLE TAP DETECTED
-      if (tapGap < 250) {
-        triggerHeart(img);
-      }
-
-      lastTap = currentTime;
-    });
-  });
-};
-
 // RUN after feed loads
 enableDoubleTap();
 
@@ -141,6 +118,7 @@ window.likePost = (id) => {
   heart.classList.add("show-heart");
   setTimeout(() => heart.classList.remove("show-heart"), 800);
 };
+
 
 // ----------------------------------------------
 // COMMENTS
@@ -180,3 +158,25 @@ window.sharePost = (id) => {
   alert("Share feature will be added later 🎉");
 };
 
+// ----------------------------------------------
+// DOUBLE TAP LIKE — FIXED
+// ----------------------------------------------
+window.enableDoubleTap = function () {
+  const images = document.querySelectorAll(".post-img");
+
+  images.forEach(img => {
+    let lastTap = 0;
+
+    img.addEventListener("touchend", function (e) {
+      const currentTime = new Date().getTime();
+      const tapGap = currentTime - lastTap;
+
+      // DOUBLE TAP DETECTED
+      if (tapGap < 250) {
+        triggerHeart(img);
+      }
+
+      lastTap = currentTime;
+    });
+  });
+};
