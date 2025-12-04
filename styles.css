@@ -1507,13 +1507,3 @@ html {
     margin-left: 240px !important;
   }
 }
-
-/* REMOVE STORY BOX BORDER LINE COMPLETELY */
-.stories-strip, 
-.stories-strip * {
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-  background: none !important;
-}
-
