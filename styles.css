@@ -1908,3 +1908,74 @@ html {
   border-left: 4px solid #d96cf7;
   padding-left: 10px;
 }
+
+.search-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 14px;
+  margin: 8px;
+  cursor: pointer;
+}
+
+.search-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.search-name {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.search-username {
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+.followBtn {
+  margin-left: auto;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: #d96cf7;
+  color: white;
+  border: none;
+}
+
+.profile-page {
+  padding: 15px;
+}
+
+.pv-top {
+  display: flex;
+  gap: 15px;
+}
+
+.pv-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+}
+
+.pv-buttons button {
+  padding: 7px 15px;
+  border-radius: 20px;
+  margin-right: 10px;
+  border: none;
+  background: #d96cf7;
+  color: white;
+}
+
+.pv-post-grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.pv-post img {
+  width: 100%;
+  border-radius: 10px;
+}
