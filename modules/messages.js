@@ -205,3 +205,5 @@ window.sendMessage = async function() {
 
   input.value = "";
 };
+
+document.getElementById("chatBox").classList.add("bg2");
