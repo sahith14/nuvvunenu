@@ -207,3 +207,49 @@ window.sendMessage = async function() {
 };
 
 document.getElementById("chatBox").classList.add("bg2");
+
+function openImagePicker() {
+  document.getElementById("imgPicker").click();
+}
+
+async function sendImage(e) {
+  let file = e.target.files[0];
+  if (!file) return;
+
+  let url = await uploadImage(file);
+
+  await addDoc(collection(db, "chats", currentChat, "messages"), {
+    from: auth.currentUser.uid,
+    type: "image",
+    imageURL: url,
+    time: Date.now()
+  });
+}
+
+let mediaRecorder;
+let audioChunks = [];
+
+async function startRecording() {
+  let stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  mediaRecorder = new MediaRecorder(stream);
+
+  audioChunks = [];
+  mediaRecorder.start();
+
+  mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+
+  mediaRecorder.onstop = async () => {
+    let blob = new Blob(audioChunks, { type: "audio/mp3" });
+
+    let url = await uploadVoice(blob);
+
+    await addDoc(collection(db, "chats", currentChat, "messages"), {
+      from: auth.currentUser.uid,
+      type: "audio",
+      audioURL: url,
+      time: Date.now()
+    });
+  };
+
+  setTimeout(() => mediaRecorder.stop(), 5000); // 5 sec max
+}
