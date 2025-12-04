@@ -308,7 +308,10 @@ button {
 }
 
 #searchInput {
-  width: 100%;
+  width: 80%;
+  margin: 0 auto;
+  display: block;
+  
   padding: 12px 15px;
   border-radius: 20px;
   border: none;
