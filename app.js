@@ -79,7 +79,6 @@ onAuthStateChanged(auth, async (user) => {
   loadPage("feed");
 });
 
-
 // ================================
 // GOOGLE LOGIN — FIXED
 // ================================
