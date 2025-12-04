@@ -1,7 +1,6 @@
 // =========================================================
 // search.js — Real-time user search + profile view + follow
 // =========================================================
-
 import { 
   collection,
   query,
