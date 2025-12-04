@@ -89,11 +89,16 @@ function renderPosts() {
           <img class="post-img" data-post="${p.id}" src="${p.img}">
           <img class="like-heart" id="heart${p.id}" src="https://cdn-icons-png.flaticon.com/512/833/833472.png">
         </div>
+        
+        <div class="post-img-box">
+          <img class="post-img" data-post="${p.id}" src="${p.img}">
+  
+          <!-- HEART POP -->
+          <img class="like-heart" id="heart${p.id}" src="https://cdn-icons-png.flaticon.com/512/833/833472.png">
 
-        <div class="post-actions">
-          <span class="like-btn" data-post="${p.id}">❤️</span>
-          <span onclick="openComments(${p.id})">💬</span>
-          <span onclick="sharePost(${p.id})">📤</span>
+          <!-- RIPPLE WAVES -->
+          <div class="ripple-wave"></div>
+          <div class="ripple-wave second"></div>
         </div>
       </div>
     `
