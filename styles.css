@@ -1115,7 +1115,6 @@ body.theme-white {
 .theme-white .dm-item,
 .theme-white .profile-header,
 .theme-white .room-header,
-.theme-white .story,
 .theme-white .search-result {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
