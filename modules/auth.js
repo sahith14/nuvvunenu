@@ -1,6 +1,5 @@
 // auth.js — FIXED & CLEANED 🔥
 // Uses modular Firebase ONLY
-
 import {
   auth,
   db,
