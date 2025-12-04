@@ -1,6 +1,5 @@
-// ---------------------------------------------------------
-// IMPORTS
-// ---------------------------------------------------------
+// messages.js — fully fixed module
+
 import {
   doc,
   getDoc,
@@ -13,11 +12,8 @@ import {
   getDocs
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-import { auth, db } from "./firebase.js";
+import { auth, db } from "../firebase.js";
 
-// ---------------------------------------------------------
-// GLOBALS
-// ---------------------------------------------------------
 let currentChat = null;
 let currentPartner = null;
 let typingTimeout;
@@ -25,40 +21,107 @@ let longPressTimer = null;
 let selectedMsgId = null;
 
 // ---------------------------------------------------------
+// PAGE RENDER
+// ---------------------------------------------------------
+export function render() {
+  return `
+    <div class="messages-container">
+
+      <h2 style="text-align:center; margin-top:10px;">Messages</h2>
+
+      <div id="dmList"></div>
+
+      <div id="chatBox" style="display:none">
+
+        <div class="chat-header">
+          <img id="chatHeaderImg">
+          <div>
+            <p id="chatHeaderName"></p>
+            <span id="onlineDot"></span>
+          </div>
+        </div>
+
+        <div id="typingIndicator" class="typing-dots" style="display:none;">
+          <span></span><span></span><span></span>
+        </div>
+
+        <div id="messages"></div>
+
+        <div class="chat-input">
+          <input id="dmInput" placeholder="Message...">
+          <button onclick="sendMessage()">➤</button>
+          <button onclick="openImagePicker()">📷</button>
+          <button onclick="startRecording()">🎤</button>
+
+          <input type="file" id="imgPicker"
+            accept="image/*"
+            capture="camera"
+            onchange="sendImage(event)"
+            hidden>
+        </div>
+
+      </div>
+
+      <div id="reactionMenu" class="reaction-menu" style="display:none;">
+        <span onclick="sendReaction('❤️')">❤️</span>
+        <span onclick="sendReaction('😂')">😂</span>
+        <span onclick="sendReaction('👍')">👍</span>
+        <span onclick="sendReaction('😮')">😮</span>
+        <span onclick="sendReaction('😢')">😢</span>
+        <span onclick="sendReaction('😡')">😡</span>
+      </div>
+
+    </div>
+  `;
+}
+
+// ---------------------------------------------------------
 // LOAD DM LIST
 // ---------------------------------------------------------
+export async function init() {
+  loadDMList();
+}
+
+// must be global for onclicks
+window.openChat = openChat;
+window.sendMessage = sendMessage;
+window.openImagePicker = openImagePicker;
+window.sendImage = sendImage;
+window.startRecording = startRecording;
+window.sendReaction = sendReaction;
+window.showReactionMenu = showReactionMenu;
+window.hideReactionMenu = hideReactionMenu;
+window.swipeToReply = swipeToReply;
+
+// ---------------------------------------------------------
 async function loadDMList() {
-  let uid = auth.currentUser.uid;
+  const uid = auth.currentUser.uid;
   const q = query(collection(db, "chats"), where("members", "array-contains", uid));
   const snap = await getDocs(q);
 
-  let list = document.getElementById("dmList");
   let html = "";
 
   for (let chatDoc of snap.docs) {
-    let chat = chatDoc.data();
-    let otherId = chat.members.find(m => m !== uid);
+    const chat = chatDoc.data();
+    const otherId = chat.members.find(u => u !== uid);
 
-    let otherSnap = await getDoc(doc(db, "users", otherId));
-    let other = otherSnap.data();
+    const userSnap = await getDoc(doc(db, "users", otherId));
+    const u = userSnap.data();
 
     html += `
       <div class="dm-item glass" onclick="openChat('${chatDoc.id}', '${otherId}')">
-        <img class="dm-avatar" src="${other.avatar}">
+        <img class="dm-avatar" src="${u.avatar}">
         <div>
-          <p class="dm-user">${other.name} (@${other.username})</p>
+          <p class="dm-user">${u.name} (@${u.username})</p>
           <p class="dm-last">${chat.lastMessage || ""}</p>
         </div>
       </div>
     `;
   }
 
-  list.innerHTML = html || `<p class="empty">No messages yet</p>`;
+  document.getElementById("dmList").innerHTML = html;
 }
-window.loadDMList = loadDMList;
 
-// ---------------------------------------------------------
-// OPEN CHAT
 // ---------------------------------------------------------
 async function openChat(chatId, partnerId) {
   currentChat = chatId;
@@ -67,17 +130,15 @@ async function openChat(chatId, partnerId) {
   document.getElementById("dmList").style.display = "none";
   document.getElementById("chatBox").style.display = "block";
 
-  let snap = await getDoc(doc(db, "users", partnerId));
-  let user = snap.data();
+  const snap = await getDoc(doc(db, "users", partnerId));
+  const u = snap.data();
 
   document.getElementById("chatHeaderName").innerText =
-    `${user.name} (@${user.username})`;
-
-  document.getElementById("chatHeaderImg").src = user.avatar;
+    `${u.name} (@${u.username})`;
+  document.getElementById("chatHeaderImg").src = u.avatar;
   document.getElementById("onlineDot").style.background =
-    user.online ? "#0f0" : "#777";
+    u.online ? "#0f0" : "#777";
 
-  // Mark as seen
   await setDoc(doc(db, "chats", chatId), {
     seenBy: auth.currentUser.uid,
     lastSeenTime: Date.now()
@@ -85,104 +146,73 @@ async function openChat(chatId, partnerId) {
 
   loadMessages(chatId);
 }
-window.openChat = openChat;
 
-// ---------------------------------------------------------
-// LOAD MESSAGES (REAL-TIME)
 // ---------------------------------------------------------
 function loadMessages(chatId) {
   const msgsRef = collection(db, "chats", chatId, "messages");
 
   onSnapshot(msgsRef, async (snap) => {
     let html = "";
-    let uid = auth.currentUser.uid;
-    let messages = snap.docs;
+    const uid = auth.currentUser.uid;
+    const messages = snap.docs;
 
     for (let m of messages) {
       let data = m.data();
-      let mine = data.from === uid;
+      const mine = data.from === uid;
 
-      // BUBBLE START (long-press + swipe)
       let start = `
         <div class="msg ${mine ? "me" : "them"}"
           onmousedown="longPressTimer=setTimeout(()=>showReactionMenu(event,'${m.id}'),500)"
           onmouseup="clearTimeout(longPressTimer)"
           ontouchstart="longPressTimer=setTimeout(()=>showReactionMenu(event,'${m.id}'),500)"
           ontouchend="clearTimeout(longPressTimer)"
-          onmousemove="if(event.movementX > 18) swipeToReply('${data.text?.replace(/'/g, "\\'")}')"
+          onmousemove="if(event.movementX>18) swipeToReply('${data.text || ""}')"
         >
       `;
 
-      // IMAGE MESSAGE
       if (data.type === "image") {
-        html += `
-          ${start}
-            <img src="${data.imageURL}" class="chat-img">
-          </div>
-          ${data.reaction ? `<div class="reaction-bubble">${data.reaction}</div>` : ""}
-        `;
+        html += `${start}<img class="chat-img" src="${data.imageURL}"></div>`;
         continue;
       }
 
-      // AUDIO MESSAGE
       if (data.type === "audio") {
-        html += `
-          ${start}
-            <audio controls src="${data.audioURL}" class="chat-audio"></audio>
-          </div>
-          ${data.reaction ? `<div class="reaction-bubble">${data.reaction}</div>` : ""}
-        `;
+        html += `${start}<audio controls src="${data.audioURL}" class="chat-audio"></audio></div>`;
         continue;
       }
 
-      // TEXT MESSAGE
-      html += `
-        ${start}
-          ${data.text}
-        </div>
-        ${data.reaction ? `<div class="reaction-bubble">${data.reaction}</div>` : ""}
-      `;
+      html += `${start}${data.text}</div>`;
     }
 
     document.getElementById("messages").innerHTML = html;
+    document.getElementById("messages").scrollTop =
+      document.getElementById("messages").scrollHeight;
 
-    // AUTO SCROLL
-    let box = document.getElementById("messages");
-    box.scrollTo({ top: box.scrollHeight, behavior: "smooth" });
+    const chatSnap = await getDoc(doc(db, "chats", currentChat));
+    const chat = chatSnap.data();
 
-    // READ RECEIPT (iMessage style)
-    let chatSnap = await getDoc(doc(db, "chats", currentChat));
-    let chatData = chatSnap.data();
+    if (chat && chat.seenBy === currentPartner) {
+      const t = new Date(chat.lastSeenTime).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+      });
 
-    if (chatData && chatData.seenBy === currentPartner) {
-      let last = messages[messages.length - 1];
-      if (last && last.data().from === uid) {
-        let t = new Date(chatData.lastSeenTime);
-        let formatted = t.toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit"
-        });
-        document.getElementById("messages").innerHTML +=
-          `<p class="read-receipt">Read ${formatted}</p>`;
-      }
+      document.getElementById("messages").innerHTML +=
+        `<p class="read-receipt">Read ${t}</p>`;
     }
   });
 
-  // TYPING LISTENER
+  // typing indicator
   onSnapshot(doc(db, "chats", chatId), (s) => {
     let d = s.data();
     document.getElementById("typingIndicator").style.display =
       d.typing && d.typing !== auth.currentUser.uid ? "flex" : "none";
   });
 }
-window.loadMessages = loadMessages;
 
 // ---------------------------------------------------------
-// SEND MESSAGE
-// ---------------------------------------------------------
 async function sendMessage() {
-  let input = document.getElementById("dmInput");
-  let text = input.value.trim();
+  const input = document.getElementById("dmInput");
+  const text = input.value.trim();
   if (!text) return;
 
   await addDoc(collection(db, "chats", currentChat, "messages"), {
@@ -199,15 +229,9 @@ async function sendMessage() {
 
   input.value = "";
 }
-window.sendMessage = sendMessage;
 
-// ---------------------------------------------------------
-// TYPING INDICATOR (real-time)
-// ---------------------------------------------------------
-document.getElementById("dmInput").addEventListener("input", () => {
-  setDoc(doc(db, "chats", currentChat), {
-    typing: auth.currentUser.uid
-  }, { merge: true });
+document.getElementById("dmInput")?.addEventListener("input", () => {
+  setDoc(doc(db, "chats", currentChat), { typing: auth.currentUser.uid }, { merge: true });
 
   clearTimeout(typingTimeout);
   typingTimeout = setTimeout(() => {
@@ -216,62 +240,66 @@ document.getElementById("dmInput").addEventListener("input", () => {
 });
 
 // ---------------------------------------------------------
-// IMAGE SENDING
-// ---------------------------------------------------------
 function openImagePicker() {
   document.getElementById("imgPicker").click();
 }
-window.openImagePicker = openImagePicker;
 
 async function sendImage(e) {
-  let file = e.target.files[0];
+  const file = e.target.files[0];
   if (!file) return;
 
-  let url = URL.createObjectURL(file);
+  const url = URL.createObjectURL(file);
 
   await addDoc(collection(db, "chats", currentChat, "messages"), {
-    from: auth.currentUser.uid,
     type: "image",
     imageURL: url,
+    from: auth.currentUser.uid,
     time: Date.now()
   });
 }
-window.sendImage = sendImage;
 
 // ---------------------------------------------------------
-// VOICE RECORDING
-// ---------------------------------------------------------
-let mediaRecorder;
-let audioChunks = [];
+let recorder;
+let chunks = [];
 
 async function startRecording() {
-  let stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-  mediaRecorder = new MediaRecorder(stream);
-  audioChunks = [];
-  mediaRecorder.start();
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  recorder = new MediaRecorder(stream);
 
-  mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+  chunks = [];
+  recorder.start();
 
-  mediaRecorder.onstop = async () => {
-    let blob = new Blob(audioChunks, { type: "audio/mp3" });
-    let url = URL.createObjectURL(blob);
+  recorder.ondataavailable = e => chunks.push(e.data);
+
+  recorder.onstop = async () => {
+    const blob = new Blob(chunks, { type: "audio/mp3" });
+    const url = URL.createObjectURL(blob);
 
     await addDoc(collection(db, "chats", currentChat, "messages"), {
-      from: auth.currentUser.uid,
       type: "audio",
       audioURL: url,
+      from: auth.currentUser.uid,
       time: Date.now()
     });
   };
 
-  setTimeout(() => mediaRecorder.stop(), 4000);
+  setTimeout(() => recorder.stop(), 4000);
 }
-window.startRecording = startRecording;
 
 // ---------------------------------------------------------
-// REACTIONS
-// ---------------------------------------------------------
-window.sendReaction = async function (emoji) {
+function showReactionMenu(e, id) {
+  selectedMsgId = id;
+  const menu = document.getElementById("reactionMenu");
+  menu.style.left = e.pageX + "px";
+  menu.style.top = e.pageY - 40 + "px";
+  menu.style.display = "flex";
+}
+
+function hideReactionMenu() {
+  document.getElementById("reactionMenu").style.display = "none";
+}
+
+async function sendReaction(emoji) {
   if (!selectedMsgId) return;
 
   await setDoc(
@@ -281,27 +309,11 @@ window.sendReaction = async function (emoji) {
   );
 
   hideReactionMenu();
-};
-
-function showReactionMenu(e, msgId) {
-  selectedMsgId = msgId;
-  const menu = document.getElementById("reactionMenu");
-  menu.style.left = e.pageX + "px";
-  menu.style.top = e.pageY - 40 + "px";
-  menu.style.display = "flex";
 }
-window.showReactionMenu = showReactionMenu;
-
-function hideReactionMenu() {
-  document.getElementById("reactionMenu").style.display = "none";
-}
-window.hideReactionMenu = hideReactionMenu;
 
 // ---------------------------------------------------------
-// SWIPE TO REPLY
-// ---------------------------------------------------------
-window.swipeToReply = function (text) {
-  let input = document.getElementById("dmInput");
+function swipeToReply(text) {
+  const input = document.getElementById("dmInput");
   input.value = `↩️ ${text}\n`;
   input.focus();
-};
+}
