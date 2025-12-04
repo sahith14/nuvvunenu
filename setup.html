@@ -65,6 +65,13 @@
         return;
       }
 
+      const s1 = username + "_" + Math.floor(Math.random() * 90 + 10);
+      const s2 = username + Math.floor(Math.random() * 900 + 100);
+      const s3 = username + "_official";
+
+      alert("Try one of these:\n" + s1 + "\n" + s2 + "\n" + s3);
+      return;
+      
       const uid = auth.currentUser.uid;
 
       await setDoc(doc(db, "users", uid), {
