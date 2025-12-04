@@ -97,10 +97,40 @@ window.openChat = async function(chatId, otherUID) {
     <p>@${other.username}</p>
   `;
 
+  // ONLINE DOT UPDATE
+  let dot = document.getElementById("onlineDot");
+  if (u.online) {
+    dot.style.background = "#00ff00";   // green
+  } else {
+    dot.style.background = "#777";      // grey  
+  }
+
+  // MARK CHAT AS SEEN
+  await setDoc(doc(db, "chats", currentChat), {
+    seenBy: auth.currentUser.uid
+  }, { merge: true });
+
   loadMessages(chatId);
   window.currentChat = chatId;
   window.currentOther = otherUID;
 };
+
+
+/*=========handletyping========*/
+
+function handleTyping() {
+  setDoc(doc(db, "chats", currentChat), {
+    typing: auth.currentUser.uid
+  }, { merge: true });
+
+  clearTimeout(typingTimeout);
+  typingTimeout = setTimeout(() => {
+    setDoc(doc(db, "chats", currentChat), { typing: "" }, { merge: true });
+  }, 1200);
+}
+
+document.getElementById("dmInput").addEventListener("input", handleTyping);
+
 
 // --------------------------------------------------------
 // LOAD MESSAGES REALTIME
@@ -116,11 +146,24 @@ function loadMessages(chatId) {
     snap.forEach(doc => {
       let msg = doc.data();
 
+      let seen = chat.seenBy === currentPartner;
       html += `
-        <div class="msg ${msg.sender === auth.currentUser.uid ? 'me' : 'them'}">
-          <p>${msg.text}</p>
+        <div class="msg me">
+          ${data.text}
+          <span class="tick">${seen ? "✓✓" : "✓"}</span>
         </div>
       `;
+    });
+
+    // TYPING INDICATOR LISTENER
+    const chatRef = doc(db, "chats", chatId);
+    onSnapshot(chatRef, (cSnap) => {
+      let c = cSnap.data();
+      if (c.typing && c.typing !== auth.currentUser.uid) {
+        document.getElementById("typingIndicator").style.display = "block";
+      } else {
+        document.getElementById("typingIndicator").style.display = "none";
+      }
     });
 
     box.innerHTML = html;
