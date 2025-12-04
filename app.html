@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Nuvvu Nenu</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body id="app">
+  
+  <div id="page"></div>
+
+  <nav class="desktop-nav">
+      <button onclick="loadPage('feed')" id="nav-feed-desktop"><i class="fas fa-home"></i> <span>Feed</span></button>
+      <button onclick="loadPage('search')" id="nav-search-desktop"><i class="fas fa-search"></i> <span>Search</span></button>
+      <button onclick="loadPage('messages')" id="nav-messages-desktop"><i class="fas fa-envelope"></i> <span>DMs</span></button>
+      <button onclick="loadPage('partner')" id="nav-partner-desktop"><i class="fas fa-heart"></i> <span>Partner</span></button>
+      <button onclick="loadPage('space')" id="nav-space-desktop"><i class="fas fa-star"></i> <span>Space</span></button>
+      <button onclick="loadPage('profile')" id="nav-profile-desktop"><i class="fas fa-user"></i> <span>Profile</span></button>
+  </nav>
+
+  <nav class="bottom-nav">
+    <button id="nav-feed" onclick="loadPage('feed')"><i class="fas fa-home"></i></button>
+    <button id="nav-search" onclick="loadPage('search')"><i class="fas fa-search"></i></button>
+    <button id="nav-messages" onclick="loadPage('messages')"><i class="fas fa-envelope"></i></button>
+    <button id="nav-partner" onclick="loadPage('partner')"><i class="fas fa-heart"></i></button>
+    <button id="nav-space" onclick="loadPage('space')"><i class="fas fa-star"></i></button>
+    <button id="nav-profile" onclick="loadPage('profile')"><i class="fas fa-user"></i></button>
+  </nav>
+
+
+
+  <div id="animatedThemeLayer" class="animated-theme hidden">
+    <div class="love-particle"></div>
+    <div class="love-particle"></div>
+    <div class="love-particle"></div>
+    <div class="love-particle"></div>
+    <div class="love-particle"></div>
+  </div>
+  
+  <script type="module" src="firebase.js"></script>
+  <script type="module" src="app.js"></script>
+
+</body>
+</html>
