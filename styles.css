@@ -1080,6 +1080,22 @@ button {
   box-shadow: 0 0 25px rgba(150, 70, 255, 0.4);
 }
 
+/* Make sidebar fixed */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 240px; /* adjust to your button width */
+  height: 100vh;
+  z-index: 10;
+}
+
+/* Shift main content to the right */
+.main-content {
+  margin-left: 260px; /* little more than sidebar width */
+  padding: 20px;
+}
+
 /**********************************************
     THEME 1 — APPLE VISIONOS PURPLE (DEFAULT)
 ***********************************************/
