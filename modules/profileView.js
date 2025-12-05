@@ -1,5 +1,5 @@
 // =======================================================
-// profileView.js — VisionOS Premium Profile Page
+// profileView.js — Instagram Style Tabs + Vision Header
 // =======================================================
 
 import {
@@ -31,9 +31,11 @@ export function render(uid) {
       <!-- Profile Header -->
       <div id="pvHeader" class="vision-header glass-card"></div>
 
+      <!-- Instagram-style tabs -->
+      <div id="pvTabs" class="pv-tabs-instagram"></div>
+
       <!-- Dynamic Content -->
       <div id="pvContent" class="vision-content-area">Loading…</div>
-
 
       <!-- Fullscreen Post Modal -->
       <div id="postModal" class="vision-post-modal hidden">
@@ -44,6 +46,7 @@ export function render(uid) {
     </div>
   `;
 }
+
 
 
 // LOAD PROFILE DATA
@@ -58,6 +61,7 @@ async function loadProfile(uid) {
   const followsYou = u.following?.includes(me);
   const isFollowing = u.followers?.includes(me);
 
+  // Render profile header
   document.getElementById("pvHeader").innerHTML = `
     <div class="profile-header-box">
       <img src="${u.avatar}" class="pv-avatar">
@@ -84,21 +88,49 @@ async function loadProfile(uid) {
     </div>
   `;
 
-  // Default tab = posts
+  // Render Instagram-style tabs
+  renderTabs();
+
+  // Default tab
   loadPosts(uid);
 }
 
 
 
-// SWITCH TABS
+// RENDER INSTAGRAM STYLE TABS
+// -------------------------------------------------------
+function renderTabs() {
+  document.getElementById("pvTabs").innerHTML = `
+    <div class="tl-nav">
+      <div class="tl-tab active" onclick="switchPVTab('posts')">Posts</div>
+      <div class="tl-tab" onclick="switchPVTab('timeline')">Timeline</div>
+      <div class="tl-tab" onclick="switchPVTab('stories')">Stories</div>
+      <div class="tl-tab" onclick="switchPVTab('shared')">Shared</div>
+      <div class="tl-tab" onclick="switchPVTab('badges')">Badges</div>
+
+      <div id="tl-main-underline"></div>
+    </div>
+  `;
+}
+
+
+
+// SWITCH TABS (Instagram style)
 // -------------------------------------------------------
 window.switchPVTab = function (tab) {
-  document.querySelectorAll(".vision-tabs button")
-    .forEach(b => b.classList.remove("active"));
-  document.getElementById(`tab-${tab}`).classList.add("active");
-
   const uid = window.lastPVUID;
 
+  // underline animation order
+  const order = ["posts", "timeline", "stories", "shared", "badges"];
+  const index = order.indexOf(tab);
+
+  document.getElementById("tl-main-underline").style.left = (index * 20) + "%";
+
+  // update active tab
+  document.querySelectorAll(".tl-tab").forEach(t => t.classList.remove("active"));
+  document.querySelector(`[onclick="switchPVTab('${tab}')"]`).classList.add("active");
+
+  // load content
   if (tab === "stories") renderStories(uid);
   if (tab === "timeline") renderTimeline(uid);
   if (tab === "posts") loadPosts(uid);
@@ -167,7 +199,6 @@ window.toggleFollow = async function (uid) {
 
 
 // OPEN DM
-// -------------------------------------------------------
 window.openDM = function (uid) {
   loadPage("messages", uid);
 };
@@ -175,7 +206,6 @@ window.openDM = function (uid) {
 
 
 // POST MODAL
-// -------------------------------------------------------
 window.openPostModal = function (img) {
   const modal = document.getElementById("postModal");
   const image = document.getElementById("modalImage");
