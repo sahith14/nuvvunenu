@@ -1,100 +1,123 @@
+// ===============================
+// profileView.js — View Other Users' Profiles
+// ===============================
+
 import {
   doc,
   getDoc,
   collection,
-  query,
-  where,
-  getDocs,
-  updateDoc,
-  arrayUnion,
-  arrayRemove
+  getDocs
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 import { auth, db } from "../firebase.js";
 
-let openedUid = null;
-
+// MAIN RENDER FUNCTION
+// -------------------------------
 export function render(uid) {
-  openedUid = uid;
+  if (!uid) {
+    return `<p style="padding:20px;">Error: No user selected.</p>`;
+  }
+
+  // Load profile data AFTER render
+  setTimeout(() => loadProfile(uid), 50);
 
   return `
     <div class="profile-page">
-
-      <div id="pv-header"></div>
-
-      <div id="pv-posts" class="pv-post-grid"></div>
-
+      <div id="pvContent">Loading profile...</div>
     </div>
   `;
 }
 
-export async function init(uid) {
-  openedUid = uid;
-
+// LOAD USER PROFILE
+// -------------------------------
+async function loadProfile(uid) {
   const ref = doc(db, "users", uid);
   const snap = await getDoc(ref);
+
+  if (!snap.exists()) {
+    document.getElementById("pvContent").innerHTML =
+      "<p>User not found.</p>";
+    return;
+  }
+
   const u = snap.data();
 
-  const me = auth.currentUser.uid;
+  // FOLLOW BUTTON TEXT
+  const myUID = auth.currentUser.uid;
+  const isFollowing = u.followers?.includes(myUID);
 
-  const following = snap.data().followers.includes(me);
-  const followText = following ? "Following" : "Follow";
-
-  document.getElementById("pv-header").innerHTML = `
+  // RENDER PROFILE INFO
+  document.getElementById("pvContent").innerHTML = `
     <div class="pv-top">
-      <img src="${u.avatar}" class="pv-avatar">
+      <img class="pv-avatar" src="${u.avatar || 'https://i.pravatar.cc/200'}">
 
-      <div class="pv-info">
-        <h2>${u.name}</h2>
+      <div>
+        <h2>${u.name || "Unnamed"}</h2>
         <p>@${u.username}</p>
 
         <div class="pv-buttons">
-          <button onclick="toggleFollow('${u.uid}')">${followText}</button>
-          <button onclick="openChatWith('${u.uid}')">Message</button>
+          <button onclick="openDM('${uid}')">Message</button>
+
+          <button id="followBtnPV" onclick="toggleFollow('${uid}')">
+            ${isFollowing ? "Following" : "Follow"}
+          </button>
         </div>
       </div>
     </div>
+
+    <div class="pv-stats">
+      <p><strong>${u.followers?.length || 0}</strong> Followers</p>
+      <p><strong>${u.following?.length || 0}</strong> Following</p>
+    </div>
+
+    <h3 style="margin-top:20px;">Posts</h3>
+    <div class="pv-post-grid" id="pvPosts"></div>
   `;
 
-  // Load posts
-  const q = query(collection(db, "posts"), where("uid", "==", uid));
-  const snaps = await getDocs(q);
+  loadUserPosts(uid);
+}
+
+// LOAD USER POSTS (GRID)
+// -------------------------------
+async function loadUserPosts(uid) {
+  const postsRef = collection(db, "users", uid, "posts");
+  const snap = await getDocs(postsRef);
+
+  if (snap.empty) {
+    document.getElementById("pvPosts").innerHTML =
+      "<p style='opacity:0.6;'>No posts yet.</p>";
+    return;
+  }
 
   let html = "";
-  snaps.forEach((p) => {
-    const post = p.data();
+  snap.forEach((doc) => {
+    const p = doc.data();
     html += `
       <div class="pv-post">
-        <img src="${post.img}">
+        <img src="${p.img}" onclick="openPost('${doc.id}', '${uid}')">
       </div>
     `;
   });
 
-  document.getElementById("pv-posts").innerHTML = html;
+  document.getElementById("pvPosts").innerHTML = html;
 }
 
-window.toggleFollow = async function(targetUid) {
-  const me = auth.currentUser.uid;
-  const myRef = doc(db, "users", me);
-  const targetRef = doc(db, "users", targetUid);
-
-  const meSnap = await getDoc(myRef);
-  const iFollow = meSnap.data().following.includes(targetUid);
-
-  if (iFollow) {
-    await updateDoc(myRef, { following: arrayRemove(targetUid) });
-    await updateDoc(targetRef, { followers: arrayRemove(me) });
-  } else {
-    await updateDoc(myRef, { following: arrayUnion(targetUid) });
-    await updateDoc(targetRef, { followers: arrayUnion(me) });
-  }
-
-  loadPage("profileView", targetUid);
+// OPEN DM WITH THIS USER
+// -------------------------------
+window.openDM = function (uid) {
+  loadPage("messages", uid);
 };
 
-window.openChatWith = function(uid) {
-  loadPage("messages");
-  setTimeout(() => {
-    window.startChatWith(uid);
-  }, 400);
+// FOLLOW / UNFOLLOW BUTTON UPDATE
+// -------------------------------
+window.updateFollowButtonPV = function (isFollowing) {
+  const btn = document.getElementById("followBtnPV");
+  if (!btn) return;
+
+  btn.textContent = isFollowing ? "Following" : "Follow";
+};
+
+// OPTIONAL: OPEN SINGLE POST VIEW
+window.openPost = function (postId, uid) {
+  alert(`Post view coming soon!\nPost: ${postId}\nUser: ${uid}`);
 };
