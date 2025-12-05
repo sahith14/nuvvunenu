@@ -2378,3 +2378,95 @@ html {
 .shared-view img {
   border-radius: 16px;
 }
+
+/* ============================== */
+/* VisionOS Story Viewer */
+/* ============================== */
+
+.vision-story-modal {
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(20px) brightness(0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn .25s ease-out;
+  z-index: 2000;
+}
+
+.vision-story-modal.fade-out {
+  animation: fadeOut .25s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0;}
+  to { opacity: 1;}
+}
+
+@keyframes fadeOut {
+  from { opacity: 1;}
+  to { opacity: 0;}
+}
+
+/* Floating glass panel */
+.vision-story-glass {
+  width: 82vw;
+  height: 82vh;
+  max-width: 420px;
+  max-height: 720px;
+  background: rgba(255,255,255,0.20);
+  border-radius: 32px;
+  backdrop-filter: blur(30px) saturate(180%);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  position: relative;
+  overflow: hidden;
+  animation: popIn .25s ease-out;
+}
+
+@keyframes popIn {
+  from { transform: scale(.92); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Story Image */
+#storyMainImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 32px;
+}
+
+/* Progress bar */
+.story-progress-bar {
+  position: absolute;
+  top: 12px;
+  left: 4%;
+  width: 92%;
+  height: 4px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 10px;
+}
+
+#storyProgressFill {
+  width: 0%;
+  height: 100%;
+  background: white;
+  border-radius: 10px;
+}
+
+/* Story strip */
+.story-strip {
+  display: flex;
+  gap: 12px;
+  padding: 10px;
+  overflow-x: auto;
+}
+
+.story-item img {
+  width: 90px;
+  height: 90px;
+  border-radius: 22px;
+  border: 3px solid rgba(255,255,255,0.45);
+  object-fit: cover;
+}
+
