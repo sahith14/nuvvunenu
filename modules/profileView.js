@@ -120,6 +120,15 @@ function renderTabs() {
 window.switchPVTab = function (tab) {
   const uid = window.lastPVUID;
 
+  // underline movement
+  const order = ["posts", "timeline", "stories", "shared", "badges"];  
+  document.getElementById("tl-main-underline").style.left =
+    (order.indexOf(tab) * 20) + "%";
+
+  // update active style
+  document.querySelectorAll(".tl-tab").forEach(t => t.classList.remove("active"));
+  document.querySelector(`[onclick="switchPVTab('${tab}')"]`).classList.add("active");
+
   // underline animation order
   const order = ["posts", "timeline", "stories", "shared", "badges"];
   const index = order.indexOf(tab);
