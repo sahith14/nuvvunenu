@@ -30,21 +30,34 @@ export function renderTimeline(uid) {
   loadTimeline(uid);
 }
 
-
-
 // GLOBAL FILTER STATE
 let timelineData = [];
 let currentFilter = "all";
 
-window.setTimelineFilter = function (type) {
+window.setTimelineFilter = function(type) {
   currentFilter = type;
 
-  document.querySelectorAll(".tl-btn").forEach(b => b.classList.remove("active"));
-  document.querySelector(`[onclick="setTimelineFilter('${type}')"]`).classList.add("active");
+  // update active class
+  document.querySelectorAll(".tl-tab")
+    .forEach(t => t.classList.remove("active"));
+
+  document.querySelector(`[onclick="setTimelineFilter('${type}')"]`)
+    .classList.add("active");
+
+  // move underline
+  const indexMap = {
+    all: 0,
+    post: 1,
+    follow: 2,
+    badge: 3,
+    share: 4
+  };
+
+  document.getElementById("tl-underline").style.left =
+    (indexMap[type] * 20) + "%";
 
   renderTimelineItems();
 };
-
 
 // LOAD TIMELINE DATA
 async function loadTimeline(uid) {
