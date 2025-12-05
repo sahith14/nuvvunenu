@@ -2103,3 +2103,180 @@ html {
   }
 }
 
+/* =====================================
+   VISIONOS PROFILE UI — Premium Look
+=====================================*/
+
+.vision-profile-page {
+  padding: 20px;
+}
+
+.glass-card {
+  background: rgba(255,255,255,0.35);
+  backdrop-filter: blur(25px) saturate(180%);
+  padding: 25px;
+  border-radius: 28px;
+  text-align: center;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+  animation: softFade 0.6s ease;
+}
+
+@keyframes softFade {
+  from { opacity: 0; transform: scale(.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Avatar Ring */
+.vision-avatar-box {
+  position: relative;
+  display: inline-block;
+}
+
+.vision-avatar-ring {
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #cba5ff, #ae74ff);
+  padding: 3px;
+}
+
+.vision-avatar {
+  width: 122px;
+  height: 122px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Name / Username */
+.vision-name {
+  font-size: 1.5rem;
+  margin-top: 10px;
+}
+
+.vision-username {
+  opacity: 0.7;
+  margin-top: 4px;
+}
+
+/* Follow Status */
+.follow-status {
+  font-size: 0.85rem;
+  margin-top: 6px;
+  color: #7a61ff;
+}
+
+.follow-status.both {
+  color: #a23eff;
+  font-weight: bold;
+}
+
+/* Stats Row */
+.vision-stats-row {
+  display: flex;
+  justify-content: space-around;
+  margin: 18px 0;
+}
+
+.vision-stats-row div {
+  text-align: center;
+}
+
+.vision-stats-row span {
+  display: block;
+  opacity: 0.65;
+}
+
+/* Buttons */
+.vision-btn-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.vision-btn {
+  border: none;
+  padding: 10px 18px;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(14px);
+  transition: 0.25s;
+}
+
+.vision-btn.follow {
+  background: #9b6cff;
+  color: white;
+}
+
+.vision-btn.message {
+  background: rgba(255,255,255,0.4);
+}
+
+.vision-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Bio */
+.vision-bio {
+  margin-top: 14px;
+  font-size: 0.95rem;
+}
+
+/* Link */
+.vision-link {
+  display: block;
+  margin-top: 10px;
+  color: #6b4cff;
+}
+
+/* Post Grid */
+.vision-post-grid {
+  margin-top: 25px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.vision-post-thumb {
+  width: 100%;
+  height: 115px;
+  border-radius: 12px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.vision-post-thumb:hover {
+  transform: scale(1.05);
+}
+
+/* Post Modal */
+.vision-post-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(12px);
+}
+
+.vision-post-modal.hidden {
+  display: none;
+}
+
+.modal-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  font-size: 2rem;
+  cursor: pointer;
+  color: white;
+}
+
+#modalImage {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 20px;
+}
