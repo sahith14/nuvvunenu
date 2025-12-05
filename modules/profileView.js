@@ -32,7 +32,7 @@ export function render(uid) {
       <div id="pvHeader" class="vision-header glass-card"></div>
 
       <!-- Instagram-style tabs -->
-      <div id="" class="pv-tabs-instagram"></div>
+      <div id="pvTabs" class="pv-tabs-instagram"></div>
 
       <!-- Dynamic Content -->
       <div id="pvContent" class="vision-content-area">Loading…</div>
@@ -116,37 +116,28 @@ function renderTabs() {
 
 
 // SWITCH TABS (Instagram style)
-// -------------------------------------------------------
 window.switchPVTab = function (tab) {
   const uid = window.lastPVUID;
 
-  // underline movement
-  const order = ["posts", "timeline", "stories", "shared", "badges"];  
-  document.getElementById("tl-main-underline").style.left =
-    (order.indexOf(tab) * 20) + "%";
-
-  // update active style
-  document.querySelectorAll(".tl-tab").forEach(t => t.classList.remove("active"));
-  document.querySelector(`[onclick="switchPVTab('${tab}')"]`).classList.add("active");
-
-  // underline animation order
+  const order = ["posts", "timeline", "stories", "shared", "badges"];
   const index = order.indexOf(tab);
 
+  // Move underline smoothly
   document.getElementById("tl-main-underline").style.left = (index * 20) + "%";
 
-  // update active tab
+  // Update active tab
   document.querySelectorAll(".tl-tab").forEach(t => t.classList.remove("active"));
-  document.querySelector(`[onclick="switchPVTab('${tab}')"]`).classList.add("active");
+  document
+    .querySelector(`[onclick="switchPVTab('${tab}')"]`)
+    .classList.add("active");
 
-  // load content
+  // Load sections
   if (tab === "stories") renderStories(uid);
   if (tab === "timeline") renderTimeline(uid);
   if (tab === "posts") loadPosts(uid);
   if (tab === "shared") renderSharedPosts(uid);
   if (tab === "badges") renderBadges(uid);
 };
-
-
 
 // LOAD POSTS GRID
 // -------------------------------------------------------
