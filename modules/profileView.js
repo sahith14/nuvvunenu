@@ -32,7 +32,7 @@ export function render(uid) {
       <div id="pvHeader" class="vision-header glass-card"></div>
 
       <!-- Instagram-style tabs -->
-      <div id="pvTabs" class="pv-tabs-instagram"></div>
+      <div id="" class="pv-tabs-instagram"></div>
 
       <!-- Dynamic Content -->
       <div id="pvContent" class="vision-content-area">Loading…</div>
