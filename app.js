@@ -146,28 +146,17 @@ window.signUp = async function () {
 window.loadPage = (p, param = null) => {
   const page = document.getElementById("content");
 
-  // remove animation classes
-  page.classList.remove("page-enter", "page-enter-active");
-  void page.offsetWidth;
-
-  // render module page WITH PARAM support
+  // render module page WITH param (uid)
   page.innerHTML = pages[p].render(param);
 
-  // init if exists
+  // run init if exists
   if (pages[p].init) pages[p].init(param);
 
-  // page animation
-  page.classList.add("page-enter");
-  requestAnimationFrame(() => {
-    page.classList.add("page-enter-active");
-  });
-
-  // reset nav active state
+  // update nav active state
   document
     .querySelectorAll(".bottom-nav button, .desktop-nav button, .vision-nav button")
     .forEach(btn => btn.classList.remove("active"));
 
-  // activate correct nav item
   document.getElementById(`nav-${p}`)?.classList.add("active");
 };
 
