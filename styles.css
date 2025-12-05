@@ -2280,3 +2280,45 @@ html {
   max-height: 90%;
   border-radius: 20px;
 }
+
+/* Floating VisionOS Horizontal Tab Bar */
+.vision-tabs {
+  position: sticky;
+  top: 55px; /* right under top nav */
+  z-index: 50;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  padding: 12px;
+}
+
+.glass-bar {
+  backdrop-filter: blur(25px) saturate(180%);
+  background: rgba(255,255,255,0.35);
+  border-radius: 18px;
+  padding: 10px 14px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+}
+
+.vision-tabs button {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  border: none;
+  background: transparent;
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: 14px;
+  font-size: 0.9rem;
+  transition: 0.2s;
+}
+
+.vision-tabs button i {
+  font-size: 1rem;
+}
+
+.vision-tabs .active {
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(30px);
+  box-shadow: 0 0 15px rgba(255,255,255,0.4);
+}
