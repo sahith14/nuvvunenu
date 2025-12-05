@@ -2077,3 +2077,29 @@ html {
   margin-right: auto;
   max-width: 750px; /* keeps it centered */
 }
+
+/* Smooth animation for layout shifting */
+.feed-container {
+  transition: margin-left 0.35s ease, max-width 0.35s ease;
+}
+
+/* Default: Sidebar visible (desktop size) */
+.feed-container {
+  margin-left: 260px;   /* space for sidebar */
+  max-width: 750px;
+}
+
+/* When screen width is below 900px — center feed */
+@media (max-width: 900px) {
+  .feed-container {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    max-width: 600px;
+  }
+
+  /* Optional: hide sidebar on smaller screens */
+  .sidebar {
+    display: none;
+  }
+}
+
