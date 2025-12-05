@@ -1,6 +1,6 @@
-// ====================================================
-// sharedPosts.js — VisionOS Shared Posts (Mutual only)
-// ====================================================
+// ==========================================================
+// sharedPosts.js — VisionOS Mutual Shared Posts
+// ==========================================================
 
 import {
   collection,
@@ -9,39 +9,33 @@ import {
 
 import { db } from "../firebase.js";
 
-
-// MAIN RENDER
 export function renderSharedPosts(uid) {
   document.getElementById("pvContent").innerHTML = `
-    <div class="shared-view">
-      <h2 class="section-title">Shared Posts</h2>
-      <div id="sharedGrid" class="pv-post-grid"></div>
-    </div>
+    <h2 class="section-title">Shared Posts</h2>
+    <div id="sharedGrid" class="pv-post-grid"></div>
   `;
 
   loadShared(uid);
 }
 
-
-// LOAD SHARED POSTS
 async function loadShared(uid) {
   const ref = collection(db, "users", uid, "sharedPosts");
   const snap = await getDocs(ref);
 
   if (snap.empty) {
     document.getElementById("sharedGrid").innerHTML =
-      `<p style="text-align:center;opacity:0.6;">No shared posts yet.</p>`;
+      `<p style="opacity:0.6;text-align:center;">Nothing shared yet.</p>`;
     return;
   }
 
   let html = "";
 
   snap.forEach(doc => {
-    const p = doc.data();
-
+    const s = doc.data();
     html += `
-      <div class="pv-post-item" onclick="openPostModal('${p.img}')">
-        <img src="${p.img}">
+      <div class="pv-post-item">
+        <img src="${s.img}" onclick="openPostModal('${s.img}')">
+        <p class="shared-tag">Shared with you</p>
       </div>
     `;
   });
