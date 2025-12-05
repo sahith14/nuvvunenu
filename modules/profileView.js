@@ -23,21 +23,33 @@ import { renderSharedPosts } from "./sharedPosts.js";
 // MAIN PAGE RENDER
 // -------------------------------------------------------
 export function render(uid) {
+
+  // 🔥 UID validation FIRST — prevents crashes
+  if (!uid) {
+    console.error("❌ profileView ERROR — UID missing");
+    return `<p style="color:red;text-align:center;">Profile not found</p>`;
+  }
+
+  // store UID globally for tabs
+  window.lastPVUID = uid;
+
+  // load data after render
   setTimeout(() => loadProfile(uid), 25);
 
+  // RETURN FULL PAGE STRUCTURE
   return `
     <div class="vision-profile-main">
 
-      <!-- Profile Header -->
+      <!-- Header Section -->
       <div id="pvHeader" class="vision-header glass-card"></div>
 
-      <!-- Instagram-style tabs -->
+      <!-- Instagram-style Tabs -->
       <div id="pvTabs" class="pv-tabs-instagram"></div>
 
-      <!-- Dynamic Content -->
+      <!-- Dynamic Content Area -->
       <div id="pvContent" class="vision-content-area">Loading…</div>
 
-      <!-- Fullscreen Post Modal -->
+      <!-- Modal for posts -->
       <div id="postModal" class="vision-post-modal hidden">
         <span class="modal-close" onclick="closePostModal()">×</span>
         <img id="modalImage">
@@ -46,7 +58,6 @@ export function render(uid) {
     </div>
   `;
 }
-
 
 
 // LOAD PROFILE DATA
