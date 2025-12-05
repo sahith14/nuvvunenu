@@ -2607,3 +2607,38 @@ html {
 .timeline-container {
   margin-top: 10px;
 }
+
+/* Instagram-style timeline tabs */
+.timeline-tabs-instagram {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 0 20px 0;
+  position: relative;
+}
+
+.tl-tab {
+  padding: 10px 0;
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.6);
+  cursor: pointer;
+  flex: 1;
+  text-align: center;
+  position: relative;
+  font-weight: 500;
+}
+
+.tl-tab.active {
+  color: white;
+}
+
+/* Underline indicator */
+#tl-underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 20%;
+  background: white;
+  border-radius: 10px;
+  transition: 0.25s ease;
+}
