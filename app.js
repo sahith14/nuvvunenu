@@ -229,5 +229,17 @@ function animateShare(btn) {
   btn.classList.add("share-animate");
 }
 
+function toggleSidebar() {
+  const body = document.body;
+
+  if (body.classList.contains("sidebar-open")) {
+    body.classList.remove("sidebar-open");
+    body.classList.add("sidebar-closed");
+  } else {
+    body.classList.remove("sidebar-closed");
+    body.classList.add("sidebar-open");
+  }
+}
+
 
 setTimeout(addLiquidPhysicsOnce, 1500);
