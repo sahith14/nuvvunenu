@@ -28,25 +28,6 @@ export function render(uid) {
   return `
     <div class="vision-profile-main">
 
-      <!-- Floating Glass Tabs -->
-      <div class="vision-tabs glass-bar" id="visionTabs">
-        <button onclick="switchPVTab('stories')" id="tab-stories">
-          <i class="fa-solid fa-book-open"></i><span>Stories</span>
-        </button>
-        <button onclick="switchPVTab('timeline')" id="tab-timeline">
-          <i class="fa-solid fa-clock"></i><span>Timeline</span>
-        </button>
-        <button onclick="switchPVTab('posts')" id="tab-posts" class="active">
-          <i class="fa-solid fa-image"></i><span>Posts</span>
-        </button>
-        <button onclick="switchPVTab('shared')" id="tab-shared">
-          <i class="fa-solid fa-user-group"></i><span>Shared</span>
-        </button>
-        <button onclick="switchPVTab('badges')" id="tab-badges">
-          <i class="fa-solid fa-trophy"></i><span>Badges</span>
-        </button>
-      </div>
-
       <!-- Profile Header -->
       <div id="pvHeader" class="vision-header glass-card"></div>
 
@@ -63,7 +44,6 @@ export function render(uid) {
     </div>
   `;
 }
-
 
 
 // LOAD PROFILE DATA
