@@ -2044,3 +2044,8 @@ html {
   box-shadow: none !important;
 }
 
+/* Make space for the left sidebar */
+.feed-container {
+  margin-left: 260px; /* same width or slightly more than your sidebar */
+  padding: 20px;
+}
