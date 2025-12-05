@@ -2544,3 +2544,21 @@ html {
   text-align: center;
   margin-top: 4px;
 }
+
+.vision-header {
+  background: linear-gradient(180deg, rgba(255,255,255,0.3), transparent);
+  backdrop-filter: blur(20px);
+  padding: 30px;
+  border-radius: 35px;
+  margin-bottom: 18px;
+  animation: fade-in .4s ease;
+}
+
+/* Parallax Magic */
+.vision-profile-main {
+  perspective: 800px;
+}
+
+.vision-header:hover {
+  transform: translateZ(12px);
+}
