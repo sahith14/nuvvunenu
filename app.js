@@ -143,25 +143,20 @@ window.signUp = async function () {
 // ================================
 // PAGE LOADER — FIXED CLEAN VERSION
 // ================================
-window.loadPage = (p) => {
-  const page = document.getElementById("content"); // FIXED
+window.loadPage = (p, param = null) => {
+  const page = document.getElementById("content");
 
   // remove animation classes
   page.classList.remove("page-enter", "page-enter-active");
   void page.offsetWidth;
 
-  // render module page
-  page.innerHTML = pages[p].render();
+  // render module page WITH PARAM support
+  page.innerHTML = pages[p].render(param);
 
-  // initialize the page if needed
-  if (pages[p].init) pages[p].init();
+  // init if exists
+  if (pages[p].init) pages[p].init(param);
 
-  // re-enable double tap for feed
-  if (p === "feed" && window.enableDoubleTap) {
-    setTimeout(() => window.enableDoubleTap(), 50);
-  }
-
-  // animate transition
+  // page animation
   page.classList.add("page-enter");
   requestAnimationFrame(() => {
     page.classList.add("page-enter-active");
@@ -172,7 +167,7 @@ window.loadPage = (p) => {
     .querySelectorAll(".bottom-nav button, .desktop-nav button, .vision-nav button")
     .forEach(btn => btn.classList.remove("active"));
 
-  // activate correct nav buttons
+  // activate correct nav item
   document.getElementById(`nav-${p}`)?.classList.add("active");
 };
 
