@@ -130,7 +130,6 @@ window.switchPVTab = function (tab) {
   document.querySelector(`[onclick="switchPVTab('${tab}')"]`).classList.add("active");
 
   // underline animation order
-  const order = ["posts", "timeline", "stories", "shared", "badges"];
   const index = order.indexOf(tab);
 
   document.getElementById("tl-main-underline").style.left = (index * 20) + "%";
