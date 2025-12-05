@@ -1,6 +1,6 @@
-// ===============================================
+// =======================================================
 // profileView.js — VisionOS Premium Profile Page
-// ===============================================
+// =======================================================
 
 import {
   doc,
@@ -14,174 +14,188 @@ import {
 
 import { auth, db } from "../firebase.js";
 
-// MAIN RENDER
-// ----------------------------------------------------
+import { renderStories } from "./storyViewer.js";
+import { renderTimeline } from "./timeline.js";
+import { renderBadges } from "./badges.js";
+import { renderSharedPosts } from "./sharedPosts.js";
+
+
+// MAIN PAGE RENDER
+// -------------------------------------------------------
 export function render(uid) {
-  setTimeout(() => loadProfile(uid), 20);
+  setTimeout(() => loadProfile(uid), 25);
 
   return `
-    <div class="profileView vision-profile-page">
-      <div id="pvContent" class="fade-slow">Loading profile…</div>
+    <div class="vision-profile-main">
 
-      <!-- POST VIEWER MODAL -->
+      <!-- Floating Glass Tabs -->
+      <div class="vision-tabs glass-bar" id="visionTabs">
+        <button onclick="switchPVTab('stories')" id="tab-stories">
+          <i class="fa-solid fa-book-open"></i><span>Stories</span>
+        </button>
+        <button onclick="switchPVTab('timeline')" id="tab-timeline">
+          <i class="fa-solid fa-clock"></i><span>Timeline</span>
+        </button>
+        <button onclick="switchPVTab('posts')" id="tab-posts" class="active">
+          <i class="fa-solid fa-image"></i><span>Posts</span>
+        </button>
+        <button onclick="switchPVTab('shared')" id="tab-shared">
+          <i class="fa-solid fa-user-group"></i><span>Shared</span>
+        </button>
+        <button onclick="switchPVTab('badges')" id="tab-badges">
+          <i class="fa-solid fa-trophy"></i><span>Badges</span>
+        </button>
+      </div>
+
+      <!-- Profile Header -->
+      <div id="pvHeader" class="vision-header glass-card"></div>
+
+      <!-- Dynamic Content -->
+      <div id="pvContent" class="vision-content-area">Loading…</div>
+
+
+      <!-- Fullscreen Post Modal -->
       <div id="postModal" class="vision-post-modal hidden">
         <span class="modal-close" onclick="closePostModal()">×</span>
         <img id="modalImage">
       </div>
+
     </div>
   `;
 }
 
-// LOAD PROFILE DATA
-// ----------------------------------------------------
-async function loadProfile(uid) {
-  const ref = doc(db, "users", uid);
-  const snap = await getDoc(ref);
 
-  if (!snap.exists()) {
-    document.getElementById("pvContent").innerHTML = "<p>User not found.</p>";
-    return;
-  }
+
+// LOAD PROFILE DATA
+// -------------------------------------------------------
+async function loadProfile(uid) {
+  const snap = await getDoc(doc(db, "users", uid));
+  if (!snap.exists()) return;
 
   const u = snap.data();
   const me = auth.currentUser.uid;
 
-  const isFollowing = u.followers?.includes(me);
   const followsYou = u.following?.includes(me);
+  const isFollowing = u.followers?.includes(me);
 
-  const mutuals = (u.followers || []).filter(f => f !== me);
+  document.getElementById("pvHeader").innerHTML = `
+    <div class="profile-header-box">
+      <img src="${u.avatar}" class="pv-avatar">
 
-  // BUILD PROFILE HTML (VisionOS Style)
-  document.getElementById("pvContent").innerHTML = `
-    <div class="vision-profile-card glass-card">
+      <div class="pv-info">
+        <h2>${u.name}</h2>
+        <p class="pv-username">@${u.username}</p>
 
-      <!-- Avatar Section -->
-      <div class="vision-avatar-box">
-        <div class="vision-avatar-ring"></div>
-        <img src="${u.avatar}" class="vision-avatar">
+        ${
+          followsYou && isFollowing 
+            ? `<p class="pv-follow-status both">You follow each other</p>`
+            : followsYou
+              ? `<p class="pv-follow-status">Follows you</p>`
+              : ""
+        }
+
+        <div class="pv-btn-row">
+          <button class="pv-btn message" onclick="openDM('${uid}')">Message</button>
+          <button class="pv-btn follow" id="followBtnPV" onclick="toggleFollow('${uid}')">
+            ${isFollowing ? "Following" : "Follow"}
+          </button>
+        </div>
       </div>
-
-      <!-- Name, Username -->
-      <h2 class="vision-name">${u.name}</h2>
-      <p class="vision-username">@${u.username}</p>
-
-      ${
-        followsYou && isFollowing 
-          ? `<p class="follow-status both">You follow each other</p>`
-          : followsYou 
-            ? `<p class="follow-status">Follows you</p>` 
-            : ``
-      }
-
-      <!-- Stats Row -->
-      <div class="vision-stats-row">
-        <div><strong>${u.followers?.length || 0}</strong><span>Followers</span></div>
-        <div><strong>${u.following?.length || 0}</strong><span>Following</span></div>
-        <div><strong id="postCount">0</strong><span>Posts</span></div>
-      </div>
-
-      <!-- Buttons -->
-      <div class="vision-btn-row">
-        <button id="followBtnPV" class="vision-btn follow" onclick="toggleFollow('${uid}')">
-          ${isFollowing ? "Following" : "Follow"}
-        </button>
-        <button class="vision-btn message" onclick="openDM('${uid}')">
-          Message
-        </button>
-      </div>
-
-      <!-- Mutual Followers -->
-      ${
-        mutuals.length > 0
-          ? `<p class="mutuals">Mutuals: ${mutuals.length}</p>`
-          : ""
-      }
-
-      <!-- Bio -->
-      ${
-        u.bio
-          ? `<p class="vision-bio">${u.bio}</p>`
-          : `<p class="vision-bio" style="opacity:0.5;">No bio added</p>`
-      }
-
-      <!-- Link -->
-      ${
-        u.link
-          ? `<a href="${u.link}" target="_blank" class="vision-link">${u.link}</a>`
-          : ""
-      }
     </div>
-
-    <!-- Posts Grid -->
-    <div id="pvPosts" class="vision-post-grid"></div>
   `;
 
-  loadUserPosts(uid);
+  // Default tab = posts
+  loadPosts(uid);
 }
 
-// LOAD USER POSTS
-// ----------------------------------------------------
-async function loadUserPosts(uid) {
+
+
+// SWITCH TABS
+// -------------------------------------------------------
+window.switchPVTab = function (tab) {
+  document.querySelectorAll(".vision-tabs button")
+    .forEach(b => b.classList.remove("active"));
+  document.getElementById(`tab-${tab}`).classList.add("active");
+
+  const uid = window.lastPVUID;
+
+  if (tab === "stories") renderStories(uid);
+  if (tab === "timeline") renderTimeline(uid);
+  if (tab === "posts") loadPosts(uid);
+  if (tab === "shared") renderSharedPosts(uid);
+  if (tab === "badges") renderBadges(uid);
+};
+
+
+
+// LOAD POSTS GRID
+// -------------------------------------------------------
+async function loadPosts(uid) {
+  window.lastPVUID = uid;
+
   const postsRef = collection(db, "users", uid, "posts");
   const snap = await getDocs(postsRef);
 
-  const grid = document.getElementById("pvPosts");
-  const count = snap.size;
-  document.getElementById("postCount").textContent = count;
-
-  if (count === 0) {
-    grid.innerHTML = `<p style="opacity:0.6; text-align:center;">No posts yet.</p>`;
+  if (snap.empty) {
+    document.getElementById("pvContent").innerHTML =
+      `<p class="no-posts">No posts yet.</p>`;
     return;
   }
 
-  let html = "";
+  let html = `<div class="pv-post-grid">`;
 
-  snap.forEach((pDoc) => {
-    const p = pDoc.data();
+  snap.forEach(doc => {
+    const p = doc.data();
     html += `
-      <div class="vision-post" onclick="openPostModal('${p.img}')">
-        <img src="${p.img}" class="vision-post-thumb">
+      <div class="pv-post-item" onclick="openPostModal('${p.img}')">
+        <img src="${p.img}">
       </div>
     `;
   });
 
-  grid.innerHTML = html;
+  html += `</div>`;
+  document.getElementById("pvContent").innerHTML = html;
 }
 
-// OPEN DM
-// ----------------------------------------------------
-window.openDM = function (uid) {
-  loadPage("messages", uid);
-};
 
-// FOLLOW SYSTEM LINKED WITH search.js
-// ----------------------------------------------------
-window.toggleFollow = async function (targetUID) {
-  const myUID = auth.currentUser.uid;
 
-  const meRef = doc(db, "users", myUID);
-  const targetRef = doc(db, "users", targetUID);
+// FOLLOW SYSTEM
+// -------------------------------------------------------
+window.toggleFollow = async function (uid) {
+  const me = auth.currentUser.uid;
 
-  const meSnap = await getDoc(meRef);
-  const me = meSnap.data();
+  const meRef = doc(db, "users", me);
+  const targetRef = doc(db, "users", uid);
 
-  const isFollowing = me.following?.includes(targetUID);
+  const snap = await getDoc(meRef);
+  const meData = snap.data();
 
+  const isFollowing = meData.following?.includes(uid);
   const btn = document.getElementById("followBtnPV");
 
   if (isFollowing) {
     btn.textContent = "Follow";
-    await updateDoc(meRef, { following: arrayRemove(targetUID) });
-    await updateDoc(targetRef, { followers: arrayRemove(myUID) });
+    await updateDoc(meRef, { following: arrayRemove(uid) });
+    await updateDoc(targetRef, { followers: arrayRemove(me) });
   } else {
     btn.textContent = "Following";
-    await updateDoc(meRef, { following: arrayUnion(targetUID) });
-    await updateDoc(targetRef, { followers: arrayUnion(myUID) });
+    await updateDoc(meRef, { following: arrayUnion(uid) });
+    await updateDoc(targetRef, { followers: arrayUnion(me) });
   }
 };
 
-// POST MODAL VIEWER
-// ----------------------------------------------------
+
+
+// OPEN DM
+// -------------------------------------------------------
+window.openDM = function (uid) {
+  loadPage("messages", uid);
+};
+
+
+
+// POST MODAL
+// -------------------------------------------------------
 window.openPostModal = function (img) {
   const modal = document.getElementById("postModal");
   const image = document.getElementById("modalImage");
