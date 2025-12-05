@@ -189,6 +189,21 @@ button {
   padding-bottom: 80px;
 }
 
+/* Default — when screen is wide */
+.feed-container {
+  margin-left: 260px; /* space for sidebar */
+  max-width: 750px;
+}
+
+/* When screen width is below 900px — center the feed */
+@media (max-width: 900px) {
+  .feed-container {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    max-width: 600px;
+  }
+}
+
 /* STORIES STRIP — TRUE INSTAGRAM STYLE */
 /* INSTAGRAM STYLE STORIES */
 .stories-strip {
