@@ -15,17 +15,17 @@ export function renderTimeline(uid) {
   document.getElementById("pvContent").innerHTML = `
     <div class="timeline-container">
 
-      <div class="timeline-filters glass-bar">
-        <button onclick="setTimelineFilter('all')" class="tl-btn active">All</button>
-        <button onclick="setTimelineFilter('post')" class="tl-btn">Posts</button>
-        <button onclick="setTimelineFilter('follow')" class="tl-btn">Follows</button>
-        <button onclick="setTimelineFilter('badge')" class="tl-btn">Badges</button>
-        <button onclick="setTimelineFilter('share')" class="tl-btn">Shared</button>
+      <div class="timeline-tabs-instagram">
+        <div class="tl-tab active" onclick="setTimelineFilter('all')">All</div>
+        <div class="tl-tab" onclick="setTimelineFilter('post')">Posts</div>
+        <div class="tl-tab" onclick="setTimelineFilter('follow')">Follows</div>
+        <div class="tl-tab" onclick="setTimelineFilter('badge')">Badges</div>
+        <div class="tl-tab" onclick="setTimelineFilter('share')">Shared</div>
+        <div id="tl-underline"></div>
       </div>
 
-      <div id="timelineList" class="timeline-list"></div>
-    </div>
-  `;
+      <div id="timelineList"></div>
+    `;
 
   loadTimeline(uid);
 }
