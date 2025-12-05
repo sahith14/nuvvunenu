@@ -2562,3 +2562,48 @@ html {
 .vision-header:hover {
   transform: translateZ(12px);
 }
+
+/* ============================================
+   TIMELINE FILTER BAR (FIXED)
+   ============================================ */
+
+.timeline-filters {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  padding: 6px 10px;
+
+  /* SUBTLE GLASS (NOT same as main tabs) */
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 14px;
+
+  width: fit-content;
+  margin: 15px auto 20px auto;
+
+  /* remove heavy shadow so it doesn’t look like main bar */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+}
+
+.tl-btn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: rgba(255,255,255,0.8);
+  transition: 0.20s ease;
+}
+
+/* ACTIVE TIMELINE FILTER */
+.tl-btn.active {
+  background: rgba(255,255,255,0.35);
+  color: #fff;
+  box-shadow: 0 0 8px rgba(255,255,255,0.35);
+}
+
+/* Make it visually smaller than main nav */
+.timeline-container {
+  margin-top: 10px;
+}
