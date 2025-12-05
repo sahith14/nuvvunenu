@@ -1,123 +1,195 @@
-// ===============================
-// profileView.js — View Other Users' Profiles
-// ===============================
+// ===============================================
+// profileView.js — VisionOS Premium Profile Page
+// ===============================================
 
 import {
   doc,
   getDoc,
   collection,
-  getDocs
+  getDocs,
+  updateDoc,
+  arrayUnion,
+  arrayRemove
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 import { auth, db } from "../firebase.js";
 
-// MAIN RENDER FUNCTION
-// -------------------------------
+// MAIN RENDER
+// ----------------------------------------------------
 export function render(uid) {
-  if (!uid) {
-    return `<p style="padding:20px;">Error: No user selected.</p>`;
-  }
-
-  // Load profile data AFTER render
-  setTimeout(() => loadProfile(uid), 50);
+  setTimeout(() => loadProfile(uid), 20);
 
   return `
-    <div class="profile-page">
-      <div id="pvContent">Loading profile...</div>
+    <div class="profileView vision-profile-page">
+      <div id="pvContent" class="fade-slow">Loading profile…</div>
+
+      <!-- POST VIEWER MODAL -->
+      <div id="postModal" class="vision-post-modal hidden">
+        <span class="modal-close" onclick="closePostModal()">×</span>
+        <img id="modalImage">
+      </div>
     </div>
   `;
 }
 
-// LOAD USER PROFILE
-// -------------------------------
+// LOAD PROFILE DATA
+// ----------------------------------------------------
 async function loadProfile(uid) {
   const ref = doc(db, "users", uid);
   const snap = await getDoc(ref);
 
   if (!snap.exists()) {
-    document.getElementById("pvContent").innerHTML =
-      "<p>User not found.</p>";
+    document.getElementById("pvContent").innerHTML = "<p>User not found.</p>";
     return;
   }
 
   const u = snap.data();
+  const me = auth.currentUser.uid;
 
-  // FOLLOW BUTTON TEXT
-  const myUID = auth.currentUser.uid;
-  const isFollowing = u.followers?.includes(myUID);
+  const isFollowing = u.followers?.includes(me);
+  const followsYou = u.following?.includes(me);
 
-  // RENDER PROFILE INFO
+  const mutuals = (u.followers || []).filter(f => f !== me);
+
+  // BUILD PROFILE HTML (VisionOS Style)
   document.getElementById("pvContent").innerHTML = `
-    <div class="pv-top">
-      <img class="pv-avatar" src="${u.avatar || 'https://i.pravatar.cc/200'}">
+    <div class="vision-profile-card glass-card">
 
-      <div>
-        <h2>${u.name || "Unnamed"}</h2>
-        <p>@${u.username}</p>
-
-        <div class="pv-buttons">
-          <button onclick="openDM('${uid}')">Message</button>
-
-          <button id="followBtnPV" onclick="toggleFollow('${uid}')">
-            ${isFollowing ? "Following" : "Follow"}
-          </button>
-        </div>
+      <!-- Avatar Section -->
+      <div class="vision-avatar-box">
+        <div class="vision-avatar-ring"></div>
+        <img src="${u.avatar}" class="vision-avatar">
       </div>
+
+      <!-- Name, Username -->
+      <h2 class="vision-name">${u.name}</h2>
+      <p class="vision-username">@${u.username}</p>
+
+      ${
+        followsYou && isFollowing 
+          ? `<p class="follow-status both">You follow each other</p>`
+          : followsYou 
+            ? `<p class="follow-status">Follows you</p>` 
+            : ``
+      }
+
+      <!-- Stats Row -->
+      <div class="vision-stats-row">
+        <div><strong>${u.followers?.length || 0}</strong><span>Followers</span></div>
+        <div><strong>${u.following?.length || 0}</strong><span>Following</span></div>
+        <div><strong id="postCount">0</strong><span>Posts</span></div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="vision-btn-row">
+        <button id="followBtnPV" class="vision-btn follow" onclick="toggleFollow('${uid}')">
+          ${isFollowing ? "Following" : "Follow"}
+        </button>
+        <button class="vision-btn message" onclick="openDM('${uid}')">
+          Message
+        </button>
+      </div>
+
+      <!-- Mutual Followers -->
+      ${
+        mutuals.length > 0
+          ? `<p class="mutuals">Mutuals: ${mutuals.length}</p>`
+          : ""
+      }
+
+      <!-- Bio -->
+      ${
+        u.bio
+          ? `<p class="vision-bio">${u.bio}</p>`
+          : `<p class="vision-bio" style="opacity:0.5;">No bio added</p>`
+      }
+
+      <!-- Link -->
+      ${
+        u.link
+          ? `<a href="${u.link}" target="_blank" class="vision-link">${u.link}</a>`
+          : ""
+      }
     </div>
 
-    <div class="pv-stats">
-      <p><strong>${u.followers?.length || 0}</strong> Followers</p>
-      <p><strong>${u.following?.length || 0}</strong> Following</p>
-    </div>
-
-    <h3 style="margin-top:20px;">Posts</h3>
-    <div class="pv-post-grid" id="pvPosts"></div>
+    <!-- Posts Grid -->
+    <div id="pvPosts" class="vision-post-grid"></div>
   `;
 
   loadUserPosts(uid);
 }
 
-// LOAD USER POSTS (GRID)
-// -------------------------------
+// LOAD USER POSTS
+// ----------------------------------------------------
 async function loadUserPosts(uid) {
   const postsRef = collection(db, "users", uid, "posts");
   const snap = await getDocs(postsRef);
 
-  if (snap.empty) {
-    document.getElementById("pvPosts").innerHTML =
-      "<p style='opacity:0.6;'>No posts yet.</p>";
+  const grid = document.getElementById("pvPosts");
+  const count = snap.size;
+  document.getElementById("postCount").textContent = count;
+
+  if (count === 0) {
+    grid.innerHTML = `<p style="opacity:0.6; text-align:center;">No posts yet.</p>`;
     return;
   }
 
   let html = "";
-  snap.forEach((doc) => {
-    const p = doc.data();
+
+  snap.forEach((pDoc) => {
+    const p = pDoc.data();
     html += `
-      <div class="pv-post">
-        <img src="${p.img}" onclick="openPost('${doc.id}', '${uid}')">
+      <div class="vision-post" onclick="openPostModal('${p.img}')">
+        <img src="${p.img}" class="vision-post-thumb">
       </div>
     `;
   });
 
-  document.getElementById("pvPosts").innerHTML = html;
+  grid.innerHTML = html;
 }
 
-// OPEN DM WITH THIS USER
-// -------------------------------
+// OPEN DM
+// ----------------------------------------------------
 window.openDM = function (uid) {
   loadPage("messages", uid);
 };
 
-// FOLLOW / UNFOLLOW BUTTON UPDATE
-// -------------------------------
-window.updateFollowButtonPV = function (isFollowing) {
-  const btn = document.getElementById("followBtnPV");
-  if (!btn) return;
+// FOLLOW SYSTEM LINKED WITH search.js
+// ----------------------------------------------------
+window.toggleFollow = async function (targetUID) {
+  const myUID = auth.currentUser.uid;
 
-  btn.textContent = isFollowing ? "Following" : "Follow";
+  const meRef = doc(db, "users", myUID);
+  const targetRef = doc(db, "users", targetUID);
+
+  const meSnap = await getDoc(meRef);
+  const me = meSnap.data();
+
+  const isFollowing = me.following?.includes(targetUID);
+
+  const btn = document.getElementById("followBtnPV");
+
+  if (isFollowing) {
+    btn.textContent = "Follow";
+    await updateDoc(meRef, { following: arrayRemove(targetUID) });
+    await updateDoc(targetRef, { followers: arrayRemove(myUID) });
+  } else {
+    btn.textContent = "Following";
+    await updateDoc(meRef, { following: arrayUnion(targetUID) });
+    await updateDoc(targetRef, { followers: arrayUnion(myUID) });
+  }
 };
 
-// OPTIONAL: OPEN SINGLE POST VIEW
-window.openPost = function (postId, uid) {
-  alert(`Post view coming soon!\nPost: ${postId}\nUser: ${uid}`);
+// POST MODAL VIEWER
+// ----------------------------------------------------
+window.openPostModal = function (img) {
+  const modal = document.getElementById("postModal");
+  const image = document.getElementById("modalImage");
+
+  image.src = img;
+  modal.classList.remove("hidden");
+};
+
+window.closePostModal = function () {
+  document.getElementById("postModal").classList.add("hidden");
 };
