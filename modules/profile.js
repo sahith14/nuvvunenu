@@ -266,6 +266,15 @@ window.createHighlight = async function () {
   }
 
   const coverURL = await uploadImage(file);
+  async function uploadSong(file) {
+    const storage = getStorage();
+    const path = "songs/" + auth.currentUser.uid + "/" + Date.now() + ".mp3";
+
+    const storageRef = ref(storage, path);
+    await uploadBytes(storageRef, file);
+
+    return await getDownloadURL(storageRef);
+  }
 
   const id = Date.now().toString();
 
@@ -433,3 +442,44 @@ window.saveNewAvatar = async function () {
   closeAvatarEditor();
   loadProfile(uid); // refresh header
 };
+
+window.openSongPickerSheet = function () {
+  document.getElementById("songPickerSheet").classList.add("sheet-open");
+};
+
+window.closeSongPickerSheet = function () {
+  document.getElementById("songPickerSheet").classList.remove("sheet-open");
+};
+
+window.previewSong = function () {
+  const file = document.getElementById("songFileInput").files[0];
+  if (!file) return;
+
+  const url = URL.createObjectURL(file);
+  const audio = document.getElementById("songPreview");
+
+  audio.src = url;
+  audio.style.display = "block";
+  audio.load();
+};
+
+window.saveSongSelection = async function () {
+  const file = document.getElementById("songFileInput").files[0];
+  if (!file) return alert("Choose a song!");
+
+  const uid = auth.currentUser.uid;
+
+  // Upload to Storage
+  const songURL = await uploadSong(file);
+
+  // Update Firestore
+  await updateDoc(doc(db, "users", uid), {
+    song: songURL
+  });
+
+  // Update the modal field instantly
+  document.getElementById("epSong").value = songURL;
+
+  closeSongPickerSheet();
+};
+
