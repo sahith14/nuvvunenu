@@ -3462,3 +3462,15 @@ body.pull-reset {
 #profile-underline {
   will-change: left;
 }
+
+.mutual-line {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  margin-top: 2px;
+}
+
+.follows-you {
+  font-size: 0.75rem;
+  color: #00eaff;
+  margin-top: 2px;
+}
