@@ -544,6 +544,7 @@ document.addEventListener("touchmove", (e) => {
   }
 
   if (window.scrollY === 0 && diff > 90 && !refreshing) {
+    haptic(); // simulate iOS haptic
     refreshing = true;
     triggerProfileRefresh();
   }
@@ -568,4 +569,10 @@ function hidePullRefreshIndicator() {
   ind.classList.remove("show");
   ind.classList.remove("spin");
   resetElastic();
+}
+
+function haptic() {
+  try {
+    navigator.vibrate(10); // short vibration
+  } catch (e) {}
 }
