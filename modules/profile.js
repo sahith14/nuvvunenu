@@ -240,3 +240,119 @@ window.toggleSave = async function (e, postId, ownerId, img) {
 
   e.target.style.opacity = 1;
 };
+
+// =========================================================
+// OPEN HIGHLIGHT CREATION SHEET
+// =========================================================
+window.openCreateHighlight = function () {
+  const modal = document.getElementById("highlightCreateSheet");
+  modal.classList.add("sheet-open");
+};
+
+window.closeHighlightCreate = function () {
+  const modal = document.getElementById("highlightCreateSheet");
+  modal.classList.remove("sheet-open");
+};
+
+window.createHighlight = async function () {
+  const uid = auth.currentUser.uid;
+
+  const name = document.getElementById("newHighlightName").value;
+  const file = document.getElementById("newHighlightCover").files[0];
+
+  if (!name || !file) {
+    alert("Add name & cover");
+    return;
+  }
+
+  const coverURL = await uploadImage(file);
+
+  const id = Date.now().toString();
+
+  await setDoc(doc(db, "users", uid, "highlights", id), {
+    name: name,
+    cover: coverURL,
+    createdAt: Date.now()
+  });
+
+  closeHighlightCreate();
+  loadHighlights(uid);
+};
+
+import { getStorage, ref, uploadBytes, getDownloadURL } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+async function uploadImage(file) {
+  const storage = getStorage();
+  const path = "highlights/" + auth.currentUser.uid + "/" + Date.now();
+
+  const storageRef = ref(storage, path);
+  await uploadBytes(storageRef, file);
+
+  return await getDownloadURL(storageRef);
+}
+
+window.openHighlight = async function (highlightId) {
+  const uid = auth.currentUser.uid;
+
+  const storySnap = await getDocs(
+    collection(db, "users", uid, "highlights", highlightId, "stories")
+  );
+
+  if (storySnap.empty) {
+    openStoryViewer(["/empty.jpg"]);
+    return;
+  }
+
+  let stories = [];
+
+  storySnap.forEach(s => {
+    stories.push(s.data().img);
+  });
+
+  openStoryViewer(stories);
+};
+
+// =========================================================
+// VISIONOS HIGHLIGHT STORY VIEWER
+// =========================================================
+window.openStoryViewer = function (imgs) {
+  const viewer = document.getElementById("storyViewer");
+  const imgEl = document.getElementById("storyImg");
+
+  let index = 0;
+  imgEl.src = imgs[index];
+
+  viewer.classList.add("sv-show");
+
+  function next() {
+    index++;
+    if (index >= imgs.length) return closeStoryViewer();
+    imgEl.src = imgs[index];
+  }
+
+  viewer.onclick = next;
+};
+
+window.closeStoryViewer = function () {
+  const viewer = document.getElementById("storyViewer");
+  viewer.classList.remove("sv-show");
+};
+
+window.addStoryToHighlight = async function (highlightId, file) {
+  const uid = auth.currentUser.uid;
+  const imgURL = await uploadImage(file);
+
+  const storyId = Date.now().toString();
+
+  await setDoc(
+    doc(db, "users", uid, "highlights", highlightId, "stories", storyId),
+    {
+      img: imgURL,
+      timestamp: Date.now()
+    }
+  );
+
+  loadHighlights(uid);
+};
+
