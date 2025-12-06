@@ -356,3 +356,43 @@ window.addStoryToHighlight = async function (highlightId, file) {
   loadHighlights(uid);
 };
 
+window.openEditProfileModal = async function () {
+  const uid = auth.currentUser.uid;
+  const snap = await getDoc(doc(db, "users", uid));
+  if (!snap.exists()) return;
+
+  const u = snap.data();
+
+  document.getElementById("epName").value = u.name || "";
+  document.getElementById("epUsername").value = u.username || "";
+  document.getElementById("epBio").value = u.bio || "";
+  document.getElementById("epSong").value = u.song || "";
+
+  document.getElementById("editProfileModal").classList.add("ep-show");
+};
+
+window.closeEditProfileModal = function () {
+  document.getElementById("editProfileModal").classList.remove("ep-show");
+};
+
+import { updateDoc } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+window.saveProfileChanges = async function () {
+  const uid = auth.currentUser.uid;
+
+  const name = document.getElementById("epName").value;
+  const username = document.getElementById("epUsername").value;
+  const bio = document.getElementById("epBio").value;
+  const song = document.getElementById("epSong").value;
+
+  await updateDoc(doc(db, "users", uid), {
+    name: name,
+    username: username,
+    bio: bio,
+    song: song
+  });
+
+  closeEditProfileModal();
+  loadProfile(uid); // refresh profile UI
+};
