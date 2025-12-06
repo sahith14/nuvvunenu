@@ -76,8 +76,14 @@ async function loadProfile(uid) {
 
       <div class="pv-info">
         <h2>${u.name}</h2>
-        <p class="pv-username">@${u.username}</p>
+          <p class="pv-username">@${u.username}</p>
 
+        <div class="pv-stats">
+          <span><b>${u.postsCount || 0}</b> Posts</span>
+          <span><b>${u.followers?.length || 0}</b> Followers</span>
+          <span><b>${u.following?.length || 0}</b> Following</span>
+        </div>
+        
         ${
           followsYou && isFollowing 
             ? `<p class="pv-follow-status both">You follow each other</p>`
