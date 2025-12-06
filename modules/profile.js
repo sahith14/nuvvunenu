@@ -328,19 +328,54 @@ window.openHighlight = async function (highlightId) {
 window.openStoryViewer = function (imgs) {
   const viewer = document.getElementById("storyViewer");
   const imgEl = document.getElementById("storyImg");
+  const barBox = document.getElementById("storyProgressBars");
 
   let index = 0;
-  imgEl.src = imgs[index];
 
-  viewer.classList.add("sv-show");
+  // Create progress bars
+  barBox.innerHTML = "";
+  imgs.forEach(() => {
+    barBox.innerHTML += `<div class="sv-bar"><div class="sv-bar-fill"></div></div>`;
+  });
 
-  function next() {
-    index++;
-    if (index >= imgs.length) return closeStoryViewer();
-    imgEl.src = imgs[index];
+  function showStory(i) {
+    imgEl.src = imgs[i];
+
+    // Reset bars
+    document.querySelectorAll(".sv-bar-fill").forEach((bar, idx) => {
+      bar.style.animation = "none";
+      void bar.offsetWidth; // restart animation hack
+
+      if (idx === i) {
+        bar.style.animation = "svFill 5s linear forwards";
+      } else {
+        bar.style.width = idx < i ? "100%" : "0%";
+      }
+    });
   }
 
-  viewer.onclick = next;
+  showStory(index);
+  viewer.classList.add("sv-show");
+
+  // Autoplay next story
+  let autoNext = setInterval(() => {
+    index++;
+    if (index >= imgs.length) {
+      clearInterval(autoNext);
+      return closeStoryViewer();
+    }
+    showStory(index);
+  }, 5000);
+
+  // Tap to skip to next
+  viewer.onclick = () => {
+    index++;
+    if (index >= imgs.length) {
+      clearInterval(autoNext);
+      return closeStoryViewer();
+    }
+    showStory(index);
+  };
 };
 
 window.closeStoryViewer = function () {
