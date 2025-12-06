@@ -36,6 +36,23 @@ export function render() {
 export function init() {
   // nothing needed here
 }
+
+function saveRecentSearch(uid, name, username, avatar) {
+  let recent = JSON.parse(localStorage.getItem("recentSearches") || "[]");
+
+  // remove if already exists
+  recent = recent.filter(r => r.uid !== uid);
+
+  // add to top
+  recent.unshift({ uid, name, username, avatar });
+
+  // keep only 8
+  if (recent.length > 8) recent = recent.slice(0, 8);
+
+  localStorage.setItem("recentSearches", JSON.stringify(recent));
+}
+
+
 window.myFollowingList = [];
 
 auth.onAuthStateChanged(async (user) => {
@@ -98,9 +115,11 @@ function userResultCard(uid, u) {
   }
 
   return `
-    <div class="user-card glass" onclick="openUserProfile('${uid}')">
+    <div class="user-card glass"
+         onclick="saveRecentSearch('${uid}', '${u.name}', '${u.username}', '${u.avatar}');
+                  openUserProfile('${uid}')">
 
-      <img src="${u.avatar}" class="user-avatar">
+      <img src="${u.avatar || 'img/default-avatar.png'}" class="user-avatar">
 
       <div class="user-info">
         <p class="username">@${u.username}</p>
@@ -157,3 +176,28 @@ window.toggleFollow = async function (targetUID) {
 window.openUserProfile = function (uid) {
   loadPage("profileView", uid);
 };
+
+function loadRecentSearches() {
+  const box = document.getElementById("recentBox");
+  let recent = JSON.parse(localStorage.getItem("recentSearches") || "[]");
+
+  if (recent.length === 0) {
+    box.innerHTML = "<p class='no-recent'>No recent searches</p>";
+    return;
+  }
+
+  let html = "";
+  recent.forEach(r => {
+    html += `
+      <div class="recent-item" onclick="openUserProfile('${r.uid}')">
+        <img src="${r.avatar || 'img/default-avatar.png'}" class="recent-avatar">
+        <div>
+          <p>${r.name}</p>
+          <span>@${r.username}</span>
+        </div>
+      </div>
+    `;
+  });
+
+  box.innerHTML = html;
+}
