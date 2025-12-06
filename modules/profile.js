@@ -524,3 +524,10 @@ async function triggerProfileRefresh() {
     refreshing = false;
   }, 800);
 }
+
+function showPullRefreshIndicator() {
+  document.getElementById("pullRefreshIndicator").classList.add("show");
+}
+function hidePullRefreshIndicator() {
+  document.getElementById("pullRefreshIndicator").classList.remove("show");
+}
