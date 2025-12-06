@@ -33,7 +33,7 @@ export function render() {
 }
 
 export function init() {
-  // nothing needed here
+  loadRecentSearches();
 }
 
 window.saveRecentSearch = function(uid, name, username, avatar) {
@@ -111,9 +111,10 @@ function userResultCard(uid, u) {
 
   return `
     <div class="user-card glass"
-         onclick="saveRecentSearch('${uid}', \`${u.name}\`, \`${u.username}\`, \`${u.avatar || ''}\`); openUserProfile('${uid}')"
+         onclick="saveRecentSearch('${uid}', \`${u.name}\`, \`${u.username}\`, \`${u.avatar || ''}\`);
+         openUserProfile('${uid}')"
 
-      <img src="${u.avatar || 'img/default-avatar.png'}" class="user-avatar">
+      <img src="${u.avatar || 'img/default/default-avatar.png'}" class="user-avatar">
 
       <div class="user-info">
         <p class="username">@${u.username}</p>
