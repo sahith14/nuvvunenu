@@ -84,7 +84,7 @@ function userResultCard(uid, u) {
       <button class="followBtn"
               id="follow-${uid}"
               onclick="event.stopPropagation(); toggleFollow('${uid}')">
-        ...
+        ${auth.currentUser.uid && u.followers?.includes(auth.currentUser.uid) ? "Following" : "Follow"}
       </button>
 
     </div>
