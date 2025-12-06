@@ -107,7 +107,25 @@
 
     </div>
   </div>
-  
+
+  <!-- SONG PICKER BOTTOM SHEET -->
+  <div id="songPickerSheet" class="bottom-sheet">
+    <div class="sheet-content">
+    
+      <h3>Select Profile Song</h3>
+
+      <label class="file-picker">
+        <input type="file" id="songFileInput" accept="audio/*" onchange="previewSong()">
+        Choose Audio File
+      </label>
+
+      <audio id="songPreview" controls style="display:none; margin-top:10px;"></audio>
+
+      <button onclick="saveSongSelection()">Save</button>
+      <button class="cancel" onclick="closeSongPickerSheet()">Cancel</button>
+
+    </div>
+  </div>
   
   <script type="module" src="firebase.js"></script>
   <script type="module" src="app.js"></script>
