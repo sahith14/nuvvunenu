@@ -2642,3 +2642,127 @@ html {
   border-radius: 10px;
   transition: 0.25s ease;
 }
+
+/* === PROFILE PAGE === */
+
+.profile-page {
+  padding: 20px;
+  margin-top: 20px;
+}
+
+/* Adaptive Glass Header */
+.profile-header-glass {
+  width: 100%;
+  padding: 20px;
+  border-radius: 25px;
+  backdrop-filter: blur(25px);
+  background: rgba(255, 255, 255, 0.3);
+  transition: 0.3s;
+}
+
+@media (prefers-color-scheme: dark) {
+  .profile-header-glass {
+    background: rgba(0, 0, 0, 0.35);
+  }
+}
+
+.ph-wrapper {
+  display: flex;
+  gap: 20px;
+}
+
+.ph-avatar {
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.ph-info {
+  flex: 1;
+}
+
+.ph-name {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.ph-username {
+  opacity: 0.6;
+  margin-bottom: 8px;
+}
+
+.ph-stats {
+  opacity: 0.8;
+  margin-bottom: 8px;
+}
+
+.ph-bio {
+  opacity: 0.85;
+  margin-bottom: 10px;
+}
+
+.ph-song {
+  width: 100%;
+  margin: 6px 0 10px 0;
+}
+
+.ph-edit-btn {
+  padding: 8px 15px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.5);
+  border: none;
+  cursor: pointer;
+}
+
+/* === TABS === */
+.profile-tabs {
+  margin-top: 20px;
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+}
+
+.p-tab {
+  padding: 10px 0;
+  flex: 1;
+  text-align: center;
+  opacity: 0.7;
+}
+
+.p-tab.active {
+  opacity: 1;
+}
+
+#profile-underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 33.33%;
+  height: 3px;
+  background: white;
+  border-radius: 10px;
+  filter: drop-shadow(0 0 8px white);
+  transition: left 0.3s ease-out;
+}
+
+/* === POSTS GRID === */
+.profile-post-grid {
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+
+.profile-post-item img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.nocontent {
+  text-align: center;
+  opacity: 0.6;
+  margin-top: 40px;
+}
