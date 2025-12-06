@@ -1,31 +1,35 @@
-import { 
-  doc, 
-  getDoc, 
-  collection, 
-  getDocs 
+import {
+  doc,
+  getDoc,
+  collection,
+  getDocs
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { auth, db } from "../firebase.js";
 
-// ===========================================================
-// MAIN PROFILE RENDER
-// ===========================================================
+// =========================================================
+// MAIN RENDER
+// =========================================================
 export function render() {
   const uid = auth.currentUser.uid;
 
-  setTimeout(() => loadProfile(uid), 15);
+  setTimeout(() => loadProfile(uid), 10);
 
   return `
     <div class="profile-page">
-
+      
       <!-- Floating Glass Header -->
-      <div class="profile-header-glass" id="profileHeader">
-      </div>
+      <div id="profileHeader" class="profile-header-glass"></div>
+
+      <!-- Highlights Row -->
+      <div id="profileHighlights" class="profile-highlights-row"></div>
 
       <!-- Tabs -->
       <div class="profile-tabs">
         <div class="p-tab active" onclick="switchProfileTab('posts')">Posts</div>
         <div class="p-tab" onclick="switchProfileTab('music')">Music</div>
         <div class="p-tab" onclick="switchProfileTab('quotes')">Quotes</div>
+        <div class="p-tab" onclick="switchProfileTab('saved')">Saved</div>
+
         <div id="profile-underline"></div>
       </div>
 
@@ -35,28 +39,40 @@ export function render() {
   `;
 }
 
-// ===========================================================
-// LOAD PROFILE DATA
-// ===========================================================
+// =========================================================
+// LOAD PROFILE HEADER
+// =========================================================
 async function loadProfile(uid) {
   const snap = await getDoc(doc(db, "users", uid));
   if (!snap.exists()) return;
 
   const u = snap.data();
 
+  // Count posts
   const postsSnap = await getDocs(collection(db, "users", uid, "posts"));
-  const postCount = postsSnap.size || 0;
+  const postCount = postsSnap.size;
 
+  // Stats
   const followers = u.followers?.length || 0;
   const following = u.following?.length || 0;
 
+  let songRow = "";
+  if (u.song) {
+    songRow = `
+      <audio controls class="ph-song">
+        <source src="${u.song}">
+      </audio>
+    `;
+  }
+
   document.getElementById("profileHeader").innerHTML = `
     <div class="ph-wrapper">
-      <img src="${u.avatar}" class="ph-avatar">
+
+      <img src="${u.avatar}" class="ph-avatar" onclick="openAvatarEditor()">
 
       <div class="ph-info">
         <h2 class="ph-name">${u.name || ""}</h2>
-        <p class="ph-username">@${u.username}</p>
+        <p class="ph-username">@${u.username || ""}</p>
 
         <p class="ph-stats">
           ${postCount} Posts • ${followers} Followers • ${following} Following
@@ -64,80 +80,55 @@ async function loadProfile(uid) {
 
         <p class="ph-bio">${u.bio || ""}</p>
 
-        ${
-          u.song
-            ? `
-          <audio controls class="ph-song">
-            <source src="${u.song}">
-          </audio>
-        `
-            : ""
-        }
+        ${songRow}
 
-        <button class="ph-edit-btn" onclick="openEditProfile()">
-          Edit Profile
-        </button>
+        <button class="ph-edit-btn" onclick="openEditProfileModal()">Edit Profile</button>
       </div>
+
     </div>
   `;
 
+  loadHighlights(uid);
   loadPosts(uid);
 }
 
-// ===========================================================
-// POSTS TAB
-// ===========================================================
-async function loadPosts(uid) {
-  const snap = await getDocs(collection(db, "users", uid, "posts"));
+// =========================================================
+// HIGHLIGHTS LOADER
+// =========================================================
+async function loadHighlights(uid) {
+  const row = document.getElementById("profileHighlights");
 
-  if (snap.empty) {
-    document.getElementById("profileContent").innerHTML =
-      `<p class="nocontent">No posts yet.</p>`;
-    return;
-  }
+  const highlightsSnap = await getDocs(collection(db, "users", uid, "highlights"));
 
-  let html = `<div class="profile-post-grid">`;
+  let html = `
+    <div class="highlight add-highlight" onclick="openCreateHighlight()">
+      <div class="highlight-glass add">+</div>
+      <p>Add</p>
+    </div>
+  `;
 
-  snap.forEach(doc => {
-    const p = doc.data();
+  highlightsSnap.forEach(docSnap => {
+    const h = docSnap.data();
     html += `
-      <div class="profile-post-item" onclick="openPostModal('${p.img}')">
-        <img src="${p.img}">
+      <div class="highlight" onclick="openHighlight('${docSnap.id}')">
+        <div class="highlight-glass" style="background-image: url('${h.cover}')"></div>
+        <p>${h.name}</p>
       </div>
     `;
   });
 
-  html += `</div>`;
-  document.getElementById("profileContent").innerHTML = html;
+  row.innerHTML = html;
 }
 
-// ===========================================================
-// MUSIC TAB
-// ===========================================================
-function loadMusic(uid) {
-  document.getElementById("profileContent").innerHTML = `
-    <p class="nocontent">No music added yet.</p>
-  `;
-}
-
-// ===========================================================
-// QUOTES TAB
-// ===========================================================
-function loadQuotes(uid) {
-  document.getElementById("profileContent").innerHTML = `
-    <p class="nocontent">No quotes added yet.</p>
-  `;
-}
-
-// ===========================================================
-// TAB SWITCHING
-// ===========================================================
+// =========================================================
+// TAB SWITCH
+// =========================================================
 window.switchProfileTab = function (tab) {
-  const order = ["posts", "music", "quotes"];
+  const order = ["posts", "music", "quotes", "saved"];
   const index = order.indexOf(tab);
 
   document.getElementById("profile-underline").style.left =
-    (index * 33.33) + "%";
+    (index * 25) + "%";
 
   document.querySelectorAll(".p-tab").forEach(t =>
     t.classList.remove("active")
@@ -151,24 +142,101 @@ window.switchProfileTab = function (tab) {
   if (tab === "posts") loadPosts(uid);
   if (tab === "music") loadMusic(uid);
   if (tab === "quotes") loadQuotes(uid);
+  if (tab === "saved") loadSaved(uid);
 };
 
-// ===========================================================
-// POST MODAL
-// ===========================================================
-window.openPostModal = function (img) {
-  const modal = document.getElementById("postModal");
-  const imgEl = document.getElementById("modalImage");
+// =========================================================
+// POSTS LOADER (ANIMATED GRID)
+// =========================================================
+async function loadPosts(uid) {
+  const snap = await getDocs(collection(db, "users", uid, "posts"));
 
-  imgEl.src = img;
-  modal.classList.remove("hidden");
-};
+  if (snap.empty) {
+    document.getElementById("profileContent").innerHTML =
+      `<p class="nocontent">No posts yet.</p>`;
+    return;
+  }
 
-window.closePostModal = function () {
-  document.getElementById("postModal").classList.add("hidden");
-};
+  let html = `<div class="profile-post-grid">`;
 
-// Dummy function placeholder for edit profile
-window.openEditProfile = function () {
-  alert("Edit Profile coming soon!");
+  snap.forEach(docSnap => {
+    const p = docSnap.data();
+    html += `
+      <div class="post-item"
+           onclick="openPostModal('${p.img}','${docSnap.id}')"
+           style="animation: fadeIn .4s ease;">
+        <img src="${p.img}">
+        <span class="save-icon" onclick="toggleSave(event, '${docSnap.id}', '${uid}', '${p.img}')">🔖</span>
+      </div>
+    `;
+  });
+
+  html += `</div>`;
+  document.getElementById("profileContent").innerHTML = html;
+}
+
+// =========================================================
+// MUSIC TAB
+// =========================================================
+function loadMusic(uid) {
+  document.getElementById("profileContent").innerHTML = `
+    <p class="nocontent">No music uploaded yet.</p>
+  `;
+}
+
+// =========================================================
+// QUOTES TAB
+// =========================================================
+function loadQuotes(uid) {
+  document.getElementById("profileContent").innerHTML = `
+    <p class="nocontent">No quotes added yet.</p>
+  `;
+}
+
+// =========================================================
+// SAVED POSTS LOADER
+// =========================================================
+async function loadSaved(uid) {
+  const snap = await getDocs(collection(db, "users", uid, "saved"));
+
+  if (snap.empty) {
+    document.getElementById("profileContent").innerHTML =
+      `<p class="nocontent">No saved posts.</p>`;
+    return;
+  }
+
+  let html = `<div class="profile-post-grid">`;
+
+  snap.forEach(docSnap => {
+    const p = docSnap.data();
+    html += `
+      <div class="post-item" 
+           onclick="openPostModal('${p.img}','${docSnap.id}')">
+        <img src="${p.img}">
+      </div>
+    `;
+  });
+
+  html += `</div>`;
+  document.getElementById("profileContent").innerHTML = html;
+}
+
+// =========================================================
+// SAVE ICON HANDLER
+// =========================================================
+import {
+  setDoc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+window.toggleSave = async function (e, postId, ownerId, img) {
+  e.stopPropagation();
+  const uid = auth.currentUser.uid;
+
+  await setDoc(doc(db, "users", uid, "saved", postId), {
+    img: img,
+    owner: ownerId,
+    savedAt: Date.now()
+  });
+
+  e.target.style.opacity = 1;
 };
