@@ -127,8 +127,12 @@ window.switchProfileTab = function (tab) {
   const order = ["posts", "music", "quotes", "saved"];
   const index = order.indexOf(tab);
 
-  document.getElementById("profile-underline").style.left =
-    (index * 25) + "%";
+  const underline = document.getElementById("profile-underline");
+  underline.style.transition = "none";
+  underline.style.transform = "translateZ(0)";
+  void underline.offsetWidth; // force repaint
+  underline.style.transition = "left .25s ease-out";
+  underline.style.left = (index * 25) + "%";
 
   document.querySelectorAll(".p-tab").forEach(t =>
     t.classList.remove("active")
