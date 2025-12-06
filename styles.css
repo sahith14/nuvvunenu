@@ -3409,4 +3409,15 @@ html {
   to   { width: 100%; }
 }
 
- 
+/* iOS Elastic Pull Effect */
+body.pull-elastic {
+  transform: translateY(55px);
+  transition: transform 0.25s ease-out;
+}
+
+body.pull-reset {
+  transform: translateY(0px);
+  transition: transform 0.25s ease-out;
+}
+
+
