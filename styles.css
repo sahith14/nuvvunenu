@@ -3377,3 +3377,36 @@ html {
   top: 20px;
 }
 
+/* STORY PROGRESS BARS */
+.sv-bars {
+  position: absolute;
+  top: 18px;
+  left: 0;
+  right: 0;
+  display: flex;
+  gap: 6px;
+  padding: 0 12px;
+  z-index: 10;
+}
+
+.sv-bar {
+  flex: 1;
+  height: 3px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.sv-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: white;
+  animation: svFill 5s linear forwards;
+}
+
+@keyframes svFill {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+ 
