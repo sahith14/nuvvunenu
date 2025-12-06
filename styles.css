@@ -3352,3 +3352,28 @@ html {
   from { transform: translateY(25px) scale(0.97); opacity: 0; }
   to   { transform: translateY(0) scale(1); opacity: 1; }
 }
+
+.pull-refresh-indicator {
+  position: fixed;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(15px);
+  padding: 10px 18px;
+  border-radius: 18px;
+  font-size: 14px;
+  transition: .3s ease;
+  z-index: 99999;
+}
+
+@media (prefers-color-scheme: dark) {
+  .pull-refresh-indicator {
+    background: rgba(0,0,0,0.6);
+  }
+}
+
+.pull-refresh-indicator.show {
+  top: 20px;
+}
+
