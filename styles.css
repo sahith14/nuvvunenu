@@ -3459,3 +3459,6 @@ body.pull-reset {
   width: 100%;
 }
 
+#profile-underline {
+  will-change: left;
+}
