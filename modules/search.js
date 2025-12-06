@@ -52,6 +52,17 @@ function saveRecentSearch(uid, name, username, avatar) {
   localStorage.setItem("recentSearches", JSON.stringify(recent));
 }
 
+window.saveRecentSearch = function(uid, name, username, avatar) {
+  let recent = JSON.parse(localStorage.getItem("recentSearches") || "[]");
+
+  recent = recent.filter(r => r.uid !== uid);
+
+  recent.unshift({ uid, name, username, avatar });
+
+  if (recent.length > 8) recent = recent.slice(0, 8);
+
+  localStorage.setItem("recentSearches", JSON.stringify(recent));
+};
 
 window.myFollowingList = [];
 
