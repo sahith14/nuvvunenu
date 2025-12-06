@@ -3432,3 +3432,7 @@ body.pull-reset {
   to   { transform: rotate(360deg); }
 }
 
+#songPickerSheet {
+  z-index: 1000000 !important;
+}
+
