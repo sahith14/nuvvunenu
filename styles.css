@@ -3442,3 +3442,20 @@ body.pull-reset {
   color: white !important;
 }
 
+.profile-header-glass {
+  margin: 0 auto;                /* center horizontally */
+  max-width: 520px;              /* perfect size for mobile + desktop */
+  width: 100%;                   /* responsive */
+  box-sizing: border-box;        /* prevent overflow */
+}
+
+.ph-wrapper {
+  flex-wrap: wrap;               /* allow text to flow below avatar */
+  justify-content: center;       /* center content */
+  text-align: center;            /* center text */
+}
+
+.ph-info {
+  width: 100%;
+}
+
