@@ -62,7 +62,35 @@
     <button class="close-btn" onclick="closeStoryViewer()">×</button>
   </div>
 
+  <!-- EDIT PROFILE MODAL -->
+  <div id="editProfileModal" class="ep-modal">
+    <div class="ep-content glass-panel">
+    
+      <h2>Edit Profile</h2>
 
+      <label>Name</label>
+      <input id="epName" type="text">
+
+      <label>Username</label>
+      <input id="epUsername" type="text">
+
+      <label>Bio</label>
+      <textarea id="epBio"></textarea>
+
+      <label>Profile Song</label>
+      <div class="song-row">
+        <input id="epSong" type="text" placeholder="Song URL" readonly>
+        <button onclick="openSongPickerSheet()">Choose</button>
+      </div>
+
+      <button class="save-btn" onclick="saveProfileChanges()">Save</button>
+      <button class="cancel-btn" onclick="closeEditProfileModal()">Cancel</button>
+
+    </div>
+  </div>
+  
+  
+  
   <script type="module" src="firebase.js"></script>
   <script type="module" src="app.js"></script>
 </body>
