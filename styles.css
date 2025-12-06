@@ -2967,3 +2967,15 @@ html {
   display: none;
 }
 
+/* SONG PICKER */
+#songPreview {
+  width: 100%;
+}
+
+.bottom-sheet button {
+  padding: 12px;
+  border-radius: 12px;
+  width: 100%;
+  margin-top: 10px;
+}
+
