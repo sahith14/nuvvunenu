@@ -24,32 +24,28 @@ import { renderSharedPosts } from "./sharedPosts.js";
 // -------------------------------------------------------
 export function render(uid) {
 
-  // 🔥 UID validation FIRST — prevents crashes
+  // CHECK UID FIRST — prevents Firebase crash
   if (!uid) {
     console.error("❌ profileView ERROR — UID missing");
     return `<p style="color:red;text-align:center;">Profile not found</p>`;
   }
 
-  // store UID globally for tabs
+  // Save UID for tab switching
   window.lastPVUID = uid;
 
-  // load data after render
+  // Load profile after HTML is rendered
   setTimeout(() => loadProfile(uid), 25);
 
-  // RETURN FULL PAGE STRUCTURE
+  // RETURN PAGE LAYOUT
   return `
     <div class="vision-profile-main">
 
-      <!-- Header Section -->
       <div id="pvHeader" class="vision-header glass-card"></div>
 
-      <!-- Instagram-style Tabs -->
       <div id="pvTabs" class="pv-tabs-instagram"></div>
 
-      <!-- Dynamic Content Area -->
       <div id="pvContent" class="vision-content-area">Loading…</div>
 
-      <!-- Modal for posts -->
       <div id="postModal" class="vision-post-modal hidden">
         <span class="modal-close" onclick="closePostModal()">×</span>
         <img id="modalImage">
@@ -58,6 +54,7 @@ export function render(uid) {
     </div>
   `;
 }
+
 
 
 // LOAD PROFILE DATA
