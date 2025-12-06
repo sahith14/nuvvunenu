@@ -126,8 +126,7 @@ function userResultCard(uid, u) {
 
   return `
     <div class="user-card glass"
-         onclick="saveRecentSearch('${uid}', '${u.name}', '${u.username}', '${u.avatar}');
-                  openUserProfile('${uid}')">
+         onclick="saveRecentSearch('${uid}', '${u.name}', '${u.username}', '${u.avatar}'); openUserProfile('${uid}')"
 
       <img src="${u.avatar || 'img/default-avatar.png'}" class="user-avatar">
 
