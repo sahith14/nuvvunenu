@@ -3491,3 +3491,31 @@ body.pull-reset {
 .ph-info {
   width: 100%;
 }
+
+.recent-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 12px;
+  margin-bottom: 10px;
+  transition: transform 0.25s ease;
+}
+
+.delete-recent {
+  position: absolute;
+  right: 10px;
+  background: #ff3b30;
+  border: none;
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 8px;
+  display: none;
+}
+
+.recent-item[style*="translateX(-60px)"] .delete-recent {
+  display: block;
+}
+
