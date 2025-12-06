@@ -527,6 +527,7 @@ window.saveSongSelection = async function () {
 // =============================================
 let startY = 0;
 let refreshing = false;
+let elasticApplied = false;
 
 document.addEventListener("touchstart", (e) => {
   startY = e.touches[0].clientY;
@@ -534,30 +535,26 @@ document.addEventListener("touchstart", (e) => {
 
 document.addEventListener("touchmove", (e) => {
   const currentY = e.touches[0].clientY;
+  const diff = currentY - startY;
 
-  // Pull down only when at top
-  if (window.scrollY === 0 && currentY - startY > 80 && !refreshing) {
+  // Only trigger at top
+  if (window.scrollY === 0 && diff > 40 && !elasticApplied) {
+    document.body.classList.add("pull-elastic");
+    elasticApplied = true;
+  }
+
+  if (window.scrollY === 0 && diff > 90 && !refreshing) {
     refreshing = true;
     triggerProfileRefresh();
   }
 });
 
-async function triggerProfileRefresh() {
-  const uid = auth.currentUser.uid;
-
-  showPullRefreshIndicator();
-
-  // reload header, highlights, and active tab
-  await loadProfile(uid);
-
-  // reload the active tab
-  const activeTab = document.querySelector(".p-tab.active").textContent.toLowerCase();
-  switchProfileTab(activeTab);
-
+function resetElastic() {
+  document.body.classList.remove("pull-elastic");
+  document.body.classList.add("pull-reset");
   setTimeout(() => {
-    hidePullRefreshIndicator();
-    refreshing = false;
-  }, 800);
+    document.body.classList.remove("pull-reset");
+  }, 250);
 }
 
 function showPullRefreshIndicator() {
