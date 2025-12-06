@@ -483,3 +483,44 @@ window.saveSongSelection = async function () {
   closeSongPickerSheet();
 };
 
+
+
+
+
+// =============================================
+// PULL TO REFRESH
+// =============================================
+let startY = 0;
+let refreshing = false;
+
+document.addEventListener("touchstart", (e) => {
+  startY = e.touches[0].clientY;
+});
+
+document.addEventListener("touchmove", (e) => {
+  const currentY = e.touches[0].clientY;
+
+  // Pull down only when at top
+  if (window.scrollY === 0 && currentY - startY > 80 && !refreshing) {
+    refreshing = true;
+    triggerProfileRefresh();
+  }
+});
+
+async function triggerProfileRefresh() {
+  const uid = auth.currentUser.uid;
+
+  showPullRefreshIndicator();
+
+  // reload header, highlights, and active tab
+  await loadProfile(uid);
+
+  // reload the active tab
+  const activeTab = document.querySelector(".p-tab.active").textContent.toLowerCase();
+  switchProfileTab(activeTab);
+
+  setTimeout(() => {
+    hidePullRefreshIndicator();
+    refreshing = false;
+  }, 800);
+}
