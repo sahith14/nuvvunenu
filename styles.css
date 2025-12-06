@@ -2903,8 +2903,9 @@ html {
   margin-top: 0;
 }
 
-.ep-content input,
-.ep-content textarea {
+.ep-content input::placeholder,
+.ep-content textarea::placeholder {
+  color: rgba(255,255,255,0.6) !important;
   width: 100%;
   padding: 10px;
   border-radius: 12px;
@@ -3434,5 +3435,10 @@ body.pull-reset {
 
 #songPickerSheet {
   z-index: 1000000 !important;
+}
+
+.ep-content, 
+.ep-content * {
+  color: white !important;
 }
 
