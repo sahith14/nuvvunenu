@@ -268,13 +268,14 @@ window.createHighlight = async function () {
   const coverURL = await uploadImage(file);
   async function uploadSong(file) {
     const storage = getStorage();
-    const path = "songs/" + auth.currentUser.uid + "/" + Date.now() + ".mp3";
+    const path = "songs/" + auth.currentUser.uid + "/" + Date.now();
 
     const storageRef = ref(storage, path);
     await uploadBytes(storageRef, file);
 
     return await getDownloadURL(storageRef);
   }
+
 
   const id = Date.now().toString();
 
@@ -504,23 +505,26 @@ window.saveSongSelection = async function () {
 
   const uid = auth.currentUser.uid;
 
-  // Upload to Storage
-  const songURL = await uploadSong(file);
+  try {
+    // Upload to Firebase Storage
+    const songURL = await uploadSong(file);
 
-  // Update Firestore
-  await updateDoc(doc(db, "users", uid), {
-    song: songURL
-  });
+    // Update Firestore
+    await updateDoc(doc(db, "users", uid), {
+      song: songURL
+    });
 
-  // Update the modal field instantly
-  document.getElementById("epSong").value = songURL;
+    // Update UI
+    document.getElementById("epSong").value = songURL;
 
-  closeSongPickerSheet();
+    closeSongPickerSheet();
+    loadProfile(uid); // refresh profile header
+
+  } catch (err) {
+    console.error("Song upload failed:", err);
+    alert("Upload failed. Check console.");
+  }
 };
-
-
-
-
 
 // =============================================
 // PULL TO REFRESH
