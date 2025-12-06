@@ -36,6 +36,13 @@ export function render() {
 export function init() {
   // nothing needed here
 }
+window.myFollowingList = [];
+
+auth.onAuthStateChanged(async (user) => {
+  if (!user) return;
+  const snap = await getDoc(doc(db, "users", user.uid));
+  window.myFollowingList = snap.data().following || [];
+});
 
 // ------------------------------------------------------
 // REAL-TIME SEARCH
@@ -71,6 +78,22 @@ window.liveUserSearch = function () {
 // USER RESULT CARD HTML
 // ------------------------------------------------------
 function userResultCard(uid, u) {
+  // ⭐ MUTUAL FOLLOWERS CALC
+  let mutualLine = "";
+  const myFollowing = window.myFollowingList || [];
+
+  if (u.followers) {
+    const mutual = u.followers.filter(x => myFollowing.includes(x));
+
+    if (mutual.length === 1) {
+      mutualLine = `Followed by ${mutual[0]}`;
+    } else if (mutual.length === 2) {
+      mutualLine = `Followed by ${mutual[0]}, ${mutual[1]}`;
+    } else if (mutual.length > 2) {
+      mutualLine = `Followed by ${mutual[0]}, ${mutual[1]} + ${mutual.length - 2} more`;
+    }
+  }
+
   return `
     <div class="user-card glass" onclick="openUserProfile('${uid}')">
 
@@ -79,12 +102,20 @@ function userResultCard(uid, u) {
       <div class="user-info">
         <p class="username">@${u.username}</p>
         <p class="name">${u.name}</p>
+
+        ${
+          mutualLine
+            ? `<p class="mutual-line">${mutualLine}</p>`
+            : (u.following?.includes(auth.currentUser.uid)
+                ? `<p class="follows-you">Follows you</p>`
+                : "")
+        }
       </div>
 
       <button class="followBtn"
               id="follow-${uid}"
               onclick="event.stopPropagation(); toggleFollow('${uid}')">
-        ${auth.currentUser.uid && u.followers?.includes(auth.currentUser.uid) ? "Following" : "Follow"}
+        ${u.followers?.includes(auth.currentUser.uid) ? "Following" : "Follow"}
       </button>
 
     </div>
