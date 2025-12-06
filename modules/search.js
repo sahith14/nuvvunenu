@@ -60,14 +60,21 @@ auth.onAuthStateChanged(async (user) => {
 // REAL-TIME SEARCH
 // ------------------------------------------------------
 window.liveUserSearch = function () {
-  const text = document.getElementById("searchInput").value.trim().toLowerCase();
+  const input = document.getElementById("searchInput");
+  const recentBox = document.getElementById("recentBox");
   const resultsBox = document.getElementById("searchResults");
+  const text = input.value.trim().toLowerCase();
 
+  // ⭐ Collapse recent if typing
   if (!text) {
+    recentBox.style.display = "block";
     resultsBox.innerHTML = "";
     return;
+  } else {
+    recentBox.style.display = "none";
   }
-
+  
+  
   const q = query(
     collection(db, "users"),
     where("searchKeywords", "array-contains", text)
@@ -111,8 +118,7 @@ function userResultCard(uid, u) {
 
   return `
     <div class="user-card glass"
-         onclick="saveRecentSearch('${uid}', \`${u.name}\`, \`${u.username}\`, \`${u.avatar || ''}\`);
-         openUserProfile('${uid}')"
+         onclick="saveRecentSearch('${uid}', \`${u.name}\`, \`${u.username}\`, \`${u.avatar || ''}\`); openUserProfile('${uid}')">
 
       <img src="${u.avatar || 'img/default/default-avatar.png'}" class="user-avatar">
 
@@ -184,8 +190,22 @@ function loadRecentSearches() {
   let html = "";
   recent.forEach(r => {
     html += `
-      <div class="recent-item" onclick="openUserProfile('${r.uid}')">
-        <img src="${r.avatar || 'img/default-avatar.png'}" class="recent-avatar">
+      <div class="recent-item"
+           ontouchstart="touchStart(event)"
+           ontouchmove="touchMove(event)"
+           ontouchend="touchEnd(event)">
+           
+        <img src="${r.avatar || 'img/default/default-avatar.png'}" class="recent-avatar">
+            
+        <div onclick="openUserProfile('${r.uid}')">
+          <p>${r.name}</p>
+          <span>@${r.username}</span>
+        </div>
+          
+        <button class="delete-recent" onclick="deleteRecent('${r.uid}')">✕</button>
+      </div> 
+      
+        <img src="${r.avatar || 'img/default/default-avatar.png'}" class="recent-avatar">
         <div>
           <p>${r.name}</p>
           <span>@${r.username}</span>
@@ -196,3 +216,4 @@ function loadRecentSearches() {
 
   box.innerHTML = html;
 }
+
