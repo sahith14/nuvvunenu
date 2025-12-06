@@ -66,11 +66,14 @@ window.liveUserSearch = function () {
 
     snap.forEach((d) => {
       const u = d.data();
-      if (u.uid === auth.currentUser.uid) return; // hide yourself
-      html += userResultCard(u.uid, u);
+      const uid = d.id; // ⭐ correct Firestore UID
+
+      if (uid === auth.currentUser.uid) return;
+
+      html += userResultCard(uid, u);
     });
 
-    resultsBox.innerHTML = html || `<p class="no-results">No users found</p>`;
+    resultsBox.innerHTML = html || `<p class="no-results">No users found</p>`;  
   });
 };
 
