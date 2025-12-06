@@ -558,8 +558,14 @@ function resetElastic() {
 }
 
 function showPullRefreshIndicator() {
-  document.getElementById("pullRefreshIndicator").classList.add("show");
+  const ind = document.getElementById("pullRefreshIndicator");
+  ind.classList.add("show");
+  ind.classList.add("spin");
 }
+
 function hidePullRefreshIndicator() {
-  document.getElementById("pullRefreshIndicator").classList.remove("show");
+  const ind = document.getElementById("pullRefreshIndicator");
+  ind.classList.remove("show");
+  ind.classList.remove("spin");
+  resetElastic();
 }
