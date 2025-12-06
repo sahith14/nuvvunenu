@@ -36,21 +36,6 @@ export function init() {
   // nothing needed here
 }
 
-function saveRecentSearch(uid, name, username, avatar) {
-  let recent = JSON.parse(localStorage.getItem("recentSearches") || "[]");
-
-  // remove if already exists
-  recent = recent.filter(r => r.uid !== uid);
-
-  // add to top
-  recent.unshift({ uid, name, username, avatar });
-
-  // keep only 8
-  if (recent.length > 8) recent = recent.slice(0, 8);
-
-  localStorage.setItem("recentSearches", JSON.stringify(recent));
-}
-
 window.saveRecentSearch = function(uid, name, username, avatar) {
   let recent = JSON.parse(localStorage.getItem("recentSearches") || "[]");
 
