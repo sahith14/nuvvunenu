@@ -3420,4 +3420,15 @@ body.pull-reset {
   transition: transform 0.25s ease-out;
 }
 
+.pull-refresh-indicator.spin::before {
+  content: "⟳";
+  display: inline-block;
+  margin-right: 6px;
+  animation: rotateRefresh 1s linear infinite;
+}
+
+@keyframes rotateRefresh {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
 
