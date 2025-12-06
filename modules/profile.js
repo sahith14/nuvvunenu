@@ -396,3 +396,40 @@ window.saveProfileChanges = async function () {
   closeEditProfileModal();
   loadProfile(uid); // refresh profile UI
 };
+
+window.openAvatarEditor = function () {
+  document.getElementById("avatarSheet").classList.add("sheet-open");
+};
+
+window.closeAvatarEditor = function () {
+  document.getElementById("avatarSheet").classList.remove("sheet-open");
+};
+
+window.previewAvatar = function () {
+  const file = document.getElementById("avatarFile").files[0];
+  if (!file) return;
+
+  let reader = new FileReader();
+  reader.onload = function (e) {
+    const p = document.getElementById("avatarPreview");
+    p.src = e.target.result;
+    p.style.display = "block";
+  };
+  reader.readAsDataURL(file);
+};
+
+window.saveNewAvatar = async function () {
+  const file = document.getElementById("avatarFile").files[0];
+  if (!file) return alert("Choose an image!");
+
+  const uid = auth.currentUser.uid;
+
+  const url = await uploadImage(file); // from Part 2
+
+  await updateDoc(doc(db, "users", uid), {
+    avatar: url
+  });
+
+  closeAvatarEditor();
+  loadProfile(uid); // refresh header
+};
