@@ -26,9 +26,8 @@ export function render() {
       <input id="searchInput" 
              placeholder="Search users..." 
              oninput="liveUserSearch()">
-
       <div id="searchResults" class="search-results"></div>
-
+      <div id="recentBox" class="recent-search-list"></div>
     </div>
   `;
 }
