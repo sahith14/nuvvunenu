@@ -2862,3 +2862,83 @@ html {
   margin-top: 10px;
   width: 100%;
 }
+
+/* EDIT PROFILE MODAL */
+.ep-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: .35s ease;
+  z-index: 9999;
+}
+
+.ep-modal.ep-show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ep-content.glass-panel {
+  width: 90%;
+  max-width: 420px;
+  padding: 25px;
+  border-radius: 25px;
+  backdrop-filter: blur(30px);
+  background: rgba(255,255,255,0.35);
+  animation: floatUp .3s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  .ep-content.glass-panel {
+    background: rgba(0,0,0,0.4);
+  }
+}
+
+.ep-content h2 {
+  margin-top: 0;
+}
+
+.ep-content input,
+.ep-content textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.4);
+  margin-bottom: 12px;
+}
+
+.song-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.song-row button {
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+
+.save-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(0,255,180,0.6);
+}
+
+.cancel-btn {
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.2);
+}
+
+@keyframes floatUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
