@@ -2559,8 +2559,12 @@ html {
   perspective: 800px;
 }
 
-.vision-header:hover {
-  transform: translateZ(12px);
+/* FIX: Stop profile card from blurring on hover */
+.vision-header:hover,
+.glass-card:hover,
+.profile-header-card:hover {
+  filter: none !important;
+  backdrop-filter: blur(20px) !important; /* Keep glass effect clean */
 }
 
 /* ============================================
