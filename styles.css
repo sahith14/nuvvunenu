@@ -202,6 +202,13 @@ button {
   }
 }
 
+@media (min-width: 901px) {
+  .feed-container {
+    margin-left: 260px;
+    max-width: 750px;
+  }
+}
+
 /* STORIES STRIP — TRUE INSTAGRAM STYLE */
 /* INSTAGRAM STYLE STORIES */
 .stories-strip {
@@ -2062,12 +2069,6 @@ html {
 .stories-strip {
   background: transparent !important;
   box-shadow: none !important;
-}
-
-/* Make space for the left sidebar */
-.feed-container {
-  margin-left: 260px; /* same width or slightly more than your sidebar */
-  padding: 20px;
 }
 
 /* When sidebar is open */
