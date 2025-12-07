@@ -111,6 +111,17 @@ body {
       inset 0 0 10px rgba(255,255,255,0.5);
 }
 
+/******** ACTIVE (PURPLE) ********/
+.bottom-nav button.active {
+  background: linear-gradient(135deg, #8f74ff, #bda6ff) !important;
+  color: white !important;
+  transform: scale(1.12);
+
+  box-shadow:
+      0 8px 22px rgba(130,90,255,0.45),
+      inset 0 0 10px rgba(255,255,255,0.5);
+}
+
 /* Intro */
 .intro-body {
   display: flex;
