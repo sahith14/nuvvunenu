@@ -2655,7 +2655,6 @@ html {
   width: 100%;
   padding: 20px;
   border-radius: 25px;
-  backdrop-filter: blur(25px);
   background: rgba(255, 255, 255, 0.3);
   transition: 0.3s;
 }
