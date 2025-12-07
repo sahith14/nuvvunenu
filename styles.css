@@ -3903,3 +3903,19 @@ html, body, #app, #content {
     margin-left: 260px !important;        /* same sidebar shift */
   }
 }
+
+/* FIX DESKTOP SHRINKING — Make all pages full width after sidebar shift */
+@media (min-width: 901px) {
+  #content,
+  .feed-container,
+  .search-container,
+  .messages-container,
+  .partner-container,
+  .space-container,
+  .profile-page,
+  .profile-container {
+    margin-left: 260px !important;
+    width: calc(100% - 260px) !important;
+    max-width: none !important;  /* override narrow layouts */
+  }
+}
