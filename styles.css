@@ -65,7 +65,8 @@ body {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 65px;
+  height: 55px;
+  padding: 0 10px; /* horizontal space */
 
   display: flex;
   justify-content: space-around;
@@ -80,13 +81,13 @@ body {
 
 /******** DEFAULT (RESET ALWAYS) ********/
 .bottom-nav button {
-  width: 46px;
-  height: 46px;
+  width: 40px;
+  height: 40px;
 
   background: rgba(255,255,255,0.45);
   backdrop-filter: blur(18px);
 
-  border-radius: 14px;
+  border-radius: 12px;
   border: none;
 
   display: flex;
@@ -1519,17 +1520,10 @@ html {
   }
 }
 
-/* DESKTOP FIX — Shift ALL pages to the right when sidebar is open */
+/* DESKTOP: shift whole app content right when sidebar is visible */
 @media (min-width: 901px) {
-  .feed-container,
-  .search-container,
-  .profile-page,
-  .profile-container,
-  .messages-container,
-  .partner-container,
-  .space-container,
   #content {
-    margin-left: 240px !important;
+    margin-left: 240px !important; /* width of your sidebar */
   }
 }
 
@@ -3865,3 +3859,12 @@ html, body, #app, #content {
     padding: 0 0 90px 0 !important;
   }
 }
+
+.bottom-nav {
+  position: fixed;
+  bottom: env(safe-area-inset-bottom, 0);
+  left: 0;
+  width: 100%;
+  height: calc(65px + env(safe-area-inset-bottom, 0));
+}
+
