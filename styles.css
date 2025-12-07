@@ -3687,3 +3687,28 @@ body.pull-reset {
 .recent-item.swiped .recent-delete {
   display: block;
 }
+
+/* FIX: Profile picture size + shape */
+.pv-avatar,
+.profile-view-avatar,
+.vision-profile-avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  border: 4px solid rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.2);
+}
+
+.vision-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 30px;
+}
+
+#pvHeader:hover {
+  filter: none !important;
+}
