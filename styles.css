@@ -6,6 +6,14 @@ body {
   background-attachment: fixed;
   color: #222;
 }
+
+/* ADD FOCUS STATES HERE */
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #7A42FF;
+  outline-offset: 2px;
+}
+
 /******************************************
   LEFT SIDEBAR NAV FOR DESKTOP
 ******************************************/
@@ -195,6 +203,11 @@ button {
     margin-left: 0 !important;
     width: 100% !important; /* FULL WIDTH ON MOBILE */
     padding: 15px;
+  }
+
+  /* ADD MOBILE BLUR OPTIMIZATION HERE */
+  .glass, .post-card {
+    backdrop-filter: blur(12px);
   }
 }
 
@@ -431,6 +444,15 @@ button {
   max-height: 200px;
   overflow-y: auto;
   padding: 10px 0;
+}
+
+/* ADD SCROLLBAR STYLING HERE */
+.comments-list::-webkit-scrollbar {
+  width: 6px;
+}
+.comments-list::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 3px;
 }
 
 .comment-item {
@@ -4003,5 +4025,39 @@ html, body, #app, #content {
   }
   .bottom-nav {
     display: none !important;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY & OPTIMIZATION
+============================================ */
+
+/* Focus states for accessibility */
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid #7A42FF;
+  outline-offset: 2px;
+}
+
+/* Custom scrollbars */
+.comments-list::-webkit-scrollbar,
+.room-messages::-webkit-scrollbar,
+.chat-messages::-webkit-scrollbar,
+#messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.comments-list::-webkit-scrollbar-thumb,
+.room-messages::-webkit-scrollbar-thumb,
+.chat-messages::-webkit-scrollbar-thumb,
+#messages::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+
+/* Mobile performance optimization */
+@media (max-width: 900px) {
+  .glass, .post-card {
+    backdrop-filter: blur(12px);
   }
 }
