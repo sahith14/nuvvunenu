@@ -183,8 +183,8 @@ button {
 
 /* Default — when screen is wide */
 .feed-container {
-  margin-left: 260px; /* space for sidebar */
-  width: calc(100% - 260px); /* TAKE REMAINING SPACE */
+  margin-left: 250px; /* REDUCED GAP - 10px from sidebar */
+  width: calc(100% - 250px); /* ADJUSTED WIDTH */
   padding: 20px;
   box-sizing: border-box;
 }
@@ -206,8 +206,8 @@ button {
 
 @media (min-width: 901px) {
   .feed-container {
-    margin-left: 260px;
-    width: calc(100% - 260px); /* TAKE REMAINING SPACE */
+    margin-left: 250px; /* REDUCED GAP - 10px from sidebar */
+    width: calc(100% - 250px); /* TAKE REMAINING SPACE */
     max-width: none; /* REMOVE MAX-WIDTH CONSTRAINT */
   }
 }
@@ -551,8 +551,8 @@ button {
 
 .messages-container {
   padding: 15px;
-  margin-left: 260px; /* SIDEBAR SPACE */
-  width: calc(100% - 260px); /* REMAINING SPACE */
+  margin-left: 250px; /* SIDEBAR SPACE */
+  width: calc(100% - 250px); /* REMAINING SPACE */
   box-sizing: border-box;
 }
 
@@ -690,8 +690,8 @@ button {
 
 .partner-container {
   padding: 15px;
-  margin-left: 260px; /* SIDEBAR SPACE */
-  width: calc(100% - 260px); /* REMAINING SPACE */
+  margin-left: 250px; /* SIDEBAR SPACE */
+  width: calc(100% - 250px); /* REMAINING SPACE */
   box-sizing: border-box;
 }
 
@@ -795,8 +795,8 @@ button {
 
 .space-container {
   padding: 20px;
-  margin-left: 260px; /* SIDEBAR SPACE */
-  width: calc(100% - 260px); /* REMAINING SPACE */
+  margin-left: 250px; /* SIDEBAR SPACE */
+  width: calc(100% - 250px); /* REMAINING SPACE */
   box-sizing: border-box;
 }
 
@@ -898,8 +898,8 @@ button {
 
 .profile-container {
   padding: 15px;
-  margin-left: 260px; /* SIDEBAR SPACE */
-  width: calc(100% - 260px); /* REMAINING SPACE */
+  margin-left: 250px; /* SIDEBAR SPACE */
+  width: calc(100% - 250px); /* REMAINING SPACE */
   box-sizing: border-box;
 }
 
@@ -3929,15 +3929,14 @@ html, body, #app, #content {
   .partner-container,
   .space-container,
   #content {
-    margin-left: 260px !important;
-    width: calc(100% - 260px) !important; /* TAKE REMAINING SPACE */
+    margin-left: 250px !important; /* REDUCED GAP - 10px from sidebar */
+    width: calc(100% - 250px) !important; /* ADJUSTED WIDTH */
     box-sizing: border-box;
   }
 }
 
 /* DESKTOP: Make all pages fill full width after shifting right */
 @media (min-width: 901px) {
-
   .search-container,
   .messages-container,
   .partner-container,
@@ -3945,9 +3944,9 @@ html, body, #app, #content {
   .profile-container,
   .profile-page,
   .dm-page {
-    margin-left: 260px !important;
-    width: calc(100% - 260px) !important; /* TAKE REMAINING SPACE */
-    max-width: none !important;           /* remove shrinking */
+    margin-left: 250px !important; /* REDUCED GAP - 10px from sidebar */
+    width: calc(100% - 250px) !important; /* ADJUSTED WIDTH */
+    max-width: none !important;
     box-sizing: border-box;
   }
 }
@@ -3962,9 +3961,9 @@ html, body, #app, #content {
   .space-container,
   .profile-page,
   .profile-container {
-    margin-left: 260px !important;
-    width: calc(100% - 260px) !important; /* TAKE REMAINING SPACE */
-    max-width: none !important;  /* override narrow layouts */
+    margin-left: 250px !important; /* REDUCED GAP - 10px from sidebar */
+    width: calc(100% - 250px) !important; /* ADJUSTED WIDTH */
+    max-width: none !important;
     box-sizing: border-box;
   }
 }
