@@ -227,3 +227,8 @@ function toggleSidebar() {
 
 
 setTimeout(addLiquidPhysicsOnce, 1500);
+
+document.getElementById("cropCancelBtn").onclick = () => {
+  document.getElementById("cropModal").classList.add("hidden");
+  if (cropper) cropper.destroy();
+};
