@@ -506,10 +506,6 @@ window.saveNewAvatar = async function () {
   });
 };
 
-  closeAvatarEditor();
-  loadProfile(uid); // refresh header
-};
-
 window.openSongPickerSheet = function () {
   document.getElementById("songPickerSheet").classList.add("sheet-open");
 };
