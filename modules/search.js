@@ -88,7 +88,7 @@ window.touchEnd = function (e) {
 function loadRecentSearches() {
   const box = document.getElementById("recentBox");
   if (!box) return;
-
+  box.innerHTML = `<p class="recent-title">Recent</p>` + html;
   let recent = JSON.parse(localStorage.getItem("recentSearches") || "[]");
 
   if (recent.length === 0) {
