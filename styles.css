@@ -84,26 +84,23 @@ body {
 
 /******** DEFAULT (RESET ALWAYS) ********/
 .bottom-nav button {
-  background: rgba(255,255,255,0.45) !important;
+  width: 46px;
+  height: 46px;
+
+  background: rgba(255,255,255,0.45);
   backdrop-filter: blur(18px);
+
+  border-radius: 14px;
   border: none;
 
-  width: 30px;
-  height: 30px;
-
-  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
 
-  color: #333 !important;
-  font-size: 0.8rem;
+  font-size: 1.1rem;
+  color: #333;
 
   transition: 0.25s ease;
-
-  box-shadow:
-      0 4px 12px rgba(0,0,0,0.12),
-      inset 0 0 6px rgba(255,255,255,0.45);
 }
 
 /******** ACTIVE (PURPLE) ********/
