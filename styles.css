@@ -60,55 +60,73 @@ body {
    HYBRID VISIONOS × WHITE GLASS BOTTOM NAV
 ============================================ */
 
+/******************************************
+  BOTTOM NAV FOR MOBILE - FIXED VERSION
+******************************************/
 .bottom-nav {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 55px;
-  padding: 0 10px; /* horizontal space */
-
+  height: 70px;
+  padding: 0 15px;
+  padding-bottom: env(safe-area-inset-bottom, 10px);
+  
   display: flex;
   justify-content: space-around;
   align-items: center;
-
-  background: rgba(255,255,255,0.28);
+  
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(25px);
-  border-top: 1px solid rgba(255,255,255,0.2);
-
-  z-index: 99999;
+  -webkit-backdrop-filter: blur(25px);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+  
+  z-index: 10000;
 }
 
-/******** DEFAULT (RESET ALWAYS) ********/
 .bottom-nav button {
-  width: 40px;
-  height: 40px;
-
-  background: rgba(255,255,255,0.45);
-  backdrop-filter: blur(18px);
-
-  border-radius: 12px;
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(15px);
+  border-radius: 15px;
   border: none;
-
+  
   display: flex;
   align-items: center;
   justify-content: center;
-
-  font-size: 1.1rem;
+  
+  font-size: 1.2rem;
   color: #333;
-
-  transition: 0.25s ease;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
 }
 
-/******** ACTIVE (PURPLE) ********/
 .bottom-nav button.active {
-  background: linear-gradient(135deg, #8f74ff, #bda6ff) !important;
-  color: white !important;
-  transform: scale(1.12);
+  background: linear-gradient(135deg, #8f74ff, #bda6ff);
+  color: white;
+  transform: translateY(-5px);
+  box-shadow: 
+    0 8px 25px rgba(130, 90, 255, 0.4),
+    inset 0 0 15px rgba(255, 255, 255, 0.3);
+}
 
-  box-shadow:
-      0 8px 22px rgba(130,90,255,0.45),
-      inset 0 0 10px rgba(255,255,255,0.5);
+/* Mobile only - hide on desktop */
+@media (max-width: 900px) {
+  .bottom-nav {
+    display: flex !important;
+  }
+}
+
+@media (min-width: 901px) {
+  .bottom-nav {
+    display: none !important;
+  }
 }
 
 /* Intro */
@@ -3965,5 +3983,99 @@ html, body, #app, #content {
     width: calc(100% - 250px) !important; /* ADJUSTED WIDTH */
     max-width: none !important;
     box-sizing: border-box;
+  }
+}
+
+/* ============================================
+   FIXED LAYOUT - SIDEBAR & BOTTOM NAV
+============================================ */
+
+/* 1. SIDEBAR GAP FIX - Pages start right after sidebar */
+@media (min-width: 901px) {
+  #content,
+  .feed-container,
+  .search-container,
+  .messages-container,
+  .partner-container,
+  .space-container,
+  .profile-page,
+  .profile-container,
+  .dm-page {
+    margin-left: 245px !important;  /* 5px gap from 240px sidebar */
+    width: calc(100% - 245px) !important;
+    max-width: none !important;
+    box-sizing: border-box;
+  }
+}
+
+/* 2. BOTTOM NAV FIX - Clean mobile navigation */
+.bottom-nav {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: 70px !important;
+  padding: 0 15px !important;
+  padding-bottom: env(safe-area-inset-bottom, 10px) !important;
+  
+  display: flex !important;
+  justify-content: space-around !important;
+  align-items: center !important;
+  
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(25px) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1) !important;
+  
+  z-index: 10000 !important;
+}
+
+.bottom-nav button {
+  width: 50px !important;
+  height: 50px !important;
+  background: rgba(255, 255, 255, 0.7) !important;
+  border-radius: 15px !important;
+  border: none !important;
+  
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  
+  font-size: 1.2rem !important;
+  color: #333 !important;
+  transition: all 0.25s ease !important;
+}
+
+.bottom-nav button.active {
+  background: linear-gradient(135deg, #8f74ff, #bda6ff) !important;
+  color: white !important;
+  transform: translateY(-5px) !important;
+}
+
+/* 3. Mobile/Desktop toggle */
+@media (max-width: 900px) {
+  .desktop-nav {
+    display: none !important;
+  }
+  .bottom-nav {
+    display: flex !important;
+  }
+  #content,
+  .feed-container,
+  .search-container,
+  .messages-container {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding-bottom: 85px !important; /* Space for bottom nav */
+  }
+}
+
+@media (min-width: 901px) {
+  .desktop-nav {
+    display: flex !important;
+  }
+  .bottom-nav {
+    display: none !important;
   }
 }
