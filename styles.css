@@ -3619,3 +3619,68 @@ body.pull-reset {
 .recent-item.swiped .recent-delete {
   display: block;
 }
+
+/* ================================
+   RECENT SEARCH UI — FIXED
+================================ */
+
+.recent-list {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.recent-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.28);
+  backdrop-filter: blur(20px);
+  cursor: pointer;
+  transition: 0.2s;
+  position: relative;
+}
+
+.recent-item:hover {
+  transform: scale(1.02);
+}
+
+.recent-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.recent-info {
+  margin-left: 12px;
+  flex: 1;
+}
+
+.recent-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.recent-username {
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+/* Swipe delete button */
+.recent-delete {
+  position: absolute;
+  right: 12px;
+  background: #ff4b6e;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  display: none;
+}
+
+.recent-item.swiped .recent-delete {
+  display: block;
+}
