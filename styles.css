@@ -3875,3 +3875,15 @@ html, body, #app, #content {
   height: calc(65px + env(safe-area-inset-bottom, 0));
 }
 
+/* DESKTOP: shift ALL pages right when sidebar is visible */
+@media (min-width: 901px) {
+  .feed-container,
+  .search-container,
+  .messages-container,
+  .profile-page,
+  .partner-container,
+  .space-container,
+  #content {
+    margin-left: 260px !important;
+  }
+}
