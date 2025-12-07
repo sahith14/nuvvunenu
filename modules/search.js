@@ -2,7 +2,11 @@
 // Instagram-Style Search System
 // Fully Optimized for Sahith ❤️🔥
 // ===========================
-
+import {
+  startAt,
+  endAt,
+  orderBy
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 // Firestore / Firebase
 import { db, auth } from "../firebase.js";
 import {
