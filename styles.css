@@ -196,6 +196,12 @@ button {
   }
 }
 
+@media (max-width: 900px) {
+  #content {
+    margin-left: 0 !important;
+  }
+}
+
 /* STORIES STRIP — TRUE INSTAGRAM STYLE */
 /* INSTAGRAM STYLE STORIES */
 .stories-strip {
@@ -1523,7 +1529,7 @@ html {
 /* DESKTOP: shift whole app content right when sidebar is visible */
 @media (min-width: 901px) {
   #content {
-    margin-left: 240px !important; /* width of your sidebar */
+    margin-left: 260px !important; /* width of your sidebar */
   }
 }
 
