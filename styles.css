@@ -3923,62 +3923,6 @@ html, body, #app, #content {
   }
 }
 
-.bottom-nav {
-  position: fixed;
-  bottom: env(safe-area-inset-bottom, 0);
-  left: 0;
-  width: 100%;
-  height: calc(65px + env(safe-area-inset-bottom, 0));
-}
-
-/* DESKTOP: shift ALL pages right when sidebar is visible */
-@media (min-width: 901px) {
-  .feed-container,
-  .search-container,
-  .messages-container,
-  .profile-page,
-  .partner-container,
-  .space-container,
-  #content {
-    margin-left: 250px !important; /* REDUCED GAP - 10px from sidebar */
-    width: calc(100% - 250px) !important; /* ADJUSTED WIDTH */
-    box-sizing: border-box;
-  }
-}
-
-/* DESKTOP: Make all pages fill full width after shifting right */
-@media (min-width: 901px) {
-  .search-container,
-  .messages-container,
-  .partner-container,
-  .space-container,
-  .profile-container,
-  .profile-page,
-  .dm-page {
-    margin-left: 250px !important; /* REDUCED GAP - 10px from sidebar */
-    width: calc(100% - 250px) !important; /* ADJUSTED WIDTH */
-    max-width: none !important;
-    box-sizing: border-box;
-  }
-}
-
-/* FIX DESKTOP SHRINKING — Make all pages full width after sidebar shift */
-@media (min-width: 901px) {
-  #content,
-  .feed-container,
-  .search-container,
-  .messages-container,
-  .partner-container,
-  .space-container,
-  .profile-page,
-  .profile-container {
-    margin-left: 250px !important; /* REDUCED GAP - 10px from sidebar */
-    width: calc(100% - 250px) !important; /* ADJUSTED WIDTH */
-    max-width: none !important;
-    box-sizing: border-box;
-  }
-}
-
 /* ============================================
    FIXED LAYOUT - SIDEBAR & BOTTOM NAV
 ============================================ */
