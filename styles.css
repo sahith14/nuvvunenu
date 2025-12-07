@@ -3519,3 +3519,38 @@ body.pull-reset {
   display: block;
 }
 
+.recent-search-list {
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(12px);
+}
+
+.recent-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 14px;
+  margin-bottom: 10px;
+  transition: transform 0.2s ease;
+}
+
+.search-results {
+  margin-top: 10px;
+  min-height: 100px;
+}
+
+.search-container {
+  padding: 20px;
+  position: relative;
+  z-index: 5;
+}
+
+.recent-title {
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0.8;
+  margin-bottom: 8px;
+}
