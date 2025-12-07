@@ -130,24 +130,23 @@ function renderTabs() {
 window.switchPVTab = function (tab) {
   const uid = window.lastPVUID;
 
-  const order = ["posts", "timeline", "stories", "shared", "badges"];
+  // New tab order (3 tabs only)
+  const order = ["posts", "music", "quotes"];
   const index = order.indexOf(tab);
 
-  // Move underline smoothly
-  document.getElementById("tl-main-underline").style.left = (index * 20) + "%";
+  // Move underline (3 tabs → each 33.33%)
+  document.getElementById("tl-main-underline").style.left = (index * 33.33) + "%";
 
-  // Update active tab
+  // Activate correct tab
   document.querySelectorAll(".tl-tab").forEach(t => t.classList.remove("active"));
   document
     .querySelector(`[onclick="switchPVTab('${tab}')"]`)
-    .classList.add("active");
+    ?.classList.add("active");
 
   // Load sections
-  if (tab === "stories") renderStories(uid);
-  if (tab === "timeline") renderTimeline(uid);
   if (tab === "posts") loadPosts(uid);
-  if (tab === "shared") renderSharedPosts(uid);
-  if (tab === "badges") renderBadges(uid);
+  if (tab === "music") loadUserMusic(uid);
+  if (tab === "quotes") loadUserQuotes(uid);
 };
 
 // LOAD POSTS GRID
