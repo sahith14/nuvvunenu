@@ -65,7 +65,7 @@ body {
   bottom: 0px;
   left: 80%;
   transform: none;
-  width: 70%;
+  width: 100%;
   padding: 8px 0px;
 
   background: rgba(255,255,255,0.28);
@@ -78,7 +78,7 @@ body {
 
   border: 1px solid rgba(255,255,255,0.35);
   box-shadow: 
-      0 10px 30px rgba(0,0,0,0.15),
+      0 -4px 20px rgba(0,0,0,0.12),
       inset 0 0 6px rgba(255,255,255,0.55);
 
   z-index: 9999;
@@ -93,7 +93,7 @@ body {
   width: 30px;
   height: 30px;
 
-  border-radius: 20px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
