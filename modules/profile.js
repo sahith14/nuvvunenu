@@ -454,17 +454,32 @@ window.closeAvatarEditor = function () {
   document.getElementById("avatarSheet").classList.remove("sheet-open");
 };
 
+let cropper = null;
+
 window.previewAvatar = function () {
-  const file = document.getElementById("avatarFile").files[0];
+  const fileInput = document.getElementById("newAvatar");
+  const file = fileInput.files[0];
+
   if (!file) return;
 
-  let reader = new FileReader();
-  reader.onload = function (e) {
-    const p = document.getElementById("avatarPreview");
-    p.src = e.target.result;
-    p.style.display = "block";
+  const img = document.getElementById("cropImage");
+  img.src = URL.createObjectURL(file);
+
+  document.getElementById("cropModal").classList.remove("hidden");
+
+  img.onload = () => {
+    if (cropper) cropper.destroy();
+
+    cropper = new Cropper(img, {
+      aspectRatio: 1,
+      viewMode: 2,
+      dragMode: "move",
+      background: false,
+      zoomable: true,
+      scalable: true,
+      movable: true
+    });
   };
-  reader.readAsDataURL(file);
 };
 
 window.saveNewAvatar = async function () {
