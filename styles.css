@@ -3887,3 +3887,19 @@ html, body, #app, #content {
     margin-left: 260px !important;
   }
 }
+
+/* DESKTOP: Make all pages fill full width after shifting right */
+@media (min-width: 901px) {
+
+  .search-container,
+  .messages-container,
+  .partner-container,
+  .space-container,
+  .profile-container,
+  .profile-page,
+  .dm-page {
+    width: calc(100% - 260px) !important; /* keep full usable width */
+    max-width: none !important;           /* remove shrinking */
+    margin-left: 260px !important;        /* same sidebar shift */
+  }
+}
