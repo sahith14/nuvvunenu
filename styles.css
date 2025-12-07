@@ -62,26 +62,24 @@ body {
 
 .bottom-nav {
   position: fixed;
-  bottom: 0px;
-  left: 80%;
-  transform: none;
-  width: 100%;
-  padding: 8px 0px;
+  left: 0;
+  right: 0;
+  bottom: 0;                 /* stick to bottom perfectly */
+  width: 100%;               /* full width of device */
+  height: 62px;              /* clean height */
+  
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 
   background: rgba(255,255,255,0.28);
   backdrop-filter: blur(30px) saturate(180%);
-  border-radius: 18px;
 
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  border-top: 1px solid rgba(255,255,255,0.35);
 
-  border: 1px solid rgba(255,255,255,0.35);
-  box-shadow: 
-      0 -4px 20px rgba(0,0,0,0.12),
-      inset 0 0 6px rgba(255,255,255,0.55);
-
-  z-index: 9999;
+  z-index: 99999;
+  padding: 0;                /* remove extra padding */
+  margin: 0;                 /* remove spacing */
 }
 
 /******** DEFAULT (RESET ALWAYS) ********/
