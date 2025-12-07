@@ -65,12 +65,12 @@ body {
   bottom: 22px;
   left: 50%;
   transform: translateX(-50%);
-  width: 90%;
-  padding: 14px 18px;
+  width: 70%;
+  padding: 8px 10px;
 
   background: rgba(255,255,255,0.28);
   backdrop-filter: blur(30px) saturate(180%);
-  border-radius: 28px;
+  border-radius: 18px;
 
   display: flex;
   justify-content: space-between;
@@ -90,8 +90,8 @@ body {
   backdrop-filter: blur(18px);
   border: none;
 
-  width: 60px;
-  height: 60px;
+  width: 25px;
+  height: 25px;
 
   border-radius: 20px;
   display: flex;
@@ -99,7 +99,7 @@ body {
   justify-content: center;
 
   color: #333 !important;
-  font-size: 1.5rem;
+  font-size: 0.7rem;
 
   transition: 0.25s ease;
 
@@ -3711,4 +3711,51 @@ body.pull-reset {
 
 #pvHeader:hover {
   filter: none !important;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  padding: 8px 10px;
+
+  background: rgba(255,255,255,0.28);
+  backdrop-filter: blur(30px) saturate(180%);
+  border-radius: 18px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border: 1px solid rgba(255,255,255,0.35);
+  box-shadow: 
+      0 10px 30px rgba(0,0,0,0.15),
+      inset 0 0 6px rgba(255,255,255,0.55);
+
+  z-index: 9999;
+}
+
+.bottom-nav button {
+  background: rgba(255,255,255,0.45) !important;
+  backdrop-filter: blur(18px);
+  border: none;
+
+  width: 30px;
+  height: 30px;
+
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #333 !important;
+  font-size: 0.8rem;
+
+  transition: 0.25s ease;
+
+  box-shadow:
+      0 4px 12px rgba(0,0,0,0.12),
+      inset 0 0 6px rgba(255,255,255,0.45);
 }
