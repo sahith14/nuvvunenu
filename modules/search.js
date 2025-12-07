@@ -139,7 +139,12 @@ window.liveUserSearch = async function () {
   recentBox.style.display = "none";
 
   // Query users
-  const q = query(collection(db, "users"), where("searchIndex", ">=", text));
+  const q = query(
+    collection(db, "users"),
+    orderBy("username"),
+    startAt(text),
+    endAt(text + "\uf8ff")
+  );
 
   onSnapshot(q, (snap) => {
     let html = "";
