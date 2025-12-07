@@ -483,16 +483,28 @@ window.previewAvatar = function () {
 };
 
 window.saveNewAvatar = async function () {
-  const file = document.getElementById("avatarFile").files[0];
-  if (!file) return alert("Choose an image!");
-
-  const uid = auth.currentUser.uid;
-
-  const url = await uploadImage(file); // from Part 2
-
-  await updateDoc(doc(db, "users", uid), {
-    avatar: url
+  const canvas = cropper.getCroppedCanvas({
+    width: 600,
+    height: 600
   });
+
+  canvas.toBlob(async (blob) => {
+    const file = new File([blob], "avatar.jpg", { type: "image/jpeg" });
+
+    // Upload to Firebase
+    const url = await uploadAvatarFile(file);
+
+    // Update Firestore user
+    await updateUserAvatar(url);
+
+    alert("Profile picture updated!");
+
+    document.getElementById("cropModal").classList.add("hidden");
+    document.getElementById("avatarSheet").classList.add("hidden");
+
+    loadPage("profile");
+  });
+};
 
   closeAvatarEditor();
   loadProfile(uid); // refresh header
