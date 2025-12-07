@@ -116,18 +116,15 @@ async function loadProfile(uid) {
 function renderTabs() {
   document.getElementById("pvTabs").innerHTML = `
     <div class="tl-nav">
+
       <div class="tl-tab active" onclick="switchPVTab('posts')">Posts</div>
-      <div class="tl-tab" onclick="switchPVTab('timeline')">Timeline</div>
-      <div class="tl-tab" onclick="switchPVTab('stories')">Stories</div>
-      <div class="tl-tab" onclick="switchPVTab('shared')">Shared</div>
-      <div class="tl-tab" onclick="switchPVTab('badges')">Badges</div>
+      <div class="tl-tab" onclick="switchPVTab('music')">Music</div>
+      <div class="tl-tab" onclick="switchPVTab('quotes')">Quotes</div>
 
       <div id="tl-main-underline"></div>
     </div>
   `;
 }
-
-
 
 // SWITCH TABS (Instagram style)
 window.switchPVTab = function (tab) {
