@@ -62,11 +62,11 @@ body {
 
 .bottom-nav {
   position: fixed;
-  bottom: 22px;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 0px;
+  left: 80%;
+  transform: none;
   width: 70%;
-  padding: 8px 10px;
+  padding: 8px 0px;
 
   background: rgba(255,255,255,0.28);
   backdrop-filter: blur(30px) saturate(180%);
@@ -90,8 +90,8 @@ body {
   backdrop-filter: blur(18px);
   border: none;
 
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
 
   border-radius: 20px;
   display: flex;
@@ -99,7 +99,7 @@ body {
   justify-content: center;
 
   color: #333 !important;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
 
   transition: 0.25s ease;
 
