@@ -1519,6 +1519,20 @@ html {
   }
 }
 
+/* DESKTOP FIX — Shift ALL pages to the right when sidebar is open */
+@media (min-width: 901px) {
+  .feed-container,
+  .search-container,
+  .profile-page,
+  .profile-container,
+  .messages-container,
+  .partner-container,
+  .space-container,
+  #content {
+    margin-left: 240px !important;
+  }
+}
+
 /* ----------------------------- */
 /* DM CHAT UI STYLES            */
 /* ----------------------------- */
