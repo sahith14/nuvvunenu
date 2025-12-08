@@ -61,14 +61,16 @@ input:focus-visible {
   font-size: 1.2rem;
 }
 
-/******************************************
-  BOTTOM NAV FOR MOBILE
-******************************************/
+/* ===================================================
+   🔥 NEW BOTTOM NAV — CLEAN, MODERN, GLASSY
+   =================================================== */
+
 .bottom-nav {
   position: fixed;
   bottom: 18px;
   left: 50%;
   transform: translateX(-50%);
+
   width: 92%;
   max-width: 420px;
   height: 82px;
@@ -78,18 +80,60 @@ input:focus-visible {
   justify-content: space-between;
   align-items: center;
 
-  background: rgba(255,255,255,0.12);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
 
-  border: 1px solid rgba(255,255,255,0.22);
-  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 24px;
 
   box-shadow:
-    0 10px 30px rgba(0,0,0,0.18),
-    inset 0 1px 0 rgba(255,255,255,0.35);
+    0 12px 38px rgba(0,0,0,0.20),
+    inset 0 1px 0 rgba(255,255,255,0.28);
 
-  z-index: 9999;
+  z-index: 99999;
+}
+
+/* INACTIVE BUTTON */
+.bottom-nav button {
+  width: 54px;
+  height: 54px;
+
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 16px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #6f4dff;
+  font-size: 1.4rem;
+
+  transition: all 0.20s ease;
+}
+
+/* ACTIVE BUTTON */
+.bottom-nav button.active {
+  background: rgba(255,255,255,0.30);
+  border-color: rgba(255,255,255,0.40);
+  color: #ffffff !important;
+
+  transform: translateY(-8px) scale(1.07);
+
+  box-shadow:
+    0 8px 20px rgba(140,110,255,0.25),
+    inset 0 2px 0 rgba(255,255,255,0.60);
+}
+
+/* MOBILE ONLY */
+@media (max-width: 900px) {
+  .bottom-nav { display: flex; }
+}
+
+/* DESKTOP: Hidden */
+@media (min-width: 901px) {
+  .bottom-nav { display: none !important; }
 }
 
 /* BUTTONS – VisionOS Glass Buttons */
