@@ -64,86 +64,77 @@ input:focus-visible {
 /******************************************
   BOTTOM NAV FOR MOBILE
 ******************************************/
-/* ============================================
-   🍇 TRUE VISIONOS GLASS BOTTOM NAV (FINAL)
-============================================ */
-
 .bottom-nav {
   position: fixed;
   bottom: 18px;
   left: 50%;
   transform: translateX(-50%);
-
   width: 92%;
   max-width: 420px;
-  height: 80px;
-  padding: 0 18px;
+  height: 82px;
 
+  padding: 12px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  border-radius: 30px;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
 
-  /* TRUE iPhone glass */
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(45px) saturate(200%);
-  -webkit-backdrop-filter: blur(45px) saturate(200%);
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 22px;
 
-  /* floating effect */
   box-shadow:
-    0 18px 45px rgba(0, 0, 0, 0.22),
+    0 10px 30px rgba(0,0,0,0.18),
     inset 0 1px 0 rgba(255,255,255,0.35);
 
   z-index: 9999;
 }
 
 /* BUTTONS – VisionOS Glass Buttons */
-/* INACTIVE BUTTON (default white box) */
 .bottom-nav button {
-  width: 56px;
-  height: 56px;
-  border-radius: 18px;
+  flex: 1;
+  margin: 0 6px;
 
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.75);
+  height: 54px;
 
-  color: #6f4dff; /* purple icon */
-  font-size: 1.4rem;
+  background: rgba(255,255,255,0.18);  /* EXACT SIDE NAV COLOR */
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.25);
+  
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  transition: all 0.25s cubic-bezier(.18,.89,.32,1.28);
+  color: #5f42e9;     /* EXACT SIDE NAV ICON COLOR */
+  font-size: 1.4rem;
 
-  box-shadow:
-    0 8px 22px rgba(0,0,0,0.12),
-    inset 0 1px 0 rgba(255,255,255,1);
+  transition: all .22s ease;
 }
 
 
 /* HOVER */
 .bottom-nav button:hover {
-  transform: translateY(-4px);
-  background: rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.26);
+  border-color: rgba(255,255,255,0.35);
+  color: #ffffff;
 }
 
 /* ACTIVE BUTTON (purple bubble + white icon) */
 .bottom-nav button.active {
-  background: linear-gradient(145deg, #7c5bff, #a084ff);
-  border-color: rgba(255,255,255,0.65);
+  background: rgba(255,255,255,0.28);   /* brighter just like sidebar */
+  border-color: rgba(255,255,255,0.45);
+  color: #ffffff !important;            /* white icon on active */
 
-  color: #ffffff !important; /* icon turns white */
-
-  transform: translateY(-8px) scale(1.10);
+  transform: translateY(-6px);
 
   box-shadow:
-    0 12px 30px rgba(132,112,255,0.45),
-    0 0 35px rgba(180,150,255,0.55),
-    inset 0 2px 0 rgba(255,255,255,0.90),
-    inset 0 -8px 22px rgba(150,120,255,0.35);
+    0 4px 14px rgba(0,0,0,0.22),
+    inset 0 1px 0 rgba(255,255,255,0.65);
 }
 
 .bottom-nav button.active::after {
