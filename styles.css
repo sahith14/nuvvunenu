@@ -65,8 +65,8 @@ input:focus-visible {
   BOTTOM NAV FOR MOBILE
 ******************************************/
 /* ============================================
-   🟣 BOTTOM NAV – MATCH SIDE NAV THEME
-   ============================================ */
+   🟣 BOTTOM NAV — EXACT MATCH TO SIDE NAV BUTTONS
+============================================ */
 
 .bottom-nav {
   position: fixed;
@@ -74,17 +74,17 @@ input:focus-visible {
   left: 0;
   width: 100%;
 
-  height: 70px;
-  padding: 0 14px;
+  height: 72px;
+  padding: 10px 14px;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  background: rgba(45, 35, 85, 0.45); /* same purple glass as side nav */
+  background: rgba(45, 35, 85, 0.45); /* SAME as side nav glass */
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
-  border-top: 1px solid rgba(255,255,255,0.25);
+  border-top: 1px solid rgba(255,255,255,0.20);
 
   box-shadow:
     0 -4px 18px rgba(0,0,0,0.25),
@@ -93,60 +93,65 @@ input:focus-visible {
   z-index: 9999;
 }
 
-/* BUTTONS MATCH SIDE NAV ICONS */
+/* BUTTON BASE — EXACTLY SAME STYLE AS SIDE NAV BUTTONS */
 .bottom-nav button {
   flex: 1;
+  margin: 0 6px;
 
-  height: 48px;
+  height: 50px;
 
-  background: rgba(255,255,255,0.10);
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.10); /* SAME as sidebar button idle */
+  border-radius: 14px;                /* SAME radius */
+  border: 1px solid rgba(255,255,255,0.18); /* SAME border */
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  color: #cfc8ff;  /* soft white-purple like side nav */
+  color: #d8d2ff; /* SAME icon color as sidebar */
   font-size: 1.4rem;
 
-  transition: all .25s ease;
+  transition: all .22s ease;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.45); /* SAME inset shine */
 }
 
-/* HOVER EFFECT – SAME AS SIDE NAV HIGHLIGHT */
+/* HOVER — EXACTLY like sidebar hover */
 .bottom-nav button:hover {
   background: rgba(255,255,255,0.22);
-  border-color: rgba(255,255,255,0.28);
+  border-color: rgba(255,255,255,0.30);
   color: white;
   transform: translateY(-3px);
 }
 
-/* ACTIVE BUTTON – EXACT SAME STYLE AS ACTIVE SIDEBAR ITEM */
+/* ACTIVE — IDENTICAL TO SIDE NAV ACTIVE STATE */
 .bottom-nav button.active {
   background: rgba(255,255,255,0.32);
   border-color: rgba(255,255,255,0.45);
   color: #ffffff;
 
-  box-shadow:
-    0 4px 12px rgba(143, 96, 255, .35),
-    inset 0 1px 0 rgba(255,255,255,0.55);
-
   transform: translateY(-6px);
+
+  box-shadow:
+    0 6px 22px rgba(143,96,255,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.65);
 }
 
-/* NOT FLOATING ANYMORE – BEHAVES LIKE SIDE NAV */
-@media (min-width: 901px) {
-  .bottom-nav {
-    display: none;
-  }
+/* REMOVE ANY OLD DOT UNDER ICONS */
+.bottom-nav button.active::after {
+  display: none !important;
 }
 
 /* MOBILE ONLY */
 @media (max-width: 900px) {
-  .bottom-nav {
-    display: flex;
-  }
+  .bottom-nav { display: flex; }
 }
+
+/* HIDE ON DESKTOP */
+@media (min-width: 901px) {
+  .bottom-nav { display: none !important; }
+}
+
 
 /* INTRO */
 .intro-body {
