@@ -4228,32 +4228,27 @@ input:focus-visible {
 }
 
 /* ============================================
-   FINAL FIX: PERFECT SIDEBAR & CONTENT ALIGNMENT
+   FIXED: INCREASED GAP BETWEEN SIDEBAR & CONTENT
 ============================================ */
 
-/* DESKTOP: Sidebar is 240px wide, content starts right after it */
-/* ============================================
-   FIXED: 5px GAP BETWEEN SIDEBAR & CONTENT
-============================================ */
-
-/* DESKTOP: Sidebar + 5px gap */
+/* DESKTOP: Sidebar with 20px gap */
 @media (min-width: 901px) {
   /* 1. Sidebar is 240px */
   .desktop-nav {
     width: 240px !important;
-    border-right: none !important;
-    box-shadow: 8px 0 40px rgba(0,0,0,0.2) !important;
+    border-right: 1px solid rgba(255,255,255,0.15) !important;
+    box-shadow: 8px 0 40px rgba(0,0,0,0.4) !important;
   }
   
-  /* 2. Content starts at 245px (240px sidebar + 5px gap) */
+  /* 2. Content starts at 260px (240px sidebar + 20px gap) */
   #content {
-    margin-left: 245px !important;
-    width: calc(100% - 245px) !important;
+    margin-left: 260px !important;  /* INCREASED TO 20px gap */
+    width: calc(100% - 260px) !important;
     padding: 0 !important;
     box-sizing: border-box;
   }
   
-  /* 3. All pages are 100% of content area */
+  /* 3. All pages fill the content area */
   .feed-container,
   .search-container,
   .messages-container,
@@ -4266,37 +4261,34 @@ input:focus-visible {
     width: 100% !important;
     padding: 20px !important;
     box-sizing: border-box;
-    max-width: none !important;
   }
   
-  /* 4. Feed specific: centered with max-width */
+  /* 4. Feed specific styling - centered */
   .feed-container {
-    max-width: 700px !important;
+    max-width: 650px !important; /* Slightly reduced for better centering */
     margin: 0 auto !important;
     padding: 20px 0 !important;
   }
   
-  /* 5. Stories strip also centered */
+  /* 5. Stories strip also centered with proper spacing */
   .stories-strip {
-    max-width: 700px !important;
-    margin: 0 auto 20px auto !important;
-    padding: 14px 20px !important;
+    max-width: 650px !important;
+    margin: 0 auto 25px auto !important;
+    padding: 14px 0 !important;
   }
   
-  /* 6. Hide bottom nav on desktop */
+  /* 6. Hide bottom nav */
   .bottom-nav {
     display: none !important;
   }
 }
 
-/* MOBILE: Full width, show bottom nav */
+/* MOBILE: Full width */
 @media (max-width: 900px) {
-  /* Hide sidebar */
   .desktop-nav {
     display: none !important;
   }
   
-  /* Full width content */
   #content,
   .feed-container,
   .search-container,
@@ -4308,10 +4300,8 @@ input:focus-visible {
     margin-left: 0 !important;
     width: 100% !important;
     padding: 15px !important;
-    max-width: 100% !important;
   }
   
-  /* Show bottom nav */
   .bottom-nav {
     display: flex !important;
   }
