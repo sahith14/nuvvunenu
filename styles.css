@@ -64,9 +64,8 @@ input:focus-visible {
 /* ===================================================
    🔥 NEW BOTTOM NAV — CLEAN, MODERN, GLASSY
    =================================================== */
-
 /* ============================================
-   🍎 iOS 26 + VisionOS Glass Bottom Navigation
+   🍎 iOS 26 + VisionOS Glass Bottom Navigation - CLEAN VERSION
    ============================================ */
 
 .bottom-nav {
@@ -136,12 +135,17 @@ input:focus-visible {
   -webkit-tap-highlight-color: transparent !important;
 }
 
-/* Middle (Center) Button - VisionOS Glow */
+/* REMOVED: Active Dot Indicator - No dots on active buttons */
+.bottom-nav button.active:not(:nth-child(3))::after {
+  display: none !important;
+}
+
+/* Middle (Center) Button - VisionOS Glow (DM/Plus Button) */
 .bottom-nav button:nth-child(3) {
   width: 56px !important;
   height: 56px !important;
   
-  /* VisionOS Purple Glass */
+  /* VisionOS Purple Glass - Like DM button */
   background: linear-gradient(
     135deg, 
     rgba(147, 112, 255, 0.4), 
@@ -164,30 +168,30 @@ input:focus-visible {
   font-size: 1.5rem !important;
 }
 
-/* Active State - iOS Blue Glow */
+/* Active State - Make all active buttons look like the DM button */
 .bottom-nav button.active:not(:nth-child(3)) {
-  background: rgba(100, 122, 255, 0.25) !important;
-  color: rgba(255, 255, 255, 1) !important;
-  transform: translateY(-6px) !important;
+  /* Same purple glass gradient as DM button */
+  background: linear-gradient(
+    135deg, 
+    rgba(147, 112, 255, 0.4), 
+    rgba(180, 150, 255, 0.25)
+  ) !important;
+  backdrop-filter: blur(25px) saturate(200%) !important;
   
-  /* Active Glow */
+  color: white !important;
+  transform: translateY(-10px) !important;
+  
+  /* Same glow as DM button but slightly smaller */
+  border: 0.5px solid rgba(255, 255, 255, 0.3) !important;
   box-shadow: 
-    0 10px 25px rgba(100, 122, 255, 0.25),
+    0 12px 30px rgba(147, 112, 255, 0.25),
+    0 0 30px rgba(147, 112, 255, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    0 0 0 0.5px rgba(100, 122, 255, 0.2) !important;
-}
-
-/* Active Dot Indicator (iOS Style) */
-.bottom-nav button.active:not(:nth-child(3))::after {
-  content: '';
-  position: absolute;
-  bottom: 6px;
-  width: 4px;
-  height: 4px;
-  background: rgba(100, 122, 255, 0.9);
-  border-radius: 50%;
-  opacity: 1;
-  box-shadow: 0 0 8px rgba(100, 122, 255, 0.6);
+    0 0 0 0.5px rgba(255, 255, 255, 0.1) !important;
+  
+  /* Slightly larger when active */
+  width: 52px !important;
+  height: 52px !important;
 }
 
 /* Hover Effects (Desktop only) */
@@ -212,6 +216,20 @@ input:focus-visible {
       0 0 50px rgba(147, 112, 255, 0.3),
       inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
   }
+  
+  /* Hover effect for active buttons */
+  .bottom-nav button.active:not(:nth-child(3)):hover {
+    background: linear-gradient(
+      135deg, 
+      rgba(147, 112, 255, 0.5), 
+      rgba(180, 150, 255, 0.35)
+    ) !important;
+    transform: translateY(-10px) scale(1.08) !important;
+    box-shadow: 
+      0 16px 35px rgba(147, 112, 255, 0.35),
+      0 0 40px rgba(147, 112, 255, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+  }
 }
 
 /* Press Animation */
@@ -224,20 +242,8 @@ input:focus-visible {
   transform: translateY(-18px) scale(0.95) !important;
 }
 
-/* iOS Label Style (Optional - if you want labels) */
-.bottom-nav-label {
-  position: absolute;
-  bottom: -18px;
-  font-size: 0.6rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.7);
-  letter-spacing: 0.3px;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.bottom-nav button.active .bottom-nav-label {
-  opacity: 1;
+.bottom-nav button.active:not(:nth-child(3)):active {
+  transform: translateY(-10px) scale(0.9) !important;
 }
 
 /* Mobile visibility */
@@ -283,7 +289,8 @@ input:focus-visible {
     border: 0.5px solid rgba(255, 255, 255, 0.1) !important;
   }
   
-  .bottom-nav button:nth-child(3) {
+  .bottom-nav button:nth-child(3),
+  .bottom-nav button.active:not(:nth-child(3)) {
     background: linear-gradient(
       135deg, 
       rgba(147, 112, 255, 0.35), 
@@ -294,7 +301,7 @@ input:focus-visible {
 
 /* Accessibility & Performance */
 .bottom-nav button:focus-visible {
-  outline: 2px solid rgba(100, 122, 255, 0.6) !important;
+  outline: 2px solid rgba(147, 112, 255, 0.6) !important;
   outline-offset: 2px !important;
 }
 
@@ -319,6 +326,12 @@ input:focus-visible {
 
 .bottom-nav {
   animation: slideUpNav 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
+/* Also remove any other dot indicators from other bottom-nav sections in the file */
+/* Remove this line from line 178 (or wherever it appears) */
+.bottom-nav button.active::after {
+  display: none !important;
 }
 
 /* INTRO */
