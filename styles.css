@@ -65,77 +65,83 @@ input:focus-visible {
    🔥 NEW BOTTOM NAV — CLEAN, MODERN, GLASSY
    =================================================== */
 
-/* ============================================
-   🚨 NEW BOTTOM NAV — PURE VISIONOS GLASS
-   ============================================ */
+/* =====================================================
+   🍎 iOS 26 BOTTOM NAV — CURVED ICONS + HAPTIC POP
+   ===================================================== */
 
 .bottom-nav {
   position: fixed;
-  bottom: 26px;
+  bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
 
-  width: 86%;
-  max-width: 430px;
-  height: 68px;
+  width: 88%;
+  max-width: 420px;
+  height: 70px;
 
-  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
 
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-
-  background: rgba(255, 255, 255, 0.25);
-  border-radius: 30px;
-
-  backdrop-filter: blur(32px) saturate(180%);
-  -webkit-backdrop-filter: blur(32px) saturate(180%);
-
-  border: 1px solid rgba(255, 255, 255, 0.35);
 
   box-shadow:
     0 8px 28px rgba(0,0,0,0.18),
-    inset 0 1px 0 rgba(255,255,255,0.55);
+    inset 0 1px 0 rgba(255,255,255,0.65);
 
-  z-index: 99999;
+  z-index: 999999;
 }
 
-/* BUTTONS */
+/* Each icon container (iOS bubbly icon style) */
 .bottom-nav button {
-  width: 52px;
-  height: 52px;
+  width: 54px;
+  height: 54px;
 
-  border-radius: 16px;
-  border: none;
+  background: rgba(255,255,255,0.55);
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.4);
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  background: rgba(255,255,255,0.35);
-  color: #5a4ea8;
-  font-size: 1.35rem;
+  font-size: 1.45rem;
+  color: #6b6bff;
 
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px);
-
-  transition: all 0.25s ease;
-}
-
-/* HOVER (desktop preview only) */
-.bottom-nav button:hover {
-  background: rgba(255,255,255,0.55);
-  transform: translateY(-4px);
-}
-
-/* ACTIVE TAB */
-.bottom-nav button.active {
-  background: rgba(255,255,255,0.85);
-  color: #3a2f90;
-  transform: translateY(-6px) scale(1.08);
+  transition: all .22s cubic-bezier(.22, 1.25, .32, 1);
   box-shadow:
-    0 6px 20px rgba(0,0,0,0.18),
-    inset 0 2px 0 rgba(255,255,255,0.9);
+    0 2px 8px rgba(0,0,0,0.1),
+    inset 0 1px 0 rgba(255,255,255,0.55);
+}
+
+/* Hover for desktop preview only */
+.bottom-nav button:hover {
+  transform: translateY(-4px);
+  background: rgba(255,255,255,0.75);
+}
+
+/* ACTIVE (Haptic Pop Effect) */
+.bottom-nav button.active {
+  background: white;
+  color: #3a39ff;
+
+  transform: translateY(-8px) scale(1.18);
+  border-color: rgba(120,120,255,0.5);
+
+  box-shadow:
+    0 14px 28px rgba(120,120,255,0.28),
+    inset 0 2px 0 rgba(255,255,255,0.95);
+}
+
+/* "Haptic" bounce animation on press */
+.bottom-nav button:active {
+  transform: scale(0.90);
+  transition: transform 0.12s cubic-bezier(.22,1.22,.36,1.45);
 }
 
 /* MOBILE ONLY */
@@ -143,7 +149,7 @@ input:focus-visible {
   .bottom-nav { display: flex !important; }
 }
 
-/* DESKTOP HIDE */
+/* DESKTOP: hide bottom nav */
 @media (min-width: 901px) {
   .bottom-nav { display: none !important; }
 }
