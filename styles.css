@@ -1564,35 +1564,6 @@ html {
   }
 }
 
-/* DESKTOP VIEW — Show sidebar, hide bottom nav */
-@media (min-width: 901px) {
-
-  .desktop-nav {
-    display: flex !important;
-  }
-
-  .bottom-nav {
-    display: none !important;
-  }
-
-  #page {
-    margin-left: 240px !important;
-  }
-  
-  /* DESKTOP: Add sidebar margin to ALL pages */
-  .feed-container,
-  .search-container,
-  .messages-container,
-  .profile-page,
-  .partner-container,
-  .space-container,
-  .profile-container {
-    margin-left: 260px !important; /* width of your sidebar */
-    width: calc(100% - 260px) !important; /* TAKE REMAINING SPACE */
-    box-sizing: border-box;
-  }
-}
-
 /* DESKTOP: shift whole app content right when sidebar is visible */
 @media (min-width: 901px) {
   #content {
