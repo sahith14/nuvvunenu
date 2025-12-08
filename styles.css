@@ -69,66 +69,79 @@ input:focus-visible {
 ============================================ */
 
 .bottom-nav {
-  background: rgba(255, 255, 255, 0.10);  /* MUCH MORE TRANSPARENT */
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
 
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  width: 92%;
+  max-width: 420px;
+  height: 80px;
+  padding: 0 18px;
 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border-radius: 30px;
+
+  /* TRUE iPhone glass */
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(45px) saturate(200%);
+  -webkit-backdrop-filter: blur(45px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+
+  /* floating effect */
   box-shadow:
-    0 8px 28px rgba(0, 0, 0, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.30),
-    inset 0 -8px 20px rgba(200, 160, 255, 0.12);
+    0 18px 45px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255,255,255,0.35);
+
+  z-index: 9999;
 }
 
 /* BUTTONS – VisionOS Glass Buttons */
 .bottom-nav button {
   width: 56px;
   height: 56px;
+  border-radius: 18px;
+
+  background: rgba(255,255,255,0.75); /* WHITE box */
+  border: 1px solid rgba(255,255,255,0.55);
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  border-radius: 18px;
+  color: #6f4dff; /* purple icon */
+  font-size: 1.5rem;
 
-  /* button glass */
-  background: rgba(255,255,255,0.22);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255,255,255,0.32);
+  transition: all 0.25s cubic-bezier(.18,.89,.32,1.28);
 
-  color: #b7a9ff;
-  font-size: 1.42rem;
-
-  transition: all .25s cubic-bezier(.18,.89,.32,1.28);
-  
+  /* soft shadow under white box */
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.55),
-    0 4px 18px rgba(0,0,0,0.22);
+    0 6px 18px rgba(0,0,0,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.9);
 }
 
 /* HOVER */
 .bottom-nav button:hover {
-  background: rgba(255,255,255,0.32);
-  border-color: rgba(255,255,255,0.48);
   transform: translateY(-4px);
-  color: white;
+  background: rgba(255,255,255,0.85);
 }
 
 /* ACTIVE – True VisionOS Shine */
 .bottom-nav button.active {
-  background: linear-gradient(145deg, #6e63ff, #7b8cff); /* 🔥 blue-purple glass */
-  border-color: rgba(255,255,255,0.55);
-  color: #ffffff !important;
+  background: linear-gradient(145deg, #7c5bff, #a084ff); /* purple-blue */
+  border-color: rgba(255,255,255,0.65);
 
-  transform: translateY(-10px) scale(1.12);
+  color: #ffffff !important; /* white icon */
+  transform: translateY(-8px) scale(1.10);
 
   box-shadow:
-    0 12px 30px rgba(110, 100, 255, 0.45),   /* blue glow */
-    0 0 25px rgba(150, 140, 255, 0.55),      /* outer aura */
-    inset 0 2px 0 rgba(255,255,255,0.85),    /* inner shine */
-    inset 0 -6px 14px rgba(180,150,255,0.35);
+    0 12px 30px rgba(132, 112, 255, 0.45),
+    0 0 35px rgba(180, 150, 255, 0.55),
+    inset 0 2px 0 rgba(255,255,255,0.9),
+    inset 0 -8px 22px rgba(150, 120, 255, 0.35);
 }
 
 /* remove any old active dot */
