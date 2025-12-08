@@ -56,6 +56,9 @@ body {
 /******************************************
   BOTTOM NAV FOR MOBILE
 ******************************************/
+/******************************************
+  BOTTOM NAV FOR MOBILE
+******************************************/
 /* ============================================
    HYBRID VISIONOS × WHITE GLASS BOTTOM NAV
 ============================================ */
@@ -117,6 +120,59 @@ body {
   box-shadow:
       0 8px 22px rgba(130,90,255,0.45),
       inset 0 0 10px rgba(255,255,255,0.5);
+}
+
+/* RESPONSIVE NAVIGATION FIX */
+
+/* MOBILE VIEW — Show bottom nav, hide desktop nav */
+@media (max-width: 900px) {
+  .desktop-nav {
+    display: none !important;
+  }
+
+  .bottom-nav {
+    display: flex !important;
+  }
+
+  #page {
+    margin-left: 0 !important;
+  }
+}
+
+/* DESKTOP VIEW — Show sidebar, hide bottom nav */
+@media (min-width: 901px) {
+  .desktop-nav {
+    display: flex !important;
+  }
+
+  .bottom-nav {
+    display: none !important;
+  }
+
+  #page {
+    margin-left: 240px !important;
+  }
+}
+
+/* Navigation button animations (also applied to bottom nav) */
+button, .vision-nav button, .desktop-nav button {
+  transition: transform 0.18s cubic-bezier(.18,.89,.32,1.28), 
+              background 0.25s, box-shadow 0.25s;
+}
+
+button:active, 
+.vision-nav button:active,
+.desktop-nav button:active {
+  transform: scale(0.92);
+}
+
+.vision-nav button {
+  transition: all 0.35s cubic-bezier(.18,.89,.32,1.28);
+}
+
+.vision-nav button.active {
+  transform: scale(1.12) translateY(-4px);
+  box-shadow: 0 0 22px rgba(122, 66, 255, 0.4);
 }
 
 /* Intro */
