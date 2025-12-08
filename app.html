@@ -22,9 +22,6 @@
     <button onclick="loadPage('messages')" id="nav-messages-desktop"><i class="fas fa-envelope"></i> <span>DMs</span></button>
     <button onclick="loadPage('partner')" id="nav-partner-desktop"><i class="fas fa-heart"></i> <span>Partner</span></button>
     <button onclick="loadPage('space')" id="nav-space-desktop"><i class="fas fa-star"></i> <span>Space</span></button>
-    <button onclick="loadPage('profileView', auth.currentUser.uid)" id="nav-profileView-desktop">
-      <i class="fas fa-user"></i> <span>Profile</span>
-    </button>
   </nav>
 
   <nav class="bottom-nav">
@@ -34,9 +31,6 @@
     <button id="nav-partner" onclick="loadPage('partner')"><i class="fas fa-heart"></i></button>
     <button id="nav-space" onclick="loadPage('space')"><i class="fas fa-star"></i></button>
     <button id="nav-profile" onclick="loadPage('profile')"><i class="fas fa-user"></i></button>
-    <button id="nav-profileView" onclick="loadPage('profileView', auth.currentUser.uid)">
-      <i class="fas fa-user"></i>
-    </button>
   </nav>
 
   <!-- REACTION MENU (USED BY messages.js) -->
