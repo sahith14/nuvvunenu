@@ -65,93 +65,260 @@ input:focus-visible {
    🔥 NEW BOTTOM NAV — CLEAN, MODERN, GLASSY
    =================================================== */
 
-/* =====================================================
-   🍎 iOS 26 BOTTOM NAV — CURVED ICONS + HAPTIC POP
-   ===================================================== */
+/* ============================================
+   🍎 iOS 26 + VisionOS Glass Bottom Navigation
+   ============================================ */
 
 .bottom-nav {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-
-  width: 88%;
-  max-width: 420px;
-  height: 70px;
-
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(22px) saturate(180%);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
-
-  border-radius: 28px;
-  border: 1px solid rgba(255, 255, 255, 0.55);
-
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-
-  box-shadow:
-    0 8px 28px rgba(0,0,0,0.18),
-    inset 0 1px 0 rgba(255,255,255,0.65);
-
-  z-index: 999999;
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: 80px !important;
+  padding: 0 20px !important;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom, 0)) !important;
+  
+  display: flex !important;
+  justify-content: space-around !important;
+  align-items: center !important;
+  
+  /* iOS 26 VisionOS Glass Effect */
+  background: rgba(255, 255, 255, 0.08) !important;
+  backdrop-filter: blur(40px) saturate(200%) brightness(1.1) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.1) !important;
+  
+  /* Ultra-thin border for depth */
+  border-top: 0.5px solid rgba(255, 255, 255, 0.25) !important;
+  
+  /* VisionOS subtle shadow */
+  box-shadow: 
+    0 -1px 30px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 0 0 0.5px rgba(255, 255, 255, 0.05) !important;
+  
+  z-index: 10000 !important;
+  margin: 0 !important;
+  transform: none !important;
 }
 
-/* Each icon container (iOS bubbly icon style) */
+/* Bottom nav buttons - iOS 26 Style */
 .bottom-nav button {
-  width: 54px;
-  height: 54px;
-
-  background: rgba(255,255,255,0.55);
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.4);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  font-size: 1.45rem;
-  color: #6b6bff;
-
-  transition: all .22s cubic-bezier(.22, 1.25, .32, 1);
-  box-shadow:
-    0 2px 8px rgba(0,0,0,0.1),
-    inset 0 1px 0 rgba(255,255,255,0.55);
+  width: 48px !important;
+  height: 48px !important;
+  
+  /* iOS Glass Button */
+  background: rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(15px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
+  
+  /* Perfect iOS Rounded Rectangle */
+  border-radius: 14px !important;
+  border: none !important;
+  
+  /* Ultra-thin border for depth */
+  border: 0.5px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 0 0 0.5px rgba(255, 255, 255, 0.05) !important;
+  
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  
+  font-size: 1.3rem !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  position: relative !important;
+  
+  /* iOS Press Effect */
+  -webkit-tap-highlight-color: transparent !important;
 }
 
-/* Hover for desktop preview only */
-.bottom-nav button:hover {
-  transform: translateY(-4px);
-  background: rgba(255,255,255,0.75);
+/* Middle (Center) Button - VisionOS Glow */
+.bottom-nav button:nth-child(3) {
+  width: 56px !important;
+  height: 56px !important;
+  
+  /* VisionOS Purple Glass */
+  background: linear-gradient(
+    135deg, 
+    rgba(147, 112, 255, 0.4), 
+    rgba(180, 150, 255, 0.25)
+  ) !important;
+  backdrop-filter: blur(25px) saturate(200%) !important;
+  
+  border-radius: 18px !important;
+  border: 0.5px solid rgba(255, 255, 255, 0.3) !important;
+  transform: translateY(-18px) !important;
+  
+  /* iOS 26 Glow Effect */
+  box-shadow: 
+    0 16px 35px rgba(147, 112, 255, 0.3),
+    0 0 40px rgba(147, 112, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 0 0 0.5px rgba(255, 255, 255, 0.1) !important;
+  
+  color: white !important;
+  font-size: 1.5rem !important;
 }
 
-/* ACTIVE (Haptic Pop Effect) */
-.bottom-nav button.active {
-  background: white;
-  color: #3a39ff;
-
-  transform: translateY(-8px) scale(1.18);
-  border-color: rgba(120,120,255,0.5);
-
-  box-shadow:
-    0 14px 28px rgba(120,120,255,0.28),
-    inset 0 2px 0 rgba(255,255,255,0.95);
+/* Active State - iOS Blue Glow */
+.bottom-nav button.active:not(:nth-child(3)) {
+  background: rgba(100, 122, 255, 0.25) !important;
+  color: rgba(255, 255, 255, 1) !important;
+  transform: translateY(-6px) !important;
+  
+  /* Active Glow */
+  box-shadow: 
+    0 10px 25px rgba(100, 122, 255, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 0 0 0.5px rgba(100, 122, 255, 0.2) !important;
 }
 
-/* "Haptic" bounce animation on press */
+/* Active Dot Indicator (iOS Style) */
+.bottom-nav button.active:not(:nth-child(3))::after {
+  content: '';
+  position: absolute;
+  bottom: 6px;
+  width: 4px;
+  height: 4px;
+  background: rgba(100, 122, 255, 0.9);
+  border-radius: 50%;
+  opacity: 1;
+  box-shadow: 0 0 8px rgba(100, 122, 255, 0.6);
+}
+
+/* Hover Effects (Desktop only) */
+@media (hover: hover) {
+  .bottom-nav button:hover:not(:nth-child(3)) {
+    background: rgba(255, 255, 255, 0.18) !important;
+    transform: translateY(-4px) scale(1.05) !important;
+    box-shadow: 
+      0 12px 30px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+  }
+  
+  .bottom-nav button:nth-child(3):hover {
+    background: linear-gradient(
+      135deg, 
+      rgba(147, 112, 255, 0.5), 
+      rgba(180, 150, 255, 0.35)
+    ) !important;
+    transform: translateY(-18px) scale(1.08) !important;
+    box-shadow: 
+      0 20px 40px rgba(147, 112, 255, 0.4),
+      0 0 50px rgba(147, 112, 255, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+  }
+}
+
+/* Press Animation */
 .bottom-nav button:active {
-  transform: scale(0.90);
-  transition: transform 0.12s cubic-bezier(.22,1.22,.36,1.45);
+  transform: scale(0.92) !important;
+  transition: transform 0.1s ease !important;
 }
 
-/* MOBILE ONLY */
+.bottom-nav button:nth-child(3):active {
+  transform: translateY(-18px) scale(0.95) !important;
+}
+
+/* iOS Label Style (Optional - if you want labels) */
+.bottom-nav-label {
+  position: absolute;
+  bottom: -18px;
+  font-size: 0.6rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.3px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.bottom-nav button.active .bottom-nav-label {
+  opacity: 1;
+}
+
+/* Mobile visibility */
 @media (max-width: 900px) {
-  .bottom-nav { display: flex !important; }
+  .bottom-nav {
+    display: flex !important;
+    height: 85px !important;
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0)) !important;
+  }
+  
+  /* Ensure content doesn't hide behind nav */
+  #content,
+  .page,
+  .feed-container,
+  .profile-page,
+  .messages-container,
+  .search-container,
+  .space-container {
+    padding-bottom: 95px !important;
+  }
 }
 
-/* DESKTOP: hide bottom nav */
+/* Desktop hide */
 @media (min-width: 901px) {
-  .bottom-nav { display: none !important; }
+  .bottom-nav {
+    display: none !important;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .bottom-nav {
+    background: rgba(30, 30, 40, 0.12) !important;
+    border-top: 0.5px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 
+      0 -1px 30px rgba(0, 0, 0, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+  }
+  
+  .bottom-nav button {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+    border: 0.5px solid rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  .bottom-nav button:nth-child(3) {
+    background: linear-gradient(
+      135deg, 
+      rgba(147, 112, 255, 0.35), 
+      rgba(180, 150, 255, 0.2)
+    ) !important;
+  }
+}
+
+/* Accessibility & Performance */
+.bottom-nav button:focus-visible {
+  outline: 2px solid rgba(100, 122, 255, 0.6) !important;
+  outline-offset: 2px !important;
+}
+
+/* iOS-Safe Area for Notch Phones */
+@supports (padding: max(0px)) {
+  .bottom-nav {
+    padding-bottom: max(16px, env(safe-area-inset-bottom)) !important;
+  }
+}
+
+/* Smooth Entrance Animation */
+@keyframes slideUpNav {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.bottom-nav {
+  animation: slideUpNav 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
 }
 
 /* INTRO */
