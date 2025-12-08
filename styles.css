@@ -65,7 +65,7 @@ input:focus-visible {
   BOTTOM NAV FOR MOBILE
 ******************************************/
 /* ============================================
-   🟣 FINAL VISIONOS PURPLE BOTTOM NAV (GLOBAL)
+   🟣 VISIONOS PURPLE BOTTOM NAV (FULL REWRITE)
 ============================================ */
 
 .bottom-nav {
@@ -73,7 +73,7 @@ input:focus-visible {
   bottom: 22px;
   left: 50%;
   transform: translateX(-50%);
-
+  
   width: 90%;
   max-width: 420px;
   height: 74px;
@@ -94,43 +94,43 @@ input:focus-visible {
   box-shadow:
     0 6px 30px rgba(0,0,0,0.25),
     inset 0 1px 0 rgba(255,255,255,0.7);
-  
+
+  z-index: 9999;
   transition: 0.25s ease;
-  z-index: 99999;
 }
 
-/* BUTTON BASE */
+/* BUTTON STYLE */
 .bottom-nav button {
   width: 54px;
   height: 54px;
-
-  background: rgba(255,255,255,0.30);
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.40);
-
-  color: #6c55d3;
-  font-size: 1.45rem;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
+  background: rgba(255,255,255,0.30);
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.40);
+
+  font-size: 1.45rem;
+  color: #6c55d3;
+  
   transition: all .28s cubic-bezier(.18,.89,.32,1.28);
   box-shadow:
     0 4px 20px rgba(0,0,0,0.15),
     inset 0 1px 0 rgba(255,255,255,0.6);
 }
 
-/* HOVER */
+/* BUTTON HOVER */
 .bottom-nav button:hover {
-  transform: translateY(-4px);
   background: rgba(255,255,255,0.55);
+  transform: translateY(-4px);
 }
 
-/* ACTIVE BUTTON (MATCHES YOUR PURPLE THEME) */
+/* ACTIVE BUTTON */
 .bottom-nav button.active {
   background: linear-gradient(135deg, #8a6dff, #cdb5ff);
-  color: white !important;
+  color: #ffffff !important;
 
   transform: translateY(-12px) scale(1.15);
   border: 1px solid rgba(255,255,255,0.55);
@@ -140,19 +140,19 @@ input:focus-visible {
     inset 0 1px 0 rgba(255,255,255,0.85);
 }
 
-/* REMOVE OLD ACTIVE DOTS */
+/* REMOVE OLD ACTIVE DOT */
 .bottom-nav button.active::after {
   display: none !important;
 }
 
-/* MOBILE VISIBLE */
+/* MOBILE: SHOW NAV */
 @media (max-width: 900px) {
   .bottom-nav {
     display: flex;
   }
 }
 
-/* DESKTOP HIDE */
+/* DESKTOP: HIDE NAV */
 @media (min-width: 901px) {
   .bottom-nav {
     display: none !important;
