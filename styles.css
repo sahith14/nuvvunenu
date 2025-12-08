@@ -56,13 +56,6 @@ body {
 /******************************************
   BOTTOM NAV FOR MOBILE
 ******************************************/
-/******************************************
-  BOTTOM NAV FOR MOBILE
-******************************************/
-/* ============================================
-   HYBRID VISIONOS × WHITE GLASS BOTTOM NAV
-============================================ */
-
 .bottom-nav {
   position: fixed;
   bottom: 22px;
@@ -87,7 +80,6 @@ body {
   z-index: 9999;
 }
 
-/******** DEFAULT (RESET ALWAYS) ********/
 .bottom-nav button {
   background: rgba(255,255,255,0.45) !important;
   backdrop-filter: blur(18px);
@@ -111,7 +103,6 @@ body {
       inset 0 0 6px rgba(255,255,255,0.45);
 }
 
-/******** ACTIVE (PURPLE) ********/
 .bottom-nav button.active {
   background: linear-gradient(135deg, #8f74ff, #bda6ff) !important;
   color: white !important;
@@ -122,57 +113,18 @@ body {
       inset 0 0 10px rgba(255,255,255,0.5);
 }
 
-/* RESPONSIVE NAVIGATION FIX */
-
 /* MOBILE VIEW — Show bottom nav, hide desktop nav */
 @media (max-width: 900px) {
-  .desktop-nav {
-    display: none !important;
-  }
-
   .bottom-nav {
     display: flex !important;
   }
-
-  #page {
-    margin-left: 0 !important;
-  }
 }
 
-/* DESKTOP VIEW — Show sidebar, hide bottom nav */
+/* DESKTOP VIEW — Hide bottom nav */
 @media (min-width: 901px) {
-  .desktop-nav {
-    display: flex !important;
-  }
-
   .bottom-nav {
     display: none !important;
   }
-
-  #page {
-    margin-left: 240px !important;
-  }
-}
-
-/* Navigation button animations (also applied to bottom nav) */
-button, .vision-nav button, .desktop-nav button {
-  transition: transform 0.18s cubic-bezier(.18,.89,.32,1.28), 
-              background 0.25s, box-shadow 0.25s;
-}
-
-button:active, 
-.vision-nav button:active,
-.desktop-nav button:active {
-  transform: scale(0.92);
-}
-
-.vision-nav button {
-  transition: all 0.35s cubic-bezier(.18,.89,.32,1.28);
-}
-
-.vision-nav button.active {
-  transform: scale(1.12) translateY(-4px);
-  box-shadow: 0 0 22px rgba(122, 66, 255, 0.4);
 }
 
 /* Intro */
@@ -247,16 +199,32 @@ button {
 
 /* Default — when screen is wide */
 .feed-container {
-  margin-left: 260px; /* space for sidebar */
-  max-width: 750px;
+  margin-left: 250px; /* REDUCED GAP - 10px from sidebar */
+  width: calc(100% - 250px); /* ADJUSTED WIDTH */
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 /* When screen width is below 900px — center the feed */
 @media (max-width: 900px) {
   .feed-container {
-    margin-left: auto !important;
-    margin-right: auto !important;
-    max-width: 600px;
+    margin-left: 0 !important;
+    width: 100% !important; /* FULL WIDTH ON MOBILE */
+    padding: 15px;
+  }
+}
+
+@media (max-width: 900px) {
+  #content {
+    margin-left: 0 !important;
+  }
+}
+
+@media (min-width: 901px) {
+  .feed-container {
+    margin-left: 250px; /* REDUCED GAP - 10px from sidebar */
+    width: calc(100% - 250px); /* TAKE REMAINING SPACE */
+    max-width: none; /* REMOVE MAX-WIDTH CONSTRAINT */
   }
 }
 
@@ -527,6 +495,9 @@ button {
 
 .search-container {
   padding: 15px;
+  margin-left: 260px; /* SIDEBAR SPACE */
+  width: calc(100% - 260px); /* REMAINING SPACE */
+  box-sizing: border-box;
 }
 
 #searchInput {
@@ -596,6 +567,9 @@ button {
 
 .messages-container {
   padding: 15px;
+  margin-left: 250px; /* SIDEBAR SPACE */
+  width: calc(100% - 250px); /* REMAINING SPACE */
+  box-sizing: border-box;
 }
 
 .dm-search {
@@ -732,6 +706,9 @@ button {
 
 .partner-container {
   padding: 15px;
+  margin-left: 250px; /* SIDEBAR SPACE */
+  width: calc(100% - 250px); /* REMAINING SPACE */
+  box-sizing: border-box;
 }
 
 .partner-results {
@@ -834,6 +811,9 @@ button {
 
 .space-container {
   padding: 20px;
+  margin-left: 250px; /* SIDEBAR SPACE */
+  width: calc(100% - 250px); /* REMAINING SPACE */
+  box-sizing: border-box;
 }
 
 .space-title {
@@ -934,6 +914,9 @@ button {
 
 .profile-container {
   padding: 15px;
+  margin-left: 250px; /* SIDEBAR SPACE */
+  width: calc(100% - 250px); /* REMAINING SPACE */
+  box-sizing: border-box;
 }
 
 .profile-header {
@@ -1566,6 +1549,19 @@ html {
   #page {
     margin-left: 0 !important;
   }
+  
+  /* MOBILE: Remove sidebar margins and make pages full width */
+  .feed-container,
+  .search-container,
+  .messages-container,
+  .profile-page,
+  .partner-container,
+  .space-container,
+  .profile-container {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding: 15px;
+  }
 }
 
 /* DESKTOP VIEW — Show sidebar, hide bottom nav */
@@ -1581,6 +1577,27 @@ html {
 
   #page {
     margin-left: 240px !important;
+  }
+  
+  /* DESKTOP: Add sidebar margin to ALL pages */
+  .feed-container,
+  .search-container,
+  .messages-container,
+  .profile-page,
+  .partner-container,
+  .space-container,
+  .profile-container {
+    margin-left: 260px !important; /* width of your sidebar */
+    width: calc(100% - 260px) !important; /* TAKE REMAINING SPACE */
+    box-sizing: border-box;
+  }
+}
+
+/* DESKTOP: shift whole app content right when sidebar is visible */
+@media (min-width: 901px) {
+  #content {
+    margin-left: 260px !important; /* width of your sidebar */
+    width: calc(100% - 260px) !important; /* TAKE REMAINING SPACE */
   }
 }
 
@@ -2115,12 +2132,6 @@ html {
   box-shadow: none !important;
 }
 
-/* Make space for the left sidebar */
-.feed-container {
-  margin-left: 260px; /* same width or slightly more than your sidebar */
-  padding: 20px;
-}
-
 /* When sidebar is open */
 .sidebar-open .feed-container {
   margin-left: 260px; /* same as sidebar width */
@@ -2615,8 +2626,12 @@ html {
   perspective: 800px;
 }
 
-.vision-header:hover {
-  transform: translateZ(12px);
+/* FIX: Stop profile card from blurring on hover */
+.vision-header:hover,
+.glass-card:hover,
+.profile-header-card:hover {
+  filter: none !important;
+  backdrop-filter: blur(20px) !important; /* Keep glass effect clean */
 }
 
 /* ============================================
@@ -2711,7 +2726,6 @@ html {
   width: 100%;
   padding: 20px;
   border-radius: 25px;
-  backdrop-filter: blur(25px);
   background: rgba(255, 255, 255, 0.3);
   transition: 0.3s;
 }
@@ -3609,4 +3623,282 @@ body.pull-reset {
   font-weight: 600;
   opacity: 0.8;
   margin-bottom: 8px;
+}
+
+/* ================================
+   RECENT SEARCH UI — FIXED
+================================ */
+
+.recent-list {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.recent-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.28);
+  backdrop-filter: blur(20px);
+  cursor: pointer;
+  transition: 0.2s;
+  position: relative;
+}
+
+.recent-item:hover {
+  transform: scale(1.02);
+}
+
+.recent-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.recent-info {
+  margin-left: 12px;
+  flex: 1;
+}
+
+.recent-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.recent-username {
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+/* Swipe delete button */
+.recent-delete {
+  position: absolute;
+  right: 12px;
+  background: #ff4b6e;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  display: none;
+}
+
+.recent-item.swiped .recent-delete {
+  display: block;
+}
+
+/* ================================
+   RECENT SEARCH UI — FIXED
+================================ */
+
+.recent-list {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.recent-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.28);
+  backdrop-filter: blur(20px);
+  cursor: pointer;
+  transition: 0.2s;
+  position: relative;
+}
+
+.recent-item:hover {
+  transform: scale(1.02);
+}
+
+.recent-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.recent-info {
+  margin-left: 12px;
+  flex: 1;
+}
+
+.recent-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.recent-username {
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+/* Swipe delete button */
+.recent-delete {
+  position: absolute;
+  right: 12px;
+  background: #ff4b6e;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  display: none;
+}
+
+.recent-item.swiped .recent-delete {
+  display: block;
+}
+
+/* FIX: Profile picture size + shape */
+.pv-avatar,
+.profile-view-avatar,
+.vision-profile-avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  border: 4px solid rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.2);
+}
+
+.vision-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 30px;
+}
+
+#pvHeader:hover {
+  filter: none !important;
+}
+
+/* ===========================
+   PROFILE PIC CROPPER
+=========================== */
+.crop-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999;
+}
+
+.crop-modal.hidden {
+  display: none;
+}
+
+.crop-box {
+  background: white;
+  padding: 18px;
+  border-radius: 20px;
+  max-width: 90%;
+  max-height: 80vh;
+  text-align: center;
+}
+
+#cropImage {
+  max-width: 100%;
+  max-height: 60vh;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.save-btn, .cancel-btn {
+  width: 120px;
+  padding: 10px;
+  border: none;
+  border-radius: 12px;
+  margin: 5px;
+  font-weight: bold;
+}
+
+.save-btn {
+  background: #7A42FF;
+  color: white;
+}
+
+.cancel-btn {
+  background: #ddd;
+}
+
+.page,
+.feed-page,
+.messages-page,
+.profile-page,
+.space-page,
+.search-page {
+  padding-bottom: 80px !important;
+}
+
+#content {
+  padding-bottom: 80px !important;  /* Prevents nav overlap */
+}
+
+body, html, #app, #content {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Ensure app stretches full screen horizontally */
+html, body, #app, #content {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow-x: hidden !important;
+}
+
+/* GLOBAL FIX: Make all pages sit above bottom nav */
+#content, 
+.page, 
+.feed-container, 
+.profile-page, 
+.messages-container, 
+.space-container {
+  padding-bottom: 90px !important;
+}
+
+/* MOBILE FIX: feed must fill full width */
+@media (max-width: 900px) {
+  .feed-container {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 0 90px 0 !important;
+  }
+}
+
+/* ============================================
+   FIXED LAYOUT - SIDEBAR & BOTTOM NAV
+============================================ */
+
+/* 1. SIDEBAR GAP FIX - Pages start right after sidebar */
+@media (min-width: 901px) {
+  #content,
+  .feed-container,
+  .search-container,
+  .messages-container,
+  .partner-container,
+  .space-container,
+  .profile-page,
+  .profile-container,
+  .dm-page {
+    margin-left: 245px !important;  /* 5px gap from 240px sidebar */
+    width: calc(100% - 245px) !important;
+    max-width: none !important;
+    box-sizing: border-box;
+  }
 }
