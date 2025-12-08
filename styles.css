@@ -100,27 +100,27 @@ input:focus-visible {
 }
 
 /* BUTTONS – VisionOS Glass Buttons */
+/* INACTIVE BUTTON (white rounded square) */
 .bottom-nav button {
   width: 56px;
   height: 56px;
   border-radius: 18px;
 
-  background: rgba(255,255,255,0.75); /* WHITE box */
-  border: 1px solid rgba(255,255,255,0.55);
+  background: rgba(255, 255, 255, 0.95); /* white box */
+  border: 1px solid rgba(255, 255, 255, 0.75);
+
+  color: #6f4dff; /* purple icon */
+  font-size: 1.4rem;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  color: #6f4dff; /* purple icon */
-  font-size: 1.5rem;
-
   transition: all 0.25s cubic-bezier(.18,.89,.32,1.28);
 
-  /* soft shadow under white box */
   box-shadow:
-    0 6px 18px rgba(0,0,0,0.12),
-    inset 0 1px 0 rgba(255,255,255,0.9);
+    0 8px 22px rgba(0,0,0,0.12),
+    inset 0 1px 0 rgba(255,255,255,1);
 }
 
 /* HOVER */
@@ -129,19 +129,20 @@ input:focus-visible {
   background: rgba(255,255,255,0.85);
 }
 
-/* ACTIVE – True VisionOS Shine */
+/* ACTIVE BUTTON (purple box + white icon) */
 .bottom-nav button.active {
-  background: linear-gradient(145deg, #7c5bff, #a084ff); /* purple-blue */
+  background: linear-gradient(145deg, #7c5bff, #a084ff); /* DM purple style */
   border-color: rgba(255,255,255,0.65);
 
   color: #ffffff !important; /* white icon */
+
   transform: translateY(-8px) scale(1.10);
 
   box-shadow:
-    0 12px 30px rgba(132, 112, 255, 0.45),
-    0 0 35px rgba(180, 150, 255, 0.55),
-    inset 0 2px 0 rgba(255,255,255,0.9),
-    inset 0 -8px 22px rgba(150, 120, 255, 0.35);
+    0 12px 30px rgba(132,112,255,0.45),   /* outer glow */
+    0 0 35px rgba(180,150,255,0.55),       /* aura */
+    inset 0 2px 0 rgba(255,255,255,0.90),  /* top shine */
+    inset 0 -8px 22px rgba(150,120,255,0.35); /* inner glow */
 }
 
 /* remove any old active dot */
