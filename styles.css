@@ -65,7 +65,7 @@ input:focus-visible {
    🔥 NEW BOTTOM NAV — CLEAN, MODERN, GLASSY
    =================================================== */
 /* ============================================
-   🍎 iOS 26 + VisionOS Glass Bottom Navigation - CLEAN VERSION
+   📱 iPhone Contacts App Style Bottom Navigation
    ============================================ */
 
 .bottom-nav {
@@ -74,183 +74,174 @@ input:focus-visible {
   left: 0 !important;
   right: 0 !important;
   width: 100% !important;
-  height: 80px !important;
-  padding: 0 20px !important;
-  padding-bottom: calc(16px + env(safe-area-inset-bottom, 0)) !important;
+  height: 83px !important;
+  padding: 0 !important;
+  padding-bottom: calc(20px + env(safe-area-inset-bottom, 0)) !important;
   
   display: flex !important;
   justify-content: space-around !important;
   align-items: center !important;
   
-  /* iOS 26 VisionOS Glass Effect */
-  background: rgba(255, 255, 255, 0.08) !important;
-  backdrop-filter: blur(40px) saturate(200%) brightness(1.1) !important;
-  -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.1) !important;
+  /* iPhone Contacts Tab Bar Background */
+  background: #F8F8F8 !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
   
-  /* Ultra-thin border for depth */
-  border-top: 0.5px solid rgba(255, 255, 255, 0.25) !important;
+  /* Classic iOS Tab Bar Border */
+  border-top: 0.5px solid rgba(0, 0, 0, 0.15) !important;
   
-  /* VisionOS subtle shadow */
-  box-shadow: 
-    0 -1px 30px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    0 0 0 0.5px rgba(255, 255, 255, 0.05) !important;
+  /* Subtle top shadow */
+  box-shadow: 0 -0.5px 1px rgba(0, 0, 0, 0.1) !important;
   
   z-index: 10000 !important;
   margin: 0 !important;
   transform: none !important;
 }
 
-/* Bottom nav buttons - iOS 26 Style */
+/* Bottom nav buttons - iPhone Contacts Style */
 .bottom-nav button {
-  width: 48px !important;
-  height: 48px !important;
+  width: auto !important;
+  height: 50px !important;
+  min-width: 60px !important;
+  max-width: 90px !important;
   
-  /* iOS Glass Button */
-  background: rgba(255, 255, 255, 0.12) !important;
-  backdrop-filter: blur(15px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(15px) saturate(180%) !important;
+  /* Clean iOS button */
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   
-  /* Perfect iOS Rounded Rectangle */
-  border-radius: 14px !important;
+  border-radius: 0 !important;
   border: none !important;
-  
-  /* Ultra-thin border for depth */
-  border: 0.5px solid rgba(255, 255, 255, 0.15) !important;
-  box-shadow: 
-    0 4px 20px rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    0 0 0 0.5px rgba(255, 255, 255, 0.05) !important;
+  box-shadow: none !important;
   
   display: flex !important;
+  flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
+  gap: 4px !important;
   
   font-size: 1.3rem !important;
-  color: rgba(255, 255, 255, 0.9) !important;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  color: #8E8E93 !important;
+  transition: all 0.2s ease !important;
   position: relative !important;
   
   /* iOS Press Effect */
   -webkit-tap-highlight-color: transparent !important;
 }
 
-/* REMOVED: Active Dot Indicator - No dots on active buttons */
-.bottom-nav button.active:not(:nth-child(3))::after {
+/* Remove all dot indicators */
+.bottom-nav button::after,
+.bottom-nav button.active::after {
   display: none !important;
 }
 
-/* Middle (Center) Button - VisionOS Glow (DM/Plus Button) */
+/* Icon style */
+.bottom-nav button i {
+  font-size: 1.4rem !important;
+  margin-bottom: 2px !important;
+}
+
+/* Label style (if you add text labels) */
+.bottom-nav-label {
+  font-size: 0.65rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.02em !important;
+  color: inherit !important;
+  opacity: 1 !important;
+  display: block !important;
+}
+
+/* Active State - iPhone Blue */
+.bottom-nav button.active {
+  color: #007AFF !important; /* iOS Blue */
+}
+
+/* Active Icon - Slightly larger */
+.bottom-nav button.active i {
+  font-size: 1.45rem !important;
+}
+
+/* Active Label - Bold */
+.bottom-nav button.active .bottom-nav-label {
+  font-weight: 600 !important;
+}
+
+/* Middle (Center) Button - Contacts Style */
 .bottom-nav button:nth-child(3) {
   width: 56px !important;
   height: 56px !important;
   
-  /* VisionOS Purple Glass - Like DM button */
-  background: linear-gradient(
-    135deg, 
-    rgba(147, 112, 255, 0.4), 
-    rgba(180, 150, 255, 0.25)
-  ) !important;
-  backdrop-filter: blur(25px) saturate(200%) !important;
+  /* iPhone Contacts Add Button */
+  background: #007AFF !important; /* iOS Blue */
+  border-radius: 28px !important;
   
-  border-radius: 18px !important;
-  border: 0.5px solid rgba(255, 255, 255, 0.3) !important;
-  transform: translateY(-18px) !important;
+  transform: translateY(-28px) !important;
   
-  /* iOS 26 Glow Effect */
+  /* iOS Button Shadow */
   box-shadow: 
-    0 16px 35px rgba(147, 112, 255, 0.3),
-    0 0 40px rgba(147, 112, 255, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4),
-    0 0 0 0.5px rgba(255, 255, 255, 0.1) !important;
+    0 4px 10px rgba(0, 122, 255, 0.3),
+    0 1px 3px rgba(0, 0, 0, 0.15) !important;
   
   color: white !important;
-  font-size: 1.5rem !important;
+  font-size: 1.6rem !important;
 }
 
-/* Active State - Make all active buttons look like the DM button */
-.bottom-nav button.active:not(:nth-child(3)) {
-  /* Same purple glass gradient as DM button */
-  background: linear-gradient(
-    135deg, 
-    rgba(147, 112, 255, 0.4), 
-    rgba(180, 150, 255, 0.25)
-  ) !important;
-  backdrop-filter: blur(25px) saturate(200%) !important;
-  
-  color: white !important;
-  transform: translateY(-10px) !important;
-  
-  /* Same glow as DM button but slightly smaller */
-  border: 0.5px solid rgba(255, 255, 255, 0.3) !important;
-  box-shadow: 
-    0 12px 30px rgba(147, 112, 255, 0.25),
-    0 0 30px rgba(147, 112, 255, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    0 0 0 0.5px rgba(255, 255, 255, 0.1) !important;
-  
-  /* Slightly larger when active */
-  width: 52px !important;
-  height: 52px !important;
+/* Center button icon */
+.bottom-nav button:nth-child(3) i {
+  font-size: 1.6rem !important;
+  margin: 0 !important;
+}
+
+/* Center button label */
+.bottom-nav button:nth-child(3) .bottom-nav-label {
+  display: none !important; /* Hide label for center button */
 }
 
 /* Hover Effects (Desktop only) */
 @media (hover: hover) {
   .bottom-nav button:hover:not(:nth-child(3)) {
-    background: rgba(255, 255, 255, 0.18) !important;
-    transform: translateY(-4px) scale(1.05) !important;
-    box-shadow: 
-      0 12px 30px rgba(0, 0, 0, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+    color: #007AFF !important;
+    transform: translateY(-2px) !important;
   }
   
   .bottom-nav button:nth-child(3):hover {
-    background: linear-gradient(
-      135deg, 
-      rgba(147, 112, 255, 0.5), 
-      rgba(180, 150, 255, 0.35)
-    ) !important;
-    transform: translateY(-18px) scale(1.08) !important;
+    background: #0056CC !important;
+    transform: translateY(-28px) scale(1.05) !important;
     box-shadow: 
-      0 20px 40px rgba(147, 112, 255, 0.4),
-      0 0 50px rgba(147, 112, 255, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
-  }
-  
-  /* Hover effect for active buttons */
-  .bottom-nav button.active:not(:nth-child(3)):hover {
-    background: linear-gradient(
-      135deg, 
-      rgba(147, 112, 255, 0.5), 
-      rgba(180, 150, 255, 0.35)
-    ) !important;
-    transform: translateY(-10px) scale(1.08) !important;
-    box-shadow: 
-      0 16px 35px rgba(147, 112, 255, 0.35),
-      0 0 40px rgba(147, 112, 255, 0.25),
-      inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+      0 6px 15px rgba(0, 122, 255, 0.4),
+      0 2px 5px rgba(0, 0, 0, 0.2) !important;
   }
 }
 
 /* Press Animation */
-.bottom-nav button:active {
-  transform: scale(0.92) !important;
-  transition: transform 0.1s ease !important;
+.bottom-nav button:active:not(:nth-child(3)) {
+  transform: scale(0.96) !important;
+  opacity: 0.7 !important;
 }
 
 .bottom-nav button:nth-child(3):active {
-  transform: translateY(-18px) scale(0.95) !important;
+  transform: translateY(-28px) scale(0.95) !important;
+  background: #0047AB !important;
 }
 
-.bottom-nav button.active:not(:nth-child(3)):active {
-  transform: translateY(-10px) scale(0.9) !important;
+/* Active State Indicator (subtle blue dot) */
+.bottom-nav button.active::before {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  width: 4px;
+  height: 4px;
+  background: #007AFF;
+  border-radius: 50%;
+  opacity: 0.8;
+  display: none; /* Hidden by default, can enable if you want dots */
 }
 
 /* Mobile visibility */
 @media (max-width: 900px) {
   .bottom-nav {
     display: flex !important;
-    height: 85px !important;
+    height: 83px !important;
     padding-bottom: calc(20px + env(safe-area-inset-bottom, 0)) !important;
   }
   
@@ -262,7 +253,7 @@ input:focus-visible {
   .messages-container,
   .search-container,
   .space-container {
-    padding-bottom: 95px !important;
+    padding-bottom: 100px !important;
   }
 }
 
@@ -273,42 +264,49 @@ input:focus-visible {
   }
 }
 
-/* Dark Mode Support */
+/* Dark Mode Support - iPhone Contacts Dark Mode */
 @media (prefers-color-scheme: dark) {
   .bottom-nav {
-    background: rgba(30, 30, 40, 0.12) !important;
-    border-top: 0.5px solid rgba(255, 255, 255, 0.15) !important;
-    box-shadow: 
-      0 -1px 30px rgba(0, 0, 0, 0.25),
-      inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+    background: #1C1C1E !important; /* iOS Dark Tab Bar */
+    border-top: 0.5px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 -0.5px 1px rgba(0, 0, 0, 0.3) !important;
   }
   
   .bottom-nav button {
-    background: rgba(255, 255, 255, 0.08) !important;
-    color: rgba(255, 255, 255, 0.85) !important;
-    border: 0.5px solid rgba(255, 255, 255, 0.1) !important;
+    color: #8E8E93 !important;
   }
   
-  .bottom-nav button:nth-child(3),
-  .bottom-nav button.active:not(:nth-child(3)) {
-    background: linear-gradient(
-      135deg, 
-      rgba(147, 112, 255, 0.35), 
-      rgba(180, 150, 255, 0.2)
-    ) !important;
+  .bottom-nav button.active {
+    color: #0A84FF !important; /* iOS Dark Mode Blue */
+  }
+  
+  .bottom-nav button:nth-child(3) {
+    background: #0A84FF !important;
+    box-shadow: 
+      0 4px 10px rgba(10, 132, 255, 0.3),
+      0 1px 3px rgba(0, 0, 0, 0.25) !important;
+  }
+  
+  .bottom-nav button:nth-child(3):hover {
+    background: #0066CC !important;
+  }
+  
+  .bottom-nav button.active::before {
+    background: #0A84FF !important;
   }
 }
 
 /* Accessibility & Performance */
 .bottom-nav button:focus-visible {
-  outline: 2px solid rgba(147, 112, 255, 0.6) !important;
+  outline: 2px solid #007AFF !important;
   outline-offset: 2px !important;
+  border-radius: 8px !important;
 }
 
 /* iOS-Safe Area for Notch Phones */
 @supports (padding: max(0px)) {
   .bottom-nav {
-    padding-bottom: max(16px, env(safe-area-inset-bottom)) !important;
+    padding-bottom: max(20px, env(safe-area-inset-bottom)) !important;
   }
 }
 
@@ -328,10 +326,53 @@ input:focus-visible {
   animation: slideUpNav 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
 }
 
-/* Also remove any other dot indicators from other bottom-nav sections in the file */
-/* Remove this line from line 178 (or wherever it appears) */
-.bottom-nav button.active::after {
-  display: none !important;
+/* iPhone Contacts specific styling */
+.bottom-nav {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif !important;
+}
+
+/* If you want to add labels to your buttons, use this structure in HTML:
+<button>
+  <i class="fas fa-home"></i>
+  <span class="bottom-nav-label">Home</span>
+</button>
+*/
+
+/* If you're not using labels, adjust spacing */
+.bottom-nav button:not(:has(.bottom-nav-label)) {
+  padding-top: 8px !important;
+}
+
+/* Active state with subtle animation */
+@keyframes activePulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.bottom-nav button.active i {
+  animation: activePulse 0.3s ease !important;
+}
+
+/* Remove any previous bottom-nav styles that might conflict */
+/* This ensures clean iPhone Contacts style */
+.bottom-nav button.active:not(:nth-child(3)) {
+  background: transparent !important;
+  transform: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #007AFF !important;
+  width: auto !important;
+  height: 50px !important;
+}
+
+/* Clean up any gradient backgrounds */
+.bottom-nav button,
+.bottom-nav button.active,
+.bottom-nav button:hover {
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 /* INTRO */
