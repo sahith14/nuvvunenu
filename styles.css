@@ -65,117 +65,147 @@ input:focus-visible {
   BOTTOM NAV FOR MOBILE
 ******************************************/
 /* ============================================
-   HYBRID VISIONOS × WHITE GLASS BOTTOM NAV
+   VISIONOS BOTTOM NAV - FIXED (MATCHING SCREENSHOT)
 ============================================ */
 
 .bottom-nav {
   position: fixed !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100% !important;
-  height: 65px !important;
-  padding: 0 15px !important;
-  padding-bottom: env(safe-area-inset-bottom, 0) !important;
+  bottom: 20px !important; /* Floating above bottom */
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 85% !important;
+  max-width: 400px !important;
+  height: 70px !important;
+  padding: 0 20px !important;
   
   display: flex !important;
-  justify-content: space-around !important;
+  justify-content: space-between !important;
   align-items: center !important;
   
-  background: rgba(255, 255, 255, 0.85) !important;
-  backdrop-filter: blur(30px) !important;
-  border-top: 1px solid rgba(200, 200, 200, 0.3) !important;
+  /* VISIONOS GLASS EFFECT */
+  background: rgba(255, 255, 255, 0.25) !important;
+  backdrop-filter: blur(35px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(35px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  border-radius: 22px !important;
+  
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
   
   z-index: 10000 !important;
 }
 
-/* Bottom nav buttons */
+/* Bottom nav buttons - Default */
 .bottom-nav button {
-  width: 44px !important;
-  height: 44px !important;
-  background: transparent !important;
-  border-radius: 12px !important;
-  border: none !important;
+  width: 48px !important;
+  height: 48px !important;
+  background: rgba(255, 255, 255, 0.4) !important;
+  backdrop-filter: blur(15px) !important;
+  border-radius: 14px !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
   
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   
-  font-size: 1.1rem !important;
-  color: #666 !important;
-  transition: all 0.2s ease !important;
+  font-size: 1.3rem !important;
+  color: #555 !important;
+  transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28) !important;
   position: relative !important;
 }
 
-/* Active state - center button is purple */
+/* Active button (like DM button in screenshot) */
 .bottom-nav button.active {
   background: linear-gradient(135deg, #8f74ff, #bda6ff) !important;
-  color: white !important;
-  transform: translateY(-8px) !important;
-  box-shadow: 0 8px 20px rgba(143, 116, 255, 0.4) !important;
-  border-radius: 15px !important;
-  width: 50px !important;
-  height: 50px !important;
+  color: white !important; /* White icon */
+  transform: translateY(-8px) scale(1.1) !important;
+  box-shadow: 
+    0 10px 25px rgba(143, 116, 255, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
 }
 
-/* Center button (usually the + or middle button) */
-.bottom-nav button:nth-child(3) {  /* Adjust based on your button order */
+/* Center button (purple + button) - IF you want it */
+.bottom-nav button:nth-child(3) {
   background: linear-gradient(135deg, #8f74ff, #bda6ff) !important;
   color: white !important;
-  transform: translateY(-8px) !important;
-  box-shadow: 0 8px 20px rgba(143, 116, 255, 0.4) !important;
-  border-radius: 15px !important;
-  width: 50px !important;
-  height: 50px !important;
+  transform: translateY(-10px) scale(1.15) !important;
+  box-shadow: 
+    0 15px 30px rgba(143, 116, 255, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
 }
 
 /* Hover effects */
 .bottom-nav button:hover:not(.active):not(:nth-child(3)) {
-  background: rgba(255, 255, 255, 0.7) !important;
-  transform: translateY(-2px) !important;
+  background: rgba(255, 255, 255, 0.6) !important;
+  transform: translateY(-3px) !important;
+  color: #7A42FF !important;
 }
 
 /* Active indicator dot for other buttons */
-.bottom-nav button:not(.active):not(:nth-child(3))::after {
+.bottom-nav button.active::after {
   content: '';
   position: absolute;
-  bottom: 4px;
-  width: 4px;
-  height: 4px;
-  background: #8f74ff;
+  bottom: 6px;
+  width: 5px;
+  height: 5px;
+  background: white;
   border-radius: 50%;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.bottom-nav button.active::after {
   opacity: 1;
 }
 
-/* Mobile view - always show */
+/* Mobile visibility */
 @media (max-width: 900px) {
   .bottom-nav {
     display: flex !important;
+    bottom: 15px !important; /* Adjust for mobile */
+    width: 90% !important;
   }
   
-  /* Adjust content padding to avoid overlap */
+  /* Ensure content doesn't hide behind nav */
   #content,
   .feed-container,
   .profile-page,
   .messages-container,
-  .search-container {
-    padding-bottom: 75px !important;
+  .search-container,
+  .space-container {
+    padding-bottom: 100px !important; /* Extra space for floating nav */
   }
 }
 
-/* Desktop view - hide bottom nav */
+/* Desktop hide */
 @media (min-width: 901px) {
   .bottom-nav {
     display: none !important;
   }
 }
 
-/* Intro */
+/* DM ACTIVE STATE SPECIFIC FIX */
+.bottom-nav button.active i.fa-comment,
+.bottom-nav button.active i.fa-comments,
+.bottom-nav button.active i.fa-envelope {
+  color: white !important;
+  filter: drop-shadow(0 0 2px rgba(255,255,255,0.5));
+}
+
+/* Text labels below icons (optional - if you have them) */
+.bottom-nav .nav-label {
+  position: absolute;
+  bottom: -18px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+.bottom-nav button.active .nav-label {
+  color: #7A42FF !important;
+  opacity: 1;
+}
+
+/* INTRO */
 .intro-body {
   display: flex;
   align-items: center;
