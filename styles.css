@@ -4232,22 +4232,28 @@ input:focus-visible {
 ============================================ */
 
 /* DESKTOP: Sidebar is 240px wide, content starts right after it */
+/* ============================================
+   FIXED: 5px GAP BETWEEN SIDEBAR & CONTENT
+============================================ */
+
+/* DESKTOP: Sidebar + 5px gap */
 @media (min-width: 901px) {
-  /* 1. Sidebar fixed width */
+  /* 1. Sidebar is 240px */
   .desktop-nav {
     width: 240px !important;
-    border-right: none !important; /* Remove border to prevent visual gap */
+    border-right: none !important;
+    box-shadow: 8px 0 40px rgba(0,0,0,0.2) !important;
   }
   
-  /* 2. #content takes remaining space (starts exactly at 240px) */
+  /* 2. Content starts at 245px (240px sidebar + 5px gap) */
   #content {
-    margin-left: 240px !important;
-    width: calc(100% - 240px) !important;
+    margin-left: 245px !important;
+    width: calc(100% - 245px) !important;
     padding: 0 !important;
     box-sizing: border-box;
   }
   
-  /* 3. All page containers are 100% of #content */
+  /* 3. All pages are 100% of content area */
   .feed-container,
   .search-container,
   .messages-container,
@@ -4256,21 +4262,21 @@ input:focus-visible {
   .profile-page,
   .profile-container,
   .dm-page {
-    margin-left: 0 !important; /* NO margin, they're inside #content */
-    width: 100% !important; /* Fill #content */
+    margin-left: 0 !important;
+    width: 100% !important;
     padding: 20px !important;
     box-sizing: border-box;
     max-width: none !important;
   }
   
-  /* 4. Feed specifically gets max-width and centers */
+  /* 4. Feed specific: centered with max-width */
   .feed-container {
-    max-width: 700px !important; /* Instagram-like width */
-    margin: 0 auto !important; /* Center it */
-    padding: 20px 0 !important; /* Vertical padding only */
+    max-width: 700px !important;
+    margin: 0 auto !important;
+    padding: 20px 0 !important;
   }
   
-  /* 5. Stories strip also centers */
+  /* 5. Stories strip also centered */
   .stories-strip {
     max-width: 700px !important;
     margin: 0 auto 20px auto !important;
@@ -4283,14 +4289,14 @@ input:focus-visible {
   }
 }
 
-/* MOBILE: Full width content, show bottom nav */
+/* MOBILE: Full width, show bottom nav */
 @media (max-width: 900px) {
-  /* 1. Hide sidebar */
+  /* Hide sidebar */
   .desktop-nav {
     display: none !important;
   }
   
-  /* 2. Full width content */
+  /* Full width content */
   #content,
   .feed-container,
   .search-container,
@@ -4305,17 +4311,12 @@ input:focus-visible {
     max-width: 100% !important;
   }
   
-  /* 3. Feed specific mobile styling */
-  .feed-container {
-    padding: 15px !important;
-  }
-  
-  /* 4. Show bottom nav */
+  /* Show bottom nav */
   .bottom-nav {
     display: flex !important;
   }
   
-  /* 5. Add space for bottom nav */
+  /* Space for bottom nav */
   #content,
   .feed-container,
   .profile-page,
