@@ -247,8 +247,8 @@ button {
 
 /* Default — when screen is wide */
 .feed-container {
-  margin-left: 250px; /* REDUCED GAP - 10px from sidebar */
-  width: calc(100% - 250px); /* ADJUSTED WIDTH */
+  margin-left: 240px; /* REDUCED GAP - 10px from sidebar */
+  width: calc(100% - 240px); /* ADJUSTED WIDTH */
   padding: 20px;
   box-sizing: border-box;
 }
@@ -275,8 +275,8 @@ button {
 
 @media (min-width: 901px) {
   .feed-container {
-    margin-left: 250px; /* REDUCED GAP - 10px from sidebar */
-    width: calc(100% - 250px); /* TAKE REMAINING SPACE */
+    margin-left: 240px; /* REDUCED GAP - 10px from sidebar */
+    width: calc(100% - 240px); /* TAKE REMAINING SPACE */
     max-width: none; /* REMOVE MAX-WIDTH CONSTRAINT */
   }
 }
@@ -557,8 +557,8 @@ button {
 
 .search-container {
   padding: 15px;
-  margin-left: 260px; /* SIDEBAR SPACE */
-  width: calc(100% - 260px); /* REMAINING SPACE */
+  margin-left: 240px; /* SIDEBAR SPACE */
+  width: calc(100% - 240px); /* REMAINING SPACE */
   box-sizing: border-box;
 }
 
@@ -629,8 +629,8 @@ button {
 
 .messages-container {
   padding: 15px;
-  margin-left: 250px; /* SIDEBAR SPACE */
-  width: calc(100% - 250px); /* REMAINING SPACE */
+  margin-left: 240px; /* SIDEBAR SPACE */
+  width: calc(100% - 240px); /* REMAINING SPACE */
   box-sizing: border-box;
 }
 
@@ -768,8 +768,8 @@ button {
 
 .partner-container {
   padding: 15px;
-  margin-left: 250px; /* SIDEBAR SPACE */
-  width: calc(100% - 250px); /* REMAINING SPACE */
+  margin-left: 240px; /* SIDEBAR SPACE */
+  width: calc(100% - 240px); /* REMAINING SPACE */
   box-sizing: border-box;
 }
 
@@ -873,8 +873,8 @@ button {
 
 .space-container {
   padding: 20px;
-  margin-left: 250px; /* SIDEBAR SPACE */
-  width: calc(100% - 250px); /* REMAINING SPACE */
+  margin-left: 240px; /* SIDEBAR SPACE */
+  width: calc(100% - 240px); /* REMAINING SPACE */
   box-sizing: border-box;
 }
 
@@ -976,8 +976,8 @@ button {
 
 .profile-container {
   padding: 15px;
-  margin-left: 250px; /* SIDEBAR SPACE */
-  width: calc(100% - 250px); /* REMAINING SPACE */
+  margin-left: 240px; /* SIDEBAR SPACE */
+  width: calc(100% - 240px); /* REMAINING SPACE */
   box-sizing: border-box;
 }
 
@@ -1208,7 +1208,7 @@ button {
 
 /* Shift main content to the right */
 .main-content {
-  margin-left: 260px; /* little more than sidebar width */
+  margin-left: 240px; /* little more than sidebar width */
   padding: 20px;
 }
 
@@ -1649,8 +1649,8 @@ html {
   .partner-container,
   .space-container,
   .profile-container {
-    margin-left: 260px !important; /* width of your sidebar */
-    width: calc(100% - 260px) !important; /* TAKE REMAINING SPACE */
+    margin-left: 240px !important; /* width of your sidebar */
+    width: calc(100% - 240px) !important; /* TAKE REMAINING SPACE */
     box-sizing: border-box;
   }
 }
@@ -1658,8 +1658,8 @@ html {
 /* DESKTOP: shift whole app content right when sidebar is visible */
 @media (min-width: 901px) {
   #content {
-    margin-left: 260px !important; /* width of your sidebar */
-    width: calc(100% - 260px) !important; /* TAKE REMAINING SPACE */
+    margin-left: 240px !important; /* width of your sidebar */
+    width: calc(100% - 240px) !important; /* TAKE REMAINING SPACE */
   }
 }
 
@@ -2196,7 +2196,7 @@ html {
 
 /* When sidebar is open */
 .sidebar-open .feed-container {
-  margin-left: 260px; /* same as sidebar width */
+  margin-left: 240px; /* same as sidebar width */
   max-width: 750px;
 }
 
@@ -2214,7 +2214,7 @@ html {
 
 /* Default: Sidebar visible (desktop size) */
 .feed-container {
-  margin-left: 260px;   /* space for sidebar */
+  margin-left: 240px;   /* space for sidebar */
   max-width: 750px;
 }
 
@@ -3994,7 +3994,7 @@ html, body, #app, #content {
    FIXED LAYOUT - SIDEBAR & BOTTOM NAV
 ============================================ */
 
-/* 1. SIDEBAR GAP FIX - Pages start right after sidebar */
+/* 1. SIDEBAR GAP FIX - Pages start RIGHT after sidebar */
 @media (min-width: 901px) {
   #content,
   .feed-container,
@@ -4005,8 +4005,8 @@ html, body, #app, #content {
   .profile-page,
   .profile-container,
   .dm-page {
-    margin-left: 245px !important;  /* 5px gap from 240px sidebar */
-    width: calc(100% - 245px) !important;
+    margin-left: 240px !important;  /* exact sidebar width */
+    width: calc(100% - 240px) !important;
     max-width: none !important;
     box-sizing: border-box;
   }
@@ -4229,3 +4229,20 @@ input:focus-visible {
     display: none !important;
   }
 }
+
+/* FINAL FIX: Force disable blur on profile header hover */
+.vision-header:hover {
+  filter: none !important;
+}
+
+/* UNIFY GLASS STYLE ACROSS APP */
+.glass,
+.glass-card,
+.vision-header,
+.profile-header-card {
+  background: rgba(255,255,255,0.15) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.25) !important;
+}
+
