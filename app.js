@@ -232,3 +232,21 @@ document.getElementById("cropCancelBtn").onclick = () => {
   document.getElementById("cropModal").classList.add("hidden");
   if (cropper) cropper.destroy();
 };
+
+// ================================
+// OPEN DM FROM PROFILE
+// ================================
+window.startDM = async function (partnerId) {
+  const me = auth.currentUser.uid;
+
+  // Step 1: create or get chat
+  const chatId = await getOrCreateChat(me, partnerId);
+
+  // Step 2: load the messages page
+  loadPage("messages");
+
+  // Step 3: after messages page renders, open chat
+  setTimeout(() => {
+    openChat(chatId, partnerId);
+  }, 300);
+};
