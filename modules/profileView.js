@@ -208,9 +208,21 @@ window.toggleFollow = async function (uid) {
 
 
 // OPEN DM
-window.openDM = function (uid) {
-  loadPage("messages", uid);
+window.openDM = async function (partnerId) {
+  const me = auth.currentUser.uid;
+
+  // Step 1: get or create chat
+  const chatId = await getOrCreateChat(me, partnerId);
+
+  // Step 2: load messages page
+  loadPage("messages");
+
+  // Step 3: wait for messages page to render, then open chat
+  setTimeout(() => {
+    openChat(chatId, partnerId);
+  }, 300);
 };
+
 
 
 
