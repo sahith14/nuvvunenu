@@ -46,7 +46,8 @@ export function render() {
         </div>
 
         <div id="messages"></div>
-
+        
+        <div class="back-btn" onclick="closeChat()">←</div>
         <div class="chat-input">
           <input id="dmInput" placeholder="Message...">
           <button onclick="sendMessage()">➤</button>
@@ -180,7 +181,15 @@ function loadMessages(chatId) {
         continue;
       }
 
-      html += `${start}${data.text}</div>`;
+      let bubble = `${start}${data.text}`;
+
+      // add reaction bubble (Instagram style)
+      if (data.reaction) {
+        bubble += `<div class="reaction-bubble">${data.reaction}</div>`;
+      }
+
+      bubble += `</div>`; // close msg div
+      html += bubble;
     }
 
     document.getElementById("messages").innerHTML = html;
@@ -333,5 +342,18 @@ async function getOrCreateChat(uid1, uid2) {
 
   return chatId;
 }
+
+let swipeStartX = 0;
+
+window.startSwipe = (e) => {
+  swipeStartX = e.touches[0].clientX;
+};
+
+window.endSwipe = (e, msgId) => {
+  const endX = e.changedTouches[0].clientX;
+  if (swipeStartX - endX > 35) {
+    replyToMessage(msgId);
+  }
+};
 
 window.getOrCreateChat = getOrCreateChat;
