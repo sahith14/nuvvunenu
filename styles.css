@@ -1983,7 +1983,7 @@ html {
 }
 
 /* REACTION BELOW MESSAGE */
-.msg .reaction-bubble {
+.reaction-bubble {
   position: absolute;
   bottom: -12px;
   right: 10px;
