@@ -200,10 +200,14 @@ function loadMessages(chatId) {
         <div class="msg ${mine ? "me" : "them"}"
           onmousedown="longPressTimer=setTimeout(()=>showReactionMenu(event,'${m.id}'),500)"
           onmouseup="clearTimeout(longPressTimer)"
-          ondblclick="sendReactionQuick('${m.id}')"
-          ontouchstart="longPressTimer=setTimeout(()=>showReactionMenu(event,'${m.id}'),500)"
-          ontouchend="clearTimeout(longPressTimer)"
-          onmousemove="if(event.movementX>18) swipeToReply('${data.text || ""}')"
+          ontouchstart="
+            longPressTimer=setTimeout(()=>showReactionMenu(event,'${m.id}'),500);
+            startSwipe(event);
+          "
+          ontouchend="
+            clearTimeout(longPressTimer);
+            endSwipe(event,'${data.text || ""}');
+          "
         >
       `;
 
@@ -334,11 +338,20 @@ async function startRecording() {
 // ---------------------------------------------------------
 function showReactionMenu(e, id) {
   selectedMsgId = id;
+
   const menu = document.getElementById("reactionMenu");
-  menu.style.left = e.pageX + "px";
-  menu.style.top = e.pageY - 40 + "px";
+
+  // anchor to the message bubble
+  const bubble = e.currentTarget;
+  const rect = bubble.getBoundingClientRect();
+
+  menu.style.left = rect.left + rect.width / 2 + "px";
+  menu.style.top = rect.top - 50 + "px";
+
+  menu.style.transform = "translateX(-50%)";
   menu.style.display = "flex";
 }
+
 
 function hideReactionMenu() {
   document.getElementById("reactionMenu").style.display = "none";
@@ -390,6 +403,14 @@ window.endSwipe = (e, text) => {
   if (startX - endX > 40) {
     document.getElementById("dmInput").value = `Replying to: ${text}`;
   }
+};
+
+window.sendReactionQuick = async function (msgId) {
+  await setDoc(
+    doc(db, "chats", currentChat, "messages", msgId),
+    { reaction: "❤️" },
+    { merge: true }
+  );
 };
 
 
