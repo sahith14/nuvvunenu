@@ -200,6 +200,7 @@ function loadMessages(chatId) {
         <div class="msg ${mine ? "me" : "them"}"
           onmousedown="longPressTimer=setTimeout(()=>showReactionMenu(event,'${m.id}'),500)"
           onmouseup="clearTimeout(longPressTimer)"
+          ondblclick="sendReactionQuick('${m.id}')"
           ontouchstart="longPressTimer=setTimeout(()=>showReactionMenu(event,'${m.id}'),500)"
           ontouchend="clearTimeout(longPressTimer)"
           onmousemove="if(event.movementX>18) swipeToReply('${data.text || ""}')"
@@ -378,17 +379,18 @@ async function getOrCreateChat(uid1, uid2) {
   return chatId;
 }
 
-let swipeStartX = 0;
+let startX = 0;
 
-window.startSwipe = (e) => {
-  swipeStartX = e.touches[0].clientX;
+window.startSwipe = e => {
+  startX = e.touches[0].clientX;
 };
 
-window.endSwipe = (e, msgId) => {
+window.endSwipe = (e, text) => {
   const endX = e.changedTouches[0].clientX;
-  if (swipeStartX - endX > 35) {
-    replyToMessage(msgId);
+  if (startX - endX > 40) {
+    document.getElementById("dmInput").value = `Replying to: ${text}`;
   }
 };
+
 
 window.getOrCreateChat = getOrCreateChat;
