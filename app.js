@@ -243,8 +243,12 @@ window.startDM = async function (partnerId) {
   const chatId = await getOrCreateChat(me, partnerId);
 
   // Step 2: load the messages page
-  loadPage("messages");
-
+  loadPage("messages", {
+    chatId,
+    partnerId
+  });
+  
+  
   // Step 3: after messages page renders, open chat
   setTimeout(() => {
     openChat(chatId, partnerId);
