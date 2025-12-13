@@ -21,6 +21,35 @@ let longPressTimer = null;
 let selectedMsgId = null;
 
 // ---------------------------------------------------------
+// GET OR CREATE CHAT (Instagram behavior)
+// ---------------------------------------------------------
+window.getOrCreateChat = async function (uid1, uid2) {
+  const q = query(
+    collection(db, "chats"),
+    where("members", "array-contains", uid1)
+  );
+
+  const snap = await getDocs(q);
+
+  for (let d of snap.docs) {
+    const data = d.data();
+    if (data.members.includes(uid2)) {
+      return d.id; // existing chat
+    }
+  }
+
+  // create new chat
+  const ref = await addDoc(collection(db, "chats"), {
+    members: [uid1, uid2],
+    createdAt: Date.now(),
+    lastMessage: ""
+  });
+
+  return ref.id;
+};
+
+
+// ---------------------------------------------------------
 // PAGE RENDER
 // ---------------------------------------------------------
 export function render() {
@@ -79,8 +108,14 @@ export function render() {
 // ---------------------------------------------------------
 // LOAD DM LIST
 // ---------------------------------------------------------
-export async function init() {
-  loadDMList();
+export async function init(chatPayload = null) {
+  if (chatPayload?.chatId && chatPayload?.partnerId) {
+    document.getElementById("dmList").style.display = "none";
+    document.getElementById("chatBox").style.display = "block";
+    openChat(chatPayload.chatId, chatPayload.partnerId);
+  } else {
+    loadDMList();
+  }
 }
 
 // must be global for onclicks
