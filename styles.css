@@ -1309,7 +1309,7 @@ html {
 
 /* MOBILE VIEW — Hide desktop nav, show bottom nav */
 /* MOBILE VIEW — Show bottom nav, hide desktop nav */
-@media (max-width: 1300px) {
+@media (max-width: 900px) {
 
   .desktop-nav {
     display: none !important;
