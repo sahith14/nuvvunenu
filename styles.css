@@ -1309,7 +1309,7 @@ html {
 
 /* MOBILE VIEW — Hide desktop nav, show bottom nav */
 /* MOBILE VIEW — Show bottom nav, hide desktop nav */
-@media (max-width: 1350px) {
+@media (max-width: 1300px) {
 
   .desktop-nav {
     display: none !important;
@@ -1325,7 +1325,7 @@ html {
 }
 
 /* DESKTOP VIEW — Show sidebar, hide bottom nav */
-@media (min-width: 901px) {
+@media (min-width: 1351px) {
 
   .desktop-nav {
     display: flex !important;
@@ -1681,36 +1681,4 @@ html {
 
 .tick.seen {
   opacity: 1;
-}
-
-@media (max-width: 100px) {
-
-  /* Hide desktop sidebar */
-  .sidebar,
-  .left-sidebar,
-  .desktop-nav {
-    display: none !important;
-  }
-
-  /* Full-width main content */
-  .main-content,
-  .feed-container,
-  .app-content {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    padding: 12px !important;
-  }
-
-  /* Horizontal stories */
-  .stories {
-    display: flex;
-    overflow-x: auto;
-    gap: 10px;
-  }
-
-  /* Prevent horizontal scroll */
-  html, body {
-    overflow-x: hidden;
-  }
 }
