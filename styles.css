@@ -1683,7 +1683,7 @@ html {
   opacity: 1;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 100px) {
 
   /* Hide desktop sidebar */
   .sidebar,
