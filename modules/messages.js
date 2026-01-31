@@ -1,4 +1,4 @@
-// messages.js — Instagram-style DMs with themes, search & Firestore chatrooms
+//  s messages.js — Instagram-style DMs with themes, search & Firestore chatrooms
 import { arrayUnion } from
 "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
