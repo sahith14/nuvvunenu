@@ -1714,3 +1714,35 @@ html {
     overflow-x: hidden;
   }
 }
+
+@media (max-width: 768px) {
+
+  /* Hide desktop sidebar */
+  .sidebar,
+  .left-sidebar,
+  .desktop-nav {
+    display: none !important;
+  }
+
+  /* Full-width main content */
+  .main-content,
+  .feed-container,
+  .app-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 12px !important;
+  }
+
+  /* Horizontal stories */
+  .stories {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+  }
+
+  /* Prevent horizontal scroll */
+  html, body {
+    overflow-x: hidden;
+  }
+}
